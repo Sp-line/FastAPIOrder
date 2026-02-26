@@ -1,4 +1,4 @@
-"""add Hall model
+"""add Seat model
 
 Revision ID: 1c241f73e789
 Revises: 49f1f877c860
@@ -32,12 +32,6 @@ def upgrade() -> None:
             ondelete="CASCADE",
         ),
         sa.PrimaryKeyConstraint("id", name=op.f("pk_seats")),
-        sa.UniqueConstraint(
-            "hall_id",
-            "row_label",
-            "column_label",
-            name="uq_seats_hall_id_row_label_column_label",
-        ),
     )
 
 

@@ -12,13 +12,6 @@ if TYPE_CHECKING:
 
 
 class Seat(IntIdPkMixin, Base):
-    __table_args__ = (
-        UniqueConstraint(
-            "hall_id", "row_label", "column_label",
-            name="uq_seats_hall_id_row_label_column_label"
-        ),
-    )
-
     type: Mapped[str] = mapped_column(String(SeatLimits.TYPE_MAX))
 
     row_label: Mapped[str] = mapped_column(String(SeatLimits.ROW_LABEL_MAX))
