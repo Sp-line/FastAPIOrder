@@ -5,4 +5,4 @@ class UserLimits:
     FIRST_NAME_MAX: int = 100
     LAST_NAME_MAX: int = 100
 
-    PHONE_MAX = 20
+    PHONE_MAX: int = 20
