@@ -1,6 +1,6 @@
 from typing import TYPE_CHECKING
 
-from sqlalchemy import UniqueConstraint, String, ForeignKey
+from sqlalchemy import String, ForeignKey
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from constants import SeatLimits
@@ -8,7 +8,7 @@ from core.models import Base
 from core.models.mixins.int_id_pk import IntIdPkMixin
 
 if TYPE_CHECKING:
-    from core.models import Hall
+    from core.models import Hall, Ticket
 
 
 class Seat(IntIdPkMixin, Base):
@@ -20,3 +20,5 @@ class Seat(IntIdPkMixin, Base):
     hall_id: Mapped[int] = mapped_column(ForeignKey("halls.id", ondelete="CASCADE"))
 
     hall: Mapped["Hall"] = relationship(back_populates="seats")
+
+    tickets: Mapped[list["Ticket"]] = relationship(back_populates="seat")
