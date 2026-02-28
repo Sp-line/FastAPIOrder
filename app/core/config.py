@@ -49,4 +49,4 @@ class Settings(BaseSettings):
     db: DatabaseConfig
 
 
-settings = Settings()
+settings = Settings()  # type: ignore[call-arg]
