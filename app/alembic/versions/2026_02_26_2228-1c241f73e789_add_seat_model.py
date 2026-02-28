@@ -20,7 +20,7 @@ depends_on: Union[str, Sequence[str], None] = None
 def upgrade() -> None:
     op.create_table(
         "seats",
-        sa.Column("id", sa.Integer(), nullable=False),
+        sa.Column("id", sa.Integer(), autoincrement=False, nullable=False),
         sa.Column("type", sa.String(length=30), nullable=False),
         sa.Column("row_label", sa.String(length=10), nullable=False),
         sa.Column("column_label", sa.String(length=10), nullable=False),

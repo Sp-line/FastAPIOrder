@@ -12,6 +12,8 @@ if TYPE_CHECKING:
 
 
 class Seat(IntIdPkMixin, Base):
+    id: Mapped[int] = mapped_column(primary_key=True, autoincrement=False)
+
     type: Mapped[str] = mapped_column(String(SeatLimits.TYPE_MAX))
 
     row_label: Mapped[str] = mapped_column(String(SeatLimits.ROW_LABEL_MAX))

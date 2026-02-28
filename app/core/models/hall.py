@@ -12,6 +12,8 @@ if TYPE_CHECKING:
 
 
 class Hall(IntIdPkMixin, Base):
+    id: Mapped[int] = mapped_column(primary_key=True, autoincrement=False)
+
     name: Mapped[str] = mapped_column(String(HallLimits.NAME_MAX))
     slug: Mapped[str] = mapped_column(String(HallLimits.SLUG_MAX), unique=True)
 

@@ -13,6 +13,8 @@ if TYPE_CHECKING:
 
 
 class SessionPrice(IntIdPkMixin, Base):
+    id: Mapped[int] = mapped_column(primary_key=True, autoincrement=False)
+
     seat_type: Mapped[str] = mapped_column(String(SessionPriceLimits.SEAT_TYPE_MAX))
     price: Mapped[Decimal] = mapped_column(Numeric(10, 2))
 

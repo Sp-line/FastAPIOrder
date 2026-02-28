@@ -13,6 +13,8 @@ if TYPE_CHECKING:
 
 
 class Session(IntIdPkMixin, Base):
+    id: Mapped[int] = mapped_column(primary_key=True, autoincrement=False)
+
     start_time: Mapped[datetime] = mapped_column(DateTime(timezone=True))
     end_time: Mapped[datetime] = mapped_column(DateTime(timezone=True))
 
