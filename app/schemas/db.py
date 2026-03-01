@@ -1,6 +1,6 @@
 from pydantic import BaseModel, ConfigDict
 
-from constants.db import PostgresErrorCode
+from constants import PostgresErrorCode
 from exceptions.db import DBException
 
 
