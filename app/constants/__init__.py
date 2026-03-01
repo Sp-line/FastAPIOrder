@@ -9,9 +9,11 @@ __all__ = (
     "OrderLimits",
     "OrderStatus",
     "TicketStatus",
-    "TicketLimits"
+    "TicketLimits",
+    "PostgresErrorCode"
 )
 
+from constants.db import PostgresErrorCode
 from constants.hall import HallLimits
 from constants.movie import MovieLimits
 from constants.order import OrderLimits, OrderStatus
