@@ -10,6 +10,7 @@ from typing import Sequence, Union
 
 import sqlalchemy as sa
 from alembic import op
+from sqlalchemy.dialects import postgresql
 
 revision: str = "0f0c244d7f3e"
 down_revision: Union[str, None] = "1c241f73e789"
@@ -18,6 +19,8 @@ depends_on: Union[str, Sequence[str], None] = None
 
 
 def upgrade() -> None:
+    op.execute("CREATE EXTENSION IF NOT EXISTS btree_gist")
+
     op.create_table(
         "sessions",
         sa.Column("id", sa.Integer(), autoincrement=False, nullable=False),
@@ -27,6 +30,16 @@ def upgrade() -> None:
         sa.Column("screen_technology", sa.String(length=25), nullable=False),
         sa.Column("hall_id", sa.Integer(), nullable=False),
         sa.Column("movie_id", sa.Integer(), nullable=False),
+        postgresql.ExcludeConstraint(
+            (sa.column("hall_id"), "="),
+            (sa.text("tstzrange(start_time, end_time, '[)')"), "&&"),
+            using="gist",
+            name="excl_session_hall_time_overlap",
+        ),
+        sa.CheckConstraint(
+            "end_time > start_time",
+            name=op.f("ck_sessions_end_time_after_start_time"),
+        ),
         sa.ForeignKeyConstraint(
             ["hall_id"],
             ["halls.id"],

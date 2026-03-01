@@ -1,7 +1,8 @@
 from datetime import datetime
 from typing import TYPE_CHECKING
 
-from sqlalchemy import DateTime, String, ForeignKey
+from sqlalchemy import DateTime, String, ForeignKey, func, column, CheckConstraint
+from sqlalchemy.dialects.postgresql import ExcludeConstraint
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from constants import SessionLimits
@@ -13,6 +14,26 @@ if TYPE_CHECKING:
 
 
 class Session(IntIdPkMixin, Base):
+    __table_args__ = (
+        ExcludeConstraint(
+            ("hall_id", "="),
+            (
+                func.tstzrange(
+                    column("start_time"),
+                    column("end_time"),
+                    "[)"
+                ),
+                "&&"
+            ),
+            name="excl_session_hall_time_overlap",
+            using="gist"
+        ),
+        CheckConstraint(
+            "end_time > start_time",
+            name="end_time_after_start_time"
+        ),
+    )
+
     id: Mapped[int] = mapped_column(primary_key=True, autoincrement=False)
 
     start_time: Mapped[datetime] = mapped_column(DateTime(timezone=True))

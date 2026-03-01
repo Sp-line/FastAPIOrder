@@ -31,6 +31,11 @@ def upgrade() -> None:
             ondelete="CASCADE",
         ),
         sa.PrimaryKeyConstraint("id", name=op.f("pk_session_prices")),
+        sa.UniqueConstraint(
+            "session_id",
+            "seat_type",
+            name="uq_session_prices_session_id_seat_type",
+        ),
     )
 
 

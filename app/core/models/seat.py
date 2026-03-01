@@ -1,6 +1,6 @@
 from typing import TYPE_CHECKING
 
-from sqlalchemy import String, ForeignKey
+from sqlalchemy import String, ForeignKey, UniqueConstraint
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from constants import SeatLimits
@@ -12,6 +12,13 @@ if TYPE_CHECKING:
 
 
 class Seat(IntIdPkMixin, Base):
+    __table_args__ = (
+        UniqueConstraint(
+            "hall_id", "row_label", "column_label",
+            name="uq_seats_hall_id_row_label_column_label"
+        ),
+    )
+
     id: Mapped[int] = mapped_column(primary_key=True, autoincrement=False)
 
     type: Mapped[str] = mapped_column(String(SeatLimits.TYPE_MAX))

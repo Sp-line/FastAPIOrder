@@ -1,7 +1,7 @@
 from decimal import Decimal
 from typing import TYPE_CHECKING
 
-from sqlalchemy import ForeignKey, Numeric, String
+from sqlalchemy import ForeignKey, Numeric, String, UniqueConstraint
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from constants import SessionPriceLimits
@@ -13,6 +13,13 @@ if TYPE_CHECKING:
 
 
 class SessionPrice(IntIdPkMixin, Base):
+    __table_args__ = (
+        UniqueConstraint(
+            "session_id", "seat_type",
+            name="uq_session_prices_session_id_seat_type",
+        ),
+    )
+
     id: Mapped[int] = mapped_column(primary_key=True, autoincrement=False)
 
     seat_type: Mapped[str] = mapped_column(String(SessionPriceLimits.SEAT_TYPE_MAX))
