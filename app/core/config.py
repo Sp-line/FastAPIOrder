@@ -1,9 +1,13 @@
-from pydantic import BaseModel
+import logging
+
+from pydantic import BaseModel, RedisDsn
 from pydantic import PostgresDsn
 from pydantic_settings import (
     BaseSettings,
     SettingsConfigDict,
 )
+
+from log import LogLevel
 
 
 class RunConfig(BaseModel):
@@ -18,6 +22,21 @@ class ApiV1Prefix(BaseModel):
 class ApiPrefix(BaseModel):
     prefix: str = "/api"
     v1: ApiV1Prefix = ApiV1Prefix()
+
+
+class TaskiqConfig(BaseModel):
+    url: RedisDsn
+    log_format: str = "[%(asctime)s.%(msecs)03d][%(processName)s] %(module)16s:%(lineno)-3d %(levelname)-7s - %(message)s"
+
+
+class LoggingConfig(BaseModel):
+    log_level: LogLevel = "info"
+    log_format: str = "[%(asctime)s.%(msecs)03d] %(module)10s:%(lineno)-3d %(levelname)-7s - %(message)s"
+    log_datefmt: str = "%Y-%m-%d %H:%M:%S"
+
+    @property
+    def log_level_value(self) -> int:
+        return logging.getLevelNamesMapping()[self.log_level.upper()]
 
 
 class DatabaseConfig(BaseModel):
@@ -46,6 +65,8 @@ class Settings(BaseSettings):
     )
     run: RunConfig = RunConfig()
     api: ApiPrefix = ApiPrefix()
+    logging: LoggingConfig = LoggingConfig()
+    taskiq: TaskiqConfig
     db: DatabaseConfig
 
 
