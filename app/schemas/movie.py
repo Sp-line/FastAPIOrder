@@ -11,11 +11,11 @@ class MovieBase(BaseModel):
     slug: Annotated[str, Field(min_length=MovieLimits.SLUG_MIN, max_length=MovieLimits.SLUG_MAX)]
 
 
-class MovieCreateDB(Id, MovieBase):
+class MovieCreateReq(Id, MovieBase):
     pass
 
 
-class MovieCreateReq(Id, MovieBase):
+class MovieCreateDB(MovieCreateReq):
     pass
 
 
@@ -24,13 +24,17 @@ class MovieUpdateBase(BaseModel):
     slug: Annotated[str | None, Field(min_length=MovieLimits.SLUG_MIN, max_length=MovieLimits.SLUG_MAX)] = None
 
 
-class MovieUpdateDB(MovieUpdateBase):
-    pass
-
-
 class MovieUpdateReq(MovieUpdateBase):
     pass
 
 
+class MovieUpdateDB(MovieUpdateReq):
+    pass
+
+
 class MovieRead(Id, MovieBase):
+    model_config = ConfigDict(from_attributes=True)
+
+
+class MovieSnapshot(MovieRead):
     model_config = ConfigDict(from_attributes=True)

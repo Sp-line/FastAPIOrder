@@ -18,11 +18,11 @@ class SessionBaseWithRelations(SessionBase):
     movie_id: PositiveInt
 
 
-class SessionCreateDB(Id, SessionBaseWithRelations):
+class SessionCreateReq(Id, SessionBaseWithRelations):
     pass
 
 
-class SessionCreateReq(Id, SessionBaseWithRelations):
+class SessionCreateDB(SessionCreateReq):
     pass
 
 
@@ -33,14 +33,18 @@ class SessionUpdateBase(BaseModel):
     screen_technology: ScreenTechnology | None = None
 
 
-class SessionUpdateDB(SessionUpdateBase):
-    hall_id: PositiveInt | None = None
-    movie_id: PositiveInt | None = None
-
-
 class SessionUpdateReq(SessionUpdateBase):
     pass
 
 
+class SessionUpdateDB(SessionUpdateReq):
+    hall_id: PositiveInt | None = None
+    movie_id: PositiveInt | None = None
+
+
 class SessionRead(Id, SessionBaseWithRelations):
+    model_config = ConfigDict(from_attributes=True)
+
+
+class SessionSnapshot(Id, SessionBase):
     model_config = ConfigDict(from_attributes=True)

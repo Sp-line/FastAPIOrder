@@ -13,11 +13,11 @@ class UserBase(BaseModel):
     phone_number: Annotated[str | None, Field(min_length=UserLimits.PHONE_MIN, max_length=UserLimits.PHONE_MAX)]
 
 
-class UserCreateDB(Id, UserBase):
+class UserCreateReq(Id, UserBase):
     pass
 
 
-class UserCreateReq(Id, UserBase):
+class UserCreateDB(UserCreateReq):
     pass
 
 
@@ -28,11 +28,11 @@ class UserUpdateBase(BaseModel):
     phone_number: Annotated[str | None, Field(min_length=UserLimits.PHONE_MIN, max_length=UserLimits.PHONE_MAX)] = None
 
 
-class UserUpdateDB(UserUpdateBase):
+class UserUpdateReq(UserUpdateBase):
     pass
 
 
-class UserUpdateReq(UserUpdateBase):
+class UserUpdateDB(UserUpdateReq):
     pass
 
 

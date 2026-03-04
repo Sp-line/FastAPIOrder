@@ -11,11 +11,11 @@ class HallBase(BaseModel):
     slug: Annotated[str, Field(min_length=HallLimits.SLUG_MIN, max_length=HallLimits.SLUG_MAX)]
 
 
-class HallCreateDB(Id, HallBase):
+class HallCreateReq(Id, HallBase):
     pass
 
 
-class HallCreateReq(Id, HallBase):
+class HallCreateDB(HallCreateReq):
     pass
 
 
@@ -24,13 +24,17 @@ class HallUpdateBase(BaseModel):
     slug: Annotated[str | None, Field(min_length=HallLimits.SLUG_MIN, max_length=HallLimits.SLUG_MAX)] = None
 
 
-class HallUpdateDB(HallUpdateBase):
-    pass
-
-
 class HallUpdateReq(HallUpdateBase):
     pass
 
 
+class HallUpdateDB(HallUpdateReq):
+    pass
+
+
 class HallRead(Id, HallBase):
+    model_config = ConfigDict(from_attributes=True)
+
+
+class HallSnapshot(HallRead):
     model_config = ConfigDict(from_attributes=True)

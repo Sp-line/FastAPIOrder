@@ -17,11 +17,11 @@ class SeatBaseWithRelations(SeatBase):
     hall_id: PositiveInt
 
 
-class SeatCreateDB(Id, SeatBaseWithRelations):
+class SeatCreateReq(Id, SeatBaseWithRelations):
     pass
 
 
-class SeatCreateReq(Id, SeatBaseWithRelations):
+class SeatCreateDB(SeatCreateReq):
     pass
 
 
@@ -32,13 +32,17 @@ class SeatUpdateBase(BaseModel):
     column_label: Annotated[str | None, Field(min_length=SeatLimits.COLUMN_LABEL_MIN, max_length=SeatLimits.COLUMN_LABEL_MAX)] = None
 
 
-class SeatUpdateDB(SeatUpdateBase):
-    hall_id: PositiveInt | None = None
-
-
 class SeatUpdateReq(SeatUpdateBase):
     pass
 
 
+class SeatUpdateDB(SeatUpdateReq):
+    hall_id: PositiveInt | None = None
+
+
 class SeatRead(Id, SeatBaseWithRelations):
+    model_config = ConfigDict(from_attributes=True)
+
+
+class SeatSnapshot(Id, SeatBase):
     model_config = ConfigDict(from_attributes=True)
