@@ -1,0 +1,39 @@
+from typing import Sequence
+
+from sqlalchemy import select
+from sqlalchemy.ext.asyncio import AsyncSession
+from sqlalchemy.orm import joinedload
+
+from core.models import Seat
+from integrity_handlers.seat import seat_error_handler
+from repositories.base import RepositoryBase
+from schemas.seat import SeatCreateDB, SeatUpdateDB
+
+
+class SeatRepository(
+    RepositoryBase[
+        Seat,
+        SeatCreateDB,
+        SeatUpdateDB,
+    ]
+):
+    def __init__(self, session: AsyncSession) -> None:
+        super().__init__(
+            model=Seat,
+            session=session,
+            table_error_handler=seat_error_handler,
+        )
+
+    async def get_many_with_hall(self, hall_ids: list[int]) -> Sequence[Seat]:
+        if not hall_ids:
+            return []
+
+        stmt = (
+            select(Seat)
+            .where(Seat.id.in_(hall_ids))
+            .options(joinedload(Seat.hall))
+        )
+
+        result = await self._session.execute(stmt)
+        return result.scalars().all()
+
