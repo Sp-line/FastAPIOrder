@@ -1,0 +1,38 @@
+from typing import Sequence
+
+from sqlalchemy import select
+from sqlalchemy.ext.asyncio import AsyncSession
+from sqlalchemy.orm import joinedload
+
+from core.models import Session
+from integrity_handlers.session import session_error_handler
+from repositories.base import RepositoryBase
+from schemas.session import SessionCreateDB, SessionUpdateDB
+
+
+class SessionRepository(
+    RepositoryBase[
+        Session,
+        SessionCreateDB,
+        SessionUpdateDB,
+    ]
+):
+    def __init__(self, session: AsyncSession) -> None:
+        super().__init__(
+            model=Session,
+            session=session,
+            table_error_handler=session_error_handler,
+        )
+
+    async def get_many_with_movie(self, session_ids: list[int]) -> Sequence[Session]:
+        if not session_ids:
+            return []
+
+        stmt = (
+            select(Session)
+            .where(Session.id.in_(session_ids))
+            .options(joinedload(Session.movie))
+        )
+
+        result = await self._session.execute(stmt)
+        return result.scalars().all()
