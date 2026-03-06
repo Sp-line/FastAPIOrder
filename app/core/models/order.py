@@ -10,7 +10,7 @@ from datetime import datetime
 from typing import TYPE_CHECKING
 from uuid import UUID, uuid4
 
-from sqlalchemy import Uuid, String, DateTime, ForeignKey, Numeric
+from sqlalchemy import Uuid, String, DateTime, ForeignKey, Numeric, Enum as SAEnum
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from constants import OrderLimits, OrderStatus
@@ -24,7 +24,7 @@ if TYPE_CHECKING:
 class Order(IntIdPkMixin, Base):
     number: Mapped[UUID] = mapped_column(Uuid(as_uuid=True), default=uuid4, unique=True)
     public_code: Mapped[str] = mapped_column(String(OrderLimits.PUBLIC_CODE_MAX), default=generate_order_public_code, unique=True)
-    status: Mapped[str] = mapped_column(String(OrderLimits.STATUS_MAX), default=OrderStatus.PENDING.value, index=True)
+    status: Mapped[OrderStatus] = mapped_column(SAEnum(OrderStatus, native_enum=False, length=OrderLimits.STATUS_MAX), default=OrderStatus.PENDING, index=True)
 
     expires_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), index=True)
     expire_schedule_id: Mapped[str | None] = mapped_column(String(OrderLimits.EXPIRE_SCHEDULE_ID_MAX), unique=True)

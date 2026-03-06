@@ -2,7 +2,7 @@ from decimal import Decimal
 from typing import TYPE_CHECKING
 from uuid import UUID, uuid4
 
-from sqlalchemy import Uuid, ForeignKey, String, Numeric, Index
+from sqlalchemy import Uuid, ForeignKey, String, Numeric, Index, Enum as SAEnum
 from sqlalchemy.dialects.postgresql import JSONB
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
@@ -16,7 +16,7 @@ if TYPE_CHECKING:
 
 class Ticket(IntIdPkMixin, Base):
     public_code: Mapped[UUID] = mapped_column(Uuid(as_uuid=True), default=uuid4, unique=True)
-    status: Mapped[str] = mapped_column(String(TicketLimits.STATUS_MAX), default=TicketStatus.RESERVED.value, index=True)
+    status: Mapped[TicketStatus] = mapped_column(SAEnum(TicketStatus, native_enum=False, length=TicketLimits.STATUS_MAX), default=TicketStatus.RESERVED, index=True)
     price: Mapped[Decimal] = mapped_column(Numeric(10, 2))
 
     order_id: Mapped[int] = mapped_column(ForeignKey("orders.id", ondelete="CASCADE"), index=True)
