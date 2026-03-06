@@ -1,23 +1,16 @@
-from contextlib import asynccontextmanager
+import logging
 
 import uvicorn
-from fastapi import FastAPI
-
-from core.config import settings
 
 from api import router as api_router
-from core.models import db_helper
+from core.config import settings
+from create_app import create
 
-
-@asynccontextmanager
-async def lifespan(app: FastAPI):
-    # startup
-    yield
-    # shutdown
-    await db_helper.dispose()
-
-
-main_app = FastAPI(lifespan=lifespan)
+logging.basicConfig(
+    format=settings.logging.log_format,
+    level=settings.logging.log_level_value,
+)
+main_app = create()
 main_app.include_router(
     api_router,
 )
