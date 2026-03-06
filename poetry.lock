@@ -393,6 +393,18 @@ files = [
 markers = {main = "platform_system == \"Windows\" or sys_platform == \"win32\"", dev = "platform_system == \"Windows\""}
 
 [[package]]
+name = "dishka"
+version = "1.8.0"
+description = "Cute DI framework with scopes and agreeable API"
+optional = false
+python-versions = ">=3.10"
+groups = ["main"]
+files = [
+    {file = "dishka-1.8.0-py3-none-any.whl", hash = "sha256:7f7bbc6c973ca1c8d8010c3a4feb4d1cafc0e600990e2e9cea6704a120bba1dd"},
+    {file = "dishka-1.8.0.tar.gz", hash = "sha256:15bad7d0a671b547a81e59188769d8b676918404f349b70664225574e4f27701"},
+]
+
+[[package]]
 name = "dnspython"
 version = "2.8.0"
 description = "DNS toolkit"
@@ -2493,4 +2505,4 @@ propcache = ">=0.2.1"
 [metadata]
 lock-version = "2.1"
 python-versions = "^3.13"
-content-hash = "8d05af1774631110a3e7e0cb6d1593c52b412e421282c2751b58a5b0fffe267b"
+content-hash = "83e002dcbe56b4a3bffea2daf23f6b1c2e49407fbb6014e8a15294e2868bc67e"
