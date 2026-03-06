@@ -1,3 +1,6 @@
+from typing import Any
+
+
 class DBException(Exception):
     pass
 
@@ -7,11 +10,24 @@ class ObjectException(DBException):
 
 
 class ObjectNotFoundException(ObjectException):
-    def __init__(self, obj_id: int, table_name: str) -> None:
+    def __init__(
+            self,
+            table_name: str,
+            obj_id: int | None = None,
+            conditions: dict[str, Any] | None = None
+    ) -> None:
         self.table_name = table_name
         self.obj_id = obj_id
+        self.conditions = conditions
 
-        super().__init__(f"Object with id={self.obj_id} not found in table '{table_name}'")
+        if obj_id is not None:
+            detail = f"id={obj_id}"
+        elif conditions:
+            detail = f"conditions={conditions}"
+        else:
+            detail = "specified parameters"
+
+        super().__init__(f"Object with {detail} not found in table '{table_name}'")
 
 
 class UniqueFieldException(DBException):
