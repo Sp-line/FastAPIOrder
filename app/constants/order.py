@@ -2,6 +2,8 @@ from enum import StrEnum
 
 
 class OrderLimits:
+    TOTAL_PRICE_MIN: int = 0
+
     PUBLIC_CODE_MAX: int = 6
     PUBLIC_CODE_ALPHABET: str = "23456789ABCDEFGHJKMNPQRSTUVWXYZ"
 
@@ -11,6 +13,8 @@ class OrderLimits:
     EXPIRE_SCHEDULE_ID_UNIQUE: bool = True
 
     EXPIRE_MINUTES: int = 10
+
+    BUFFER_TIME_MINUTES: int = 5
 
     PUBLIC_ID_UNIQUE: bool = True
 

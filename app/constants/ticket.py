@@ -2,6 +2,8 @@ from enum import StrEnum
 
 
 class TicketLimits:
+    PRICE_MIN = 0
+
     CODE_UNIQUE: bool = True
 
     STATUS_MAX: int = 20
