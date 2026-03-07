@@ -9,6 +9,7 @@ from repositories.session import SessionRepository
 from repositories.session_price import SessionPriceRepository
 from repositories.ticket import TicketRepository
 from repositories.unit_of_work import UnitOfWork
+from repositories.user import UserRepository
 
 
 class RepositoryProvider(Provider):
@@ -25,3 +26,4 @@ class RepositoryProvider(Provider):
     get_session_price_repo = provide(SessionPriceRepository)
     get_order_repo = provide(OrderRepository)
     get_ticket_repo = provide(TicketRepository)
+    get_user_repo = provide(UserRepository)
