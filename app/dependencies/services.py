@@ -5,6 +5,7 @@ from service.movie import MovieService
 from service.seat import SeatService
 from service.session import SessionService
 from service.session_price import SessionPriceService
+from service.user import UserService
 
 
 class ServiceProvider(Provider):
@@ -15,3 +16,4 @@ class ServiceProvider(Provider):
     get_movie_service = provide(MovieService)
     get_seat_service = provide(SeatService)
     get_session_price_service = provide(SessionPriceService)
+    get_user_service = provide(UserService)
