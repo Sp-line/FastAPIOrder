@@ -2,7 +2,7 @@ from decimal import Decimal
 from typing import TYPE_CHECKING
 from uuid import UUID, uuid4
 
-from sqlalchemy import Uuid, ForeignKey, String, Numeric, Index, Enum as SAEnum
+from sqlalchemy import Uuid, ForeignKey, Numeric, Index, Enum as SAEnum
 from sqlalchemy.dialects.postgresql import JSONB
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 

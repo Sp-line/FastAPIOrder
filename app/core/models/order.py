@@ -1,12 +1,5 @@
-from decimal import Decimal
-from typing import TYPE_CHECKING
-
-from utils import generate_order_public_code
-
-if TYPE_CHECKING:
-    from core.models import User
-
 from datetime import datetime
+from decimal import Decimal
 from typing import TYPE_CHECKING
 from uuid import UUID, uuid4
 
@@ -16,6 +9,7 @@ from sqlalchemy.orm import Mapped, mapped_column, relationship
 from constants import OrderLimits, OrderStatus
 from core.models import Base
 from core.models.mixins.int_id_pk import IntIdPkMixin
+from utils import generate_order_public_code
 
 if TYPE_CHECKING:
     from core.models import User, Ticket
@@ -23,8 +17,10 @@ if TYPE_CHECKING:
 
 class Order(IntIdPkMixin, Base):
     number: Mapped[UUID] = mapped_column(Uuid(as_uuid=True), default=uuid4, unique=True)
-    public_code: Mapped[str] = mapped_column(String(OrderLimits.PUBLIC_CODE_MAX), default=generate_order_public_code, unique=True)
-    status: Mapped[OrderStatus] = mapped_column(SAEnum(OrderStatus, native_enum=False, length=OrderLimits.STATUS_MAX), default=OrderStatus.PENDING, index=True)
+    public_code: Mapped[str] = mapped_column(String(OrderLimits.PUBLIC_CODE_MAX), default=generate_order_public_code,
+                                             unique=True)
+    status: Mapped[OrderStatus] = mapped_column(SAEnum(OrderStatus, native_enum=False, length=OrderLimits.STATUS_MAX),
+                                                default=OrderStatus.PENDING, index=True)
 
     expires_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), index=True)
     expire_schedule_id: Mapped[str | None] = mapped_column(String(OrderLimits.EXPIRE_SCHEDULE_ID_MAX), unique=True)
