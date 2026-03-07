@@ -9,6 +9,7 @@ from core import broker
 from core.models import db_helper
 from dependencies.infrastructure import InfrastructureProvider
 from dependencies.repositories import RepositoryProvider
+from dependencies.services import ServiceProvider
 
 
 @asynccontextmanager
@@ -29,6 +30,7 @@ def create() -> FastAPI:
     container = make_async_container(
         InfrastructureProvider(),
         RepositoryProvider(),
+        ServiceProvider()
     )
 
     setup_fastapi_dishka(container, app)
