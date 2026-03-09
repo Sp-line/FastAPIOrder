@@ -61,7 +61,7 @@ class OrderRead(OrderBaseWithRelations):
     total_price: Annotated[Decimal, Field(ge=OrderLimits.TOTAL_PRICE_MIN)]
 
 
-class OrderTicketCreateReq(BaseModel):
+class OrderAggregateCreateReq(BaseModel):
     user_id: PositiveInt
     tickets: Annotated[list[TicketNestedCreateReq], Field(min_length=1)]
 
@@ -74,7 +74,7 @@ class OrderTicketCreateReq(BaseModel):
         return tickets
 
 
-class OrderTicketRead(OrderRead):
+class OrderAggregateRead(OrderRead):
     tickets: Annotated[list[TicketNestedRead], Field(min_length=1)]
 
     model_config = ConfigDict(from_attributes=True)
