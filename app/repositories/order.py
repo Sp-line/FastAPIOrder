@@ -1,4 +1,5 @@
 from datetime import datetime, timezone
+from typing import Sequence
 from uuid import UUID
 
 from sqlalchemy import select
@@ -50,3 +51,17 @@ class OrderRepository(
         )
         result = await self._session.execute(stmt)
         return result.scalar_one_or_none()
+
+    async def get_aggregates_by_user_id(self, user_id: int, skip: int = 0, limit: int = 100) -> Sequence[Order]:
+        stmt = (
+            select(self._model)
+            .where(self._model.user_id == user_id)
+            .options(
+                selectinload(self._model.tickets)
+            )
+            .offset(skip)
+            .limit(limit)
+        )
+
+        result = await self._session.execute(stmt)
+        return result.scalars().all()
