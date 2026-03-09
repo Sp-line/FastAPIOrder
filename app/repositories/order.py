@@ -1,7 +1,9 @@
 from datetime import datetime, timezone
+from uuid import UUID
 
 from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
+from sqlalchemy.orm import selectinload
 
 from constants import OrderStatus
 from core.models import Order
@@ -37,3 +39,14 @@ class OrderRepository(
 
         result = await self._session.execute(stmt)
         return result.scalar_one_or_none() is not None
+
+    async def get_aggregate_by_number(self, order_number: UUID) -> Order | None:
+        stmt = (
+            select(self._model)
+            .where(self._model.number == order_number)
+            .options(
+                selectinload(self._model.tickets)
+            )
+        )
+        result = await self._session.execute(stmt)
+        return result.scalar_one_or_none()
