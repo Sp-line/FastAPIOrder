@@ -60,6 +60,8 @@ class OrderRead(OrderBaseWithRelations):
     expires_at: datetime
     total_price: Annotated[Decimal, Field(ge=OrderLimits.TOTAL_PRICE_MIN)]
 
+    model_config = ConfigDict(from_attributes=True)
+
 
 class OrderAggregateCreateReq(BaseModel):
     user_id: PositiveInt
