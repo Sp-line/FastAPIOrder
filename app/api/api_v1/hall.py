@@ -17,21 +17,21 @@ async def get_hall(hall_id: int, service: FromDishka[HallService]) -> HallRead:
     return await service.get_by_id(hall_id)
 
 
-@router.post("/")
+@router.post("/", summary="[Admin] Create Hall")
 async def create_hall(data: HallCreateReq, service: FromDishka[HallService]) -> HallRead:
     return await service.create(data)
 
 
-@router.post("/bulk")
+@router.post("/bulk", summary="[Admin] Bulk Create Hall")
 async def bulk_create_halls(data: list[HallCreateReq], service: FromDishka[HallService]) -> list[HallRead]:
     return await service.bulk_create(data)
 
 
-@router.patch("/{hall_id}")
+@router.patch("/{hall_id}", summary="[Admin] Update Hall")
 async def update_hall(hall_id: int, data: HallUpdateReq, service: FromDishka[HallService]) -> HallRead:
     return await service.update(hall_id, data)
 
 
-@router.delete("/{hall_id}")
+@router.delete("/{hall_id}", summary="[Admin] Delete Hall")
 async def delete_hall(hall_id: int, service: FromDishka[HallService]) -> None:
     return await service.delete(hall_id)

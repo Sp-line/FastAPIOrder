@@ -17,21 +17,21 @@ async def get_session(session_id: int, service: FromDishka[SessionService]) -> S
     return await service.get_by_id(session_id)
 
 
-@router.post("/")
+@router.post("/", summary="[Admin] Create Session")
 async def create_session(data: SessionCreateReq, service: FromDishka[SessionService]) -> SessionRead:
     return await service.create(data)
 
 
-@router.post("/bulk")
+@router.post("/bulk", summary="[Admin] Bulk Create Session")
 async def bulk_create_sessions(data: list[SessionCreateReq], service: FromDishka[SessionService]) -> list[SessionRead]:
     return await service.bulk_create(data)
 
 
-@router.patch("/{session_id}")
+@router.patch("/{session_id}", summary="[Admin] Update Session")
 async def update_session(session_id: int, data: SessionUpdateReq, service: FromDishka[SessionService]) -> SessionRead:
     return await service.update(session_id, data)
 
 
-@router.delete("/{session_id}")
+@router.delete("/{session_id}", summary="[Admin] Delete Session")
 async def delete_session(session_id: int, service: FromDishka[SessionService]) -> None:
     return await service.delete(session_id)

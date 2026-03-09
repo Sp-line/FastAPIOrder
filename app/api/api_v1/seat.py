@@ -17,21 +17,21 @@ async def get_seat(seat_id: int, service: FromDishka[SeatService]) -> SeatRead:
     return await service.get_by_id(seat_id)
 
 
-@router.post("/")
+@router.post("/", summary="[Admin] Create Seat")
 async def create_seat(data: SeatCreateReq, service: FromDishka[SeatService]) -> SeatRead:
     return await service.create(data)
 
 
-@router.post("/bulk")
+@router.post("/bulk", summary="[Admin] Bulk Create Seat")
 async def bulk_create_seats(data: list[SeatCreateReq], service: FromDishka[SeatService]) -> list[SeatRead]:
     return await service.bulk_create(data)
 
 
-@router.patch("/{seat_id}")
+@router.patch("/{seat_id}", summary="[Admin] Update Seat")
 async def update_seat(seat_id: int, data: SeatUpdateReq, service: FromDishka[SeatService]) -> SeatRead:
     return await service.update(seat_id, data)
 
 
-@router.delete("/{seat_id}")
+@router.delete("/{seat_id}", summary="[Admin] Delete Seat")
 async def delete_seat(seat_id: int, service: FromDishka[SeatService]) -> None:
     return await service.delete(seat_id)
