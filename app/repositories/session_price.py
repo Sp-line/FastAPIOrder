@@ -25,6 +25,14 @@ class SessionPriceRepository(
             table_error_handler=session_price_error_handler,
         )
 
+    async def get_price_for_seat_type(self, session_id: int, seat_type: SeatType) -> Decimal | None:
+        stmt = select(SessionPrice.price).where(
+            SessionPrice.session_id == session_id,
+            SessionPrice.seat_type == seat_type
+        )
+        result = await self._session.execute(stmt)
+        return result.scalar_one_or_none()
+
     async def get_prices_by_session_and_seat_types(
             self,
             combinations: Iterable[SessionPriceCombination]
