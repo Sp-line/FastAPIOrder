@@ -24,6 +24,15 @@ class SeatRepository(
             table_error_handler=seat_error_handler,
         )
 
+    async def get_with_hall(self, seat_id: int) -> Seat | None:
+        stmt = (
+            select(Seat)
+            .options(joinedload(Seat.hall))
+            .where(Seat.id == seat_id)
+        )
+        result = await self._session.execute(stmt)
+        return result.scalars().first()
+
     async def get_many_with_hall(self, hall_ids: list[int]) -> Sequence[Seat]:
         if not hall_ids:
             return []
