@@ -1,9 +1,10 @@
+from typing import Sequence
 from uuid import UUID
 
 from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from core.models import Ticket
+from core.models import Ticket, Order
 from integrity_handlers.ticket import ticket_error_handler
 from repositories.base import QueryRepositoryBase, CommandRepositoryBase
 from schemas.ticket import TicketUpdateDB, TicketCreateDB
@@ -27,6 +28,18 @@ class TicketQueryRepository(
         )
         result = await self._session.execute(stmt)
         return result.scalar_one_or_none()
+
+    async def get_by_user_id(self, user_id: int, skip: int = 0, limit: int = 100) -> Sequence[Ticket]:
+        stmt = (
+            select(self._model)
+            .join(Order, self._model.order_id == Order.id)
+            .where(Order.user_id == user_id)
+            .offset(skip)
+            .limit(limit)
+        )
+
+        result = await self._session.execute(stmt)
+        return result.scalars().all()
 
 
 class TicketCommandRepository(

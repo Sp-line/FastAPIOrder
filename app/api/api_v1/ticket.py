@@ -23,3 +23,7 @@ async def get_ticket(ticket_id: int, service: FromDishka[TicketQueryService]) ->
 async def get_ticket_by_public_code(public_code: UUID, service: FromDishka[TicketQueryService]) -> TicketRead:
     return await service.get_by_public_code(public_code)
 
+
+@router.get("/list/{user_id}")
+async def get_tickets_by_user_id(user_id: int, service: FromDishka[TicketQueryService]) -> list[TicketRead]:
+    return await service.get_by_user_id(user_id)

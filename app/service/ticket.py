@@ -28,4 +28,8 @@ class TicketQueryService(
                 table_name=self._table_name
             )
         return self._read_schema.model_validate(obj)
+
+    async def get_by_user_id(self, user_id: int, skip: int = 0, limit: int = 100) -> list[TicketRead]:
+        objs = await self._repository.get_by_user_id(user_id=user_id, skip=skip, limit=limit)
+        return [self._read_schema.model_validate(ticket) for ticket in objs]
         
