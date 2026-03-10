@@ -1,3 +1,6 @@
+from uuid import UUID
+
+from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from core.models import Ticket
@@ -16,6 +19,14 @@ class TicketQueryRepository(
             model=Ticket,
             session=session
         )
+
+    async def get_by_public_code(self, public_code: UUID) -> Ticket | None:
+        stmt = (
+            select(self._model)
+            .where(self._model.public_code == public_code)
+        )
+        result = await self._session.execute(stmt)
+        return result.scalar_one_or_none()
 
 
 class TicketCommandRepository(

@@ -1,3 +1,6 @@
+from uuid import UUID
+
+from exceptions.db import ObjectNotFoundException
 from repositories.ticket import TicketQueryRepository
 from schemas.ticket import TicketRead
 from service.base import QueryServiceBase
@@ -15,4 +18,14 @@ class TicketQueryService(
             table_name="tickets",
             read_schema=TicketRead,
         )
+
+    async def get_by_public_code(self, public_code: UUID) -> TicketRead:
+        if not (obj := await self._repository.get_by_public_code(public_code)):
+            raise ObjectNotFoundException(
+                conditions={
+                    "public_code": public_code,
+                },
+                table_name=self._table_name
+            )
+        return self._read_schema.model_validate(obj)
         
