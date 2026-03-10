@@ -69,6 +69,8 @@ class TicketRead(TicketBaseWithRelations):
     price: Annotated[Decimal, Field(ge=TicketLimits.PRICE_MIN)]
     snapshot: TicketSnapshot
 
+    model_config = ConfigDict(from_attributes=True)
+
 
 class TicketNestedCreateReq(BaseModel):
     session_id: PositiveInt
