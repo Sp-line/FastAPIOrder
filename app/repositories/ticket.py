@@ -2,12 +2,24 @@ from sqlalchemy.ext.asyncio import AsyncSession
 
 from core.models import Ticket
 from integrity_handlers.ticket import ticket_error_handler
-from repositories.base import RepositoryBase
+from repositories.base import QueryRepositoryBase, CommandRepositoryBase
 from schemas.ticket import TicketUpdateDB, TicketCreateDB
 
 
-class TicketRepository(
-    RepositoryBase[
+class TicketQueryRepository(
+    QueryRepositoryBase[
+        Ticket,
+    ]
+):
+    def __init__(self, session: AsyncSession) -> None:
+        super().__init__(
+            model=Ticket,
+            session=session
+        )
+
+
+class TicketCommandRepository(
+    CommandRepositoryBase[
         Ticket,
         TicketCreateDB,
         TicketUpdateDB,
@@ -17,6 +29,5 @@ class TicketRepository(
         super().__init__(
             model=Ticket,
             session=session,
-            table_error_handler=ticket_error_handler,
+            table_error_handler=ticket_error_handler
         )
-
