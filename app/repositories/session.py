@@ -24,6 +24,15 @@ class SessionRepository(
             table_error_handler=session_error_handler,
         )
 
+    async def get_with_movie(self, session_id: int) -> Session | None:
+        stmt = (
+            select(Session)
+            .options(joinedload(Session.movie))
+            .where(Session.id == session_id)
+        )
+        result = await self._session.execute(stmt)
+        return result.scalars().first()
+
     async def get_many_with_movie(self, session_ids: list[int]) -> Sequence[Session]:
         if not session_ids:
             return []
