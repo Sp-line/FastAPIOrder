@@ -8,6 +8,7 @@ from sqlalchemy.ext.asyncio import (
 )
 
 from core.config import settings
+from utils import orjson_serializer, orjson_deserializer
 
 
 class DatabaseHelper:
@@ -25,6 +26,8 @@ class DatabaseHelper:
             echo_pool=echo_pool,
             pool_size=pool_size,
             max_overflow=max_overflow,
+            json_serializer=orjson_serializer,
+            json_deserializer=orjson_deserializer,
         )
         self.session_factory: async_sessionmaker[AsyncSession] = async_sessionmaker(
             bind=self.engine,
