@@ -1,3 +1,4 @@
+from collections.abc import Iterable
 from typing import Sequence
 
 from sqlalchemy import select
@@ -33,7 +34,7 @@ class SessionRepository(
         result = await self._session.execute(stmt)
         return result.scalars().first()
 
-    async def get_many_with_movie(self, session_ids: list[int]) -> Sequence[Session]:
+    async def get_many_with_movie(self, session_ids: Iterable[int]) -> Sequence[Session]:
         if not session_ids:
             return []
 

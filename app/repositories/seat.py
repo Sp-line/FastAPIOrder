@@ -1,3 +1,4 @@
+from collections.abc import Iterable
 from typing import Sequence
 
 from sqlalchemy import select
@@ -33,7 +34,7 @@ class SeatRepository(
         result = await self._session.execute(stmt)
         return result.scalars().first()
 
-    async def get_many_with_hall(self, hall_ids: list[int]) -> Sequence[Seat]:
+    async def get_many_with_hall(self, hall_ids: Iterable[int]) -> Sequence[Seat]:
         if not hall_ids:
             return []
 
