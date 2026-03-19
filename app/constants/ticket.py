@@ -1,8 +1,9 @@
+from decimal import Decimal
 from enum import StrEnum
 
 
 class TicketLimits:
-    PRICE_MIN = 0
+    PRICE_MIN: Decimal = Decimal("0.00")
 
     CODE_UNIQUE: bool = True
 

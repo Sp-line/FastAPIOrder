@@ -1,8 +1,9 @@
+from decimal import Decimal
 from enum import StrEnum
 
 
 class OrderLimits:
-    TOTAL_PRICE_MIN: int = 0
+    TOTAL_PRICE_MIN: Decimal = Decimal("0.00")
 
     PUBLIC_CODE_MAX: int = 6
     PUBLIC_CODE_ALPHABET: str = "23456789ABCDEFGHJKMNPQRSTUVWXYZ"
@@ -26,6 +27,6 @@ class OrderStatus(StrEnum):
     PAID = "paid"
     EXPIRED = "expired"
     FAILED = "failed"
-    CANCELLED = "cancelled"
+    CANCELED = "canceled"
     REFUND_PENDING = "refund_pending"
     REFUNDED = "refunded"
