@@ -2,7 +2,7 @@ from dishka.integrations.fastapi import DishkaRoute, FromDishka
 from fastapi import APIRouter
 
 from schemas.hall import HallRead, HallCreateReq, HallUpdateReq
-from service.hall import HallService
+from services.hall import HallService
 
 router = APIRouter(route_class=DishkaRoute)
 

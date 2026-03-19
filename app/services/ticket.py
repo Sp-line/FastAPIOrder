@@ -3,7 +3,7 @@ from uuid import UUID
 from exceptions.db import ObjectNotFoundException
 from repositories.ticket import TicketQueryRepository
 from schemas.ticket import TicketRead
-from service.base import QueryServiceBase
+from services.base import QueryServiceBase
 
 
 class TicketQueryService(

@@ -1,7 +1,7 @@
 from repositories.unit_of_work import UnitOfWork
 from repositories.user import UserRepository
 from schemas.user import UserRead, UserCreateReq, UserUpdateReq, UserCreateDB, UserUpdateDB
-from service.base import ServiceBase
+from services.base import ServiceBase
 
 
 class UserService(

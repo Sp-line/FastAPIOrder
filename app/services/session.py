@@ -1,7 +1,7 @@
 from repositories.session import SessionRepository
 from repositories.unit_of_work import UnitOfWork
 from schemas.session import SessionRead, SessionCreateDB, SessionUpdateDB, SessionCreateReq, SessionUpdateReq
-from service.base import ServiceBase
+from services.base import ServiceBase
 
 
 class SessionService(

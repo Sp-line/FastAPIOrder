@@ -2,7 +2,7 @@ from repositories.session_price import SessionPriceRepository
 from repositories.unit_of_work import UnitOfWork
 from schemas.session_price import SessionPriceRead, SessionPriceCreateReq, SessionPriceUpdateReq, SessionPriceCreateDB, \
     SessionPriceUpdateDB
-from service.base import ServiceBase
+from services.base import ServiceBase
 
 
 class SessionPriceService(

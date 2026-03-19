@@ -2,7 +2,7 @@ from dishka.integrations.fastapi import DishkaRoute, FromDishka
 from fastapi import APIRouter
 
 from schemas.movie import MovieRead, MovieCreateReq, MovieUpdateReq
-from service.movie import MovieService
+from services.movie import MovieService
 
 router = APIRouter(route_class=DishkaRoute)
 

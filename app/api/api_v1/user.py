@@ -2,7 +2,7 @@ from dishka.integrations.fastapi import DishkaRoute, FromDishka
 from fastapi import APIRouter
 
 from schemas.user import UserRead, UserCreateReq, UserUpdateReq
-from service.user import UserService
+from services.user import UserService
 
 router = APIRouter(route_class=DishkaRoute)
 

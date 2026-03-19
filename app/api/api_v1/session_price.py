@@ -2,7 +2,7 @@ from dishka.integrations.fastapi import DishkaRoute, FromDishka
 from fastapi import APIRouter
 
 from schemas.session_price import SessionPriceRead, SessionPriceCreateReq, SessionPriceUpdateReq
-from service.session_price import SessionPriceService
+from services.session_price import SessionPriceService
 
 router = APIRouter(route_class=DishkaRoute)
 

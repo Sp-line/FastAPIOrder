@@ -1,7 +1,7 @@
 from repositories.hall import HallRepository
 from repositories.unit_of_work import UnitOfWork
 from schemas.hall import HallRead, HallCreateReq, HallUpdateReq, HallCreateDB, HallUpdateDB
-from service.base import ServiceBase
+from services.base import ServiceBase
 
 
 class HallService(
