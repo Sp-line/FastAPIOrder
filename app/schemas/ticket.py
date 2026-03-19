@@ -72,11 +72,6 @@ class TicketRead(TicketBaseWithRelations):
     model_config = ConfigDict(from_attributes=True)
 
 
-class TicketNestedCreateReq(BaseModel):
-    session_id: PositiveInt
-    seat_id: PositiveInt
-
-
 class TicketNestedRead(BaseModel):
     session_id: PositiveInt
     seat_id: PositiveInt
