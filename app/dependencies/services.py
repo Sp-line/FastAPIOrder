@@ -1,12 +1,8 @@
-from dishka import provide, Scope, Provider
+from dishka import provide, Scope, Provider, alias
 
-from service.hall import HallService
-from service.movie import MovieService
-from service.seat import SeatService
-from service.session import SessionService
-from service.session_price import SessionPriceService
-from service.ticket import TicketQueryService
-from service.user import UserService
+from domain.booking import BookingDomain
+from services.booking import BookingDataAssembler, TicketBuilderService, DefaultPricing, PricingStrategy, \
+    OrderSchedulerService
 from services.hall import HallService
 from services.movie import MovieService
 from services.seat import SeatService
@@ -31,3 +27,10 @@ class ServiceProvider(Provider):
 
     get_user_service = provide(UserService)
     get_ticket_query_service = provide(TicketQueryService)
+
+    get_booking_domain_service = provide(BookingDomain)
+    get_booking_data_assembler_service = provide(BookingDataAssembler)
+    get_ticket_builder_service = provide(TicketBuilderService)
+    get_default_pricing = provide(DefaultPricing)
+    pricing_alias = alias(source=DefaultPricing, provides=PricingStrategy)
+    get_order_scheduler_service = provide(OrderSchedulerService)
