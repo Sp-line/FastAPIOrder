@@ -1,7 +1,7 @@
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from core.models import Hall
-from integrity_handlers.hall import hall_error_handler
+from repositories.integrity_handlers import hall_error_handler
 from repositories.base import RepositoryBase
 from schemas.hall import HallCreateDB, HallUpdateDB
 

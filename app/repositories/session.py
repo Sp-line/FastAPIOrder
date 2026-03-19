@@ -5,7 +5,7 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.orm import joinedload
 
 from core.models import Session
-from integrity_handlers.session import session_error_handler
+from repositories.integrity_handlers import session_error_handler
 from repositories.base import RepositoryBase
 from schemas.session import SessionCreateDB, SessionUpdateDB
 

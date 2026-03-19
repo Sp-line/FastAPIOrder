@@ -1,6 +1,6 @@
 from constants import PostgresErrorCode
 from exceptions.db import DeleteConstraintException, UniqueFieldException
-from integrity_handlers.base import TableErrorHandler
+from repositories.integrity_handlers.base import TableErrorHandler
 from schemas.db import ConstraintRule
 
 uq_movies_slug = ConstraintRule(

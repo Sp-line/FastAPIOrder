@@ -1,6 +1,6 @@
 from constants import PostgresErrorCode
 from exceptions.db import UniqueException, RelatedObjectNotFoundException, UniqueFieldException
-from integrity_handlers.base import TableErrorHandler
+from repositories.integrity_handlers.base import TableErrorHandler
 from schemas.db import ConstraintRule
 
 uq_session_prices_session_id_seat_type = ConstraintRule(

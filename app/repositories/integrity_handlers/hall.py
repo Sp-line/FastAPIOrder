@@ -1,6 +1,6 @@
 from constants.db import PostgresErrorCode
 from exceptions.db import UniqueFieldException, DeleteConstraintException
-from integrity_handlers.base import TableErrorHandler
+from repositories.integrity_handlers.base import TableErrorHandler
 from schemas.db import ConstraintRule
 
 uq_halls_slug = ConstraintRule(

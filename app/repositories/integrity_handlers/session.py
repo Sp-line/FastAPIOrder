@@ -1,7 +1,7 @@
 from constants import PostgresErrorCode
 from exceptions.db import RelatedObjectNotFoundException, ExclusionException, \
     CheckConstraintException, UniqueFieldException, DeleteConstraintException
-from integrity_handlers.base import TableErrorHandler
+from repositories.integrity_handlers.base import TableErrorHandler
 from schemas.db import ConstraintRule
 
 fk_sessions_hall_id_halls = ConstraintRule(

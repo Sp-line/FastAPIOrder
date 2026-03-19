@@ -8,7 +8,7 @@ from sqlalchemy.orm import selectinload
 
 from constants import OrderStatus
 from core.models import Order
-from integrity_handlers.order import order_error_handler
+from repositories.integrity_handlers import order_error_handler
 from repositories.base import RepositoryBase
 from schemas.order import OrderCreateDB, OrderUpdateDB
 

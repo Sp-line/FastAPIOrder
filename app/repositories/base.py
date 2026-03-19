@@ -6,7 +6,7 @@ from sqlalchemy.exc import IntegrityError
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from core.models.mixins.int_id_pk import IntIdPkMixin
-from integrity_handlers.base import TableErrorHandler
+from repositories.integrity_handlers import TableErrorHandler
 
 
 class QueryRepositoryBase[

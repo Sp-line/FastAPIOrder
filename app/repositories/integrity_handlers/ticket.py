@@ -1,6 +1,6 @@
 from constants import PostgresErrorCode
 from exceptions.db import UniqueFieldException, RelatedObjectNotFoundException, UniqueException
-from integrity_handlers.base import TableErrorHandler
+from repositories.integrity_handlers.base import TableErrorHandler
 from schemas.db import ConstraintRule
 
 uq_tickets_public_code = ConstraintRule(

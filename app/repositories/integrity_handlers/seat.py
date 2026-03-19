@@ -1,7 +1,7 @@
 from constants import PostgresErrorCode
 from exceptions.db import UniqueException, RelatedObjectNotFoundException, UniqueFieldException, \
     DeleteConstraintException
-from integrity_handlers.base import TableErrorHandler
+from repositories.integrity_handlers.base import TableErrorHandler
 from schemas.db import ConstraintRule
 
 uq_seats_hall_id_row_label_column_label = ConstraintRule(
