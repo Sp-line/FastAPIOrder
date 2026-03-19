@@ -7,7 +7,7 @@ from pydantic_settings import (
     SettingsConfigDict,
 )
 
-from log import LogLevel
+from logs import LogLevel
 
 
 class RunConfig(BaseModel):
