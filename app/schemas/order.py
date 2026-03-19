@@ -3,10 +3,10 @@ from decimal import Decimal
 from typing import Annotated
 from uuid import UUID, uuid4
 
-from pydantic import BaseModel, Field, PositiveInt, ConfigDict, field_validator
+from pydantic import BaseModel, Field, PositiveInt, ConfigDict
 
 from constants import OrderStatus, OrderLimits
-from schemas.ticket import TicketNestedCreateReq, TicketNestedRead
+from schemas.ticket import TicketNestedRead
 from utils import generate_order_public_code
 
 
@@ -61,19 +61,6 @@ class OrderRead(OrderBaseWithRelations):
     total_price: Annotated[Decimal, Field(ge=OrderLimits.TOTAL_PRICE_MIN)]
 
     model_config = ConfigDict(from_attributes=True)
-
-
-class OrderAggregateCreateReq(BaseModel):
-    user_id: PositiveInt
-    tickets: Annotated[list[TicketNestedCreateReq], Field(min_length=1)]
-
-    @field_validator("tickets")
-    @classmethod
-    def check_no_duplicates(cls, tickets: list[TicketNestedCreateReq]) -> list[TicketNestedCreateReq]:
-        unique_tickets = {(t.session_id, t.seat_id) for t in tickets}
-        if len(unique_tickets) != len(tickets):
-            raise ValueError("The cart contains duplicate tickets for the same seat.")
-        return tickets
 
 
 class OrderAggregateRead(OrderRead):
