@@ -15,6 +15,11 @@ class PricingStrategy(ABC):
     ) -> Decimal:
         ...
 
+    @staticmethod
+    @abstractmethod
+    def increment_by_one(order_total_price: Decimal, new_ticket_price: Decimal) -> Decimal:
+        ...
+
 
 class DefaultPricing(PricingStrategy):
     @staticmethod
@@ -32,3 +37,7 @@ class DefaultPricing(PricingStrategy):
             total += price.price
 
         return total
+
+    @staticmethod
+    def increment_by_one(order_total_price: Decimal, new_ticket_price: Decimal) -> Decimal:
+        return order_total_price + new_ticket_price
