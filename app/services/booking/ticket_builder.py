@@ -1,4 +1,5 @@
 from __future__ import annotations
+
 from typing import TYPE_CHECKING
 
 from schemas.booking import BookingTicketNestedCreateReq
@@ -7,6 +8,7 @@ from schemas.ticket import TicketCreateDB, TicketSnapshot
 if TYPE_CHECKING:
     from core.models import Session, Seat
     from services.booking.types import SessionMap, SeatMap, PriceMap
+    from decimal import Decimal
 
 
 class TicketBuilderService:
@@ -36,6 +38,21 @@ class TicketBuilderService:
             )
 
         return result
+
+    def build_one(
+            self,
+            order_id: int,
+            session: Session,
+            seat: Seat,
+            price: Decimal,
+    ) -> TicketCreateDB:
+        return TicketCreateDB(
+            order_id=order_id,
+            session_id=session.id,
+            seat_id=seat.id,
+            price=price,
+            snapshot=self._build_snapshot(session, seat),
+        )
 
     @staticmethod
     def _build_snapshot(session: Session, seat: Seat) -> TicketSnapshot:
