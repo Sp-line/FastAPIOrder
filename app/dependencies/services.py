@@ -5,16 +5,28 @@ from dishka import (
     alias
 )
 
-from services.booking import BookingDataAssembler, TicketBuilderService, DefaultPricing, PricingStrategy, \
+from services import (
+    HallService,
+    MovieService,
+    OrderQueryService,
+    OrderDataExistenceService,
+    SeatService,
+    SeatDataExistenceService,
+    SessionService,
+    SessionDataExistenceService,
+    SessionPriceService,
+    SessionPriceDataExistenceService,
+    TicketQueryService,
+    TicketDataExistenceService,
+    UserService
+)
+from services.booking import (
+    BookingDataAssembler,
+    TicketBuilderService,
+    DefaultPricing,
+    PricingStrategy,
     OrderSchedulerService
-from services.hall import HallService
-from services.movie import MovieService
-from services.order import OrderQueryService, OrderDataExistenceService
-from services.seat import SeatService, SeatDataExistenceService
-from services.session import SessionService, SessionDataExistenceService
-from services.session_price import SessionPriceService, SessionPriceDataExistenceService
-from services.ticket import TicketQueryService, TicketDataExistenceService
-from services.user import UserService
+)
 from usage.booking.create_order import CreateBookingDataExistenceServices
 from usage.ticket.add_ticket_to_order import AddTicketToOrderDataExistenceServices
 from usage.ticket.remove_ticket_from_order import RemoveTicketFromOrderDataExistenceServices
@@ -52,4 +64,5 @@ class ServiceProvider(Provider):
 
     get_create_booking_data_existence_services = provide(CreateBookingDataExistenceServices)
     get_add_ticket_to_order_data_existence_services = provide(AddTicketToOrderDataExistenceServices)
+    get_add_tickets_to_orders_data_existence_services = provide(AddTicketToOrderDataExistenceServices)
     get_remove_ticket_from_order_data_existence_services = provide(RemoveTicketFromOrderDataExistenceServices)

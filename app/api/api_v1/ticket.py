@@ -12,7 +12,8 @@ from schemas.ticket import (
 from services import TicketQueryService
 from usage.ticket import (
     AddTicketToOrderUsage,
-    RemoveTicketFromOrderUsage
+    RemoveTicketFromOrderUsage,
+    AddTicketsToOrdersUsage
 )
 
 router = APIRouter(route_class=DishkaRoute)
@@ -34,6 +35,14 @@ async def create_ticket(
         add_ticket_to_order_usage: FromDishka[AddTicketToOrderUsage]
 ) -> TicketRead:
     return await add_ticket_to_order_usage(data)
+
+
+@router.post("/bulk", summary="[Admin] Bulk Create Ticket")
+async def bulk_create_tickets(
+        add_tickets_to_orders_usage: FromDishka[AddTicketsToOrdersUsage],
+        data: list[TicketCreateReq],
+) -> list[TicketRead]:
+    return await add_tickets_to_orders_usage(data)
 
 
 @router.delete("/{ticket_id}", summary="[Admin] Delete Ticket")
