@@ -1,4 +1,5 @@
-from typing import Sequence
+from collections.abc import Iterable
+from typing import Sequence, Any
 
 from pydantic import BaseModel
 from sqlalchemy import (
@@ -21,7 +22,7 @@ class QueryRepositoryBase[
         self._model = model
         self._session = session
 
-    async def get_by_ids(self, obj_ids: list[int]) -> Sequence[TModel]:
+    async def get_by_ids(self, obj_ids: Iterable[int]) -> Sequence[TModel]:
         if not obj_ids:
             return []
 
@@ -81,6 +82,31 @@ class CommandRepositoryBase[
             raise
 
         return objs
+
+    async def bulk_update(self, data: dict[int, TUpdateSchema]) -> Sequence[TModel]:
+        if not data:
+            return []
+
+        update_data: list[dict[str, Any]] = []
+
+        for obj_id, schema in data.items():
+            data_dict = schema.model_dump(exclude_unset=True)
+            if data_dict:
+                data_dict["id"] = obj_id
+                update_data.append(data_dict)
+
+        if not update_data:
+            return []
+
+        stmt = update(self._model).returning(self._model)
+
+        try:
+            result = await self._session.scalars(stmt, update_data)
+        except IntegrityError as e:
+            self._table_error_handler.handle(e)
+            raise
+
+        return result.all()
 
     async def update(self, obj_id: int, data: TUpdateSchema) -> TModel | None:
         update_data = data.model_dump(exclude_unset=True)
