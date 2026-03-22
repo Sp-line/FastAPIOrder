@@ -16,7 +16,7 @@ from usage.ticket.remove_ticket_from_order import RemoveTicketFromOrderDomain
 
 
 class DomainProvider(Provider):
-    scope = Scope.REQUEST
+    scope = Scope.APP
 
     get_ensure_order_can_be_modified = provide(EnsureOrderCanBeModified)
     get_ensure_seat_valid_for_session = provide(EnsureSeatValidForSession)
