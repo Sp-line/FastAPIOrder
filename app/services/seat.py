@@ -1,7 +1,9 @@
+from core.models import Seat
 from repositories.seat import SeatRepository
 from repositories.unit_of_work import UnitOfWork
 from schemas.seat import SeatRead, SeatCreateReq, SeatCreateDB, SeatUpdateReq, SeatUpdateDB
 from services.base import ServiceBase
+from services.data_existence import DataExistenceServiceBase
 
 
 class SeatService(
@@ -22,4 +24,15 @@ class SeatService(
             read_schema=SeatRead,
             db_create_schema=SeatCreateDB,
             db_update_schema=SeatUpdateDB,
+        )
+
+
+class SeatDataExistenceService(
+    DataExistenceServiceBase[
+        Seat,
+    ]
+):
+    def __init__(self) -> None:
+        super().__init__(
+            table_name="seats"
         )
