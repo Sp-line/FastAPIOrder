@@ -10,10 +10,12 @@ from schemas.booking import (
     BookingOrderRead,
     BookingOrderCreateReq,
 )
+from schemas.ticket import TicketRead
 from usage.booking import (
     GetBookingByNumberUsage,
     GetBookingsByUserIDUsage,
     CreateBookingUsage,
+    GetTicketByPublicCodeUsage,
 )
 
 router = APIRouter(route_class=DishkaRoute)
@@ -43,3 +45,11 @@ async def get_bookings_by_user_id(
         limit: int = 100,
 ) -> list[BookingOrderRead]:
     return await get_bookings_by_user_id_usage(user_id, skip, limit)
+
+
+@router.get("/orders/tickets/{public_code}", summary="Get Ticket")
+async def get_ticket_by_public_code(
+        public_code: UUID,
+        get_ticket_by_public_code_usage: FromDishka[GetTicketByPublicCodeUsage]
+) -> TicketRead:
+    return await get_ticket_by_public_code_usage(public_code)
