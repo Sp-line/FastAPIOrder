@@ -1,14 +1,21 @@
 from decimal import Decimal
-from typing import Sequence, Iterable
+from typing import (
+    Sequence,
+    Iterable
+)
 
 from sqlalchemy import select, tuple_
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from constants import SeatType
 from core.models import SessionPrice
+from repositories import RepositoryBase
 from repositories.integrity_handlers import session_price_error_handler
-from repositories.base import RepositoryBase
-from schemas.session_price import SessionPriceCreateDB, SessionPriceUpdateDB, SessionPriceCombination
+from schemas.session_price import (
+    SessionPriceCreateDB,
+    SessionPriceUpdateDB,
+    SessionPriceCombination
+)
 
 
 class SessionPriceRepository(

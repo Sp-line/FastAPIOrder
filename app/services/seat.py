@@ -1,7 +1,15 @@
 from core.models import Seat
-from repositories.seat import SeatRepository
-from repositories.unit_of_work import UnitOfWork
-from schemas.seat import SeatRead, SeatCreateReq, SeatCreateDB, SeatUpdateReq, SeatUpdateDB
+from repositories import (
+    SeatRepository,
+    UnitOfWork
+)
+from schemas.seat import (
+    SeatRead,
+    SeatCreateReq,
+    SeatCreateDB,
+    SeatUpdateReq,
+    SeatUpdateDB
+)
 from services.base import ServiceBase
 from services.data_existence import DataExistenceServiceBase
 

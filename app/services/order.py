@@ -1,5 +1,5 @@
 from core.models import Order
-from repositories.order import OrderQueryRepository
+from repositories import OrderQueryRepository
 from schemas.order import OrderAdminRead
 from services.base import QueryServiceBase
 from services.data_existence import DataExistenceServiceBase

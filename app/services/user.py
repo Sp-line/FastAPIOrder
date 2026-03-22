@@ -1,6 +1,14 @@
-from repositories.unit_of_work import UnitOfWork
-from repositories.user import UserRepository
-from schemas.user import UserRead, UserCreateReq, UserUpdateReq, UserCreateDB, UserUpdateDB
+from repositories import (
+    UnitOfWork,
+    UserRepository
+)
+from schemas.user import (
+    UserRead,
+    UserCreateReq,
+    UserUpdateReq,
+    UserCreateDB,
+    UserUpdateDB
+)
 from services.base import ServiceBase
 
 

@@ -1,14 +1,29 @@
 from __future__ import annotations
-from typing import Iterable, Any, TYPE_CHECKING
+
+from typing import (
+    Iterable,
+    Any,
+    TYPE_CHECKING
+)
 
 from core.models import SessionPrice
 from exceptions.db import ObjectNotFoundException
-from repositories.session_price import SessionPriceRepository
-from repositories.unit_of_work import UnitOfWork
-from schemas.session_price import SessionPriceRead, SessionPriceCreateReq, SessionPriceUpdateReq, SessionPriceCreateDB, \
-    SessionPriceUpdateDB
+from repositories import (
+    SessionPriceRepository,
+    UnitOfWork
+)
+from schemas.session_price import (
+    SessionPriceRead,
+    SessionPriceCreateReq,
+    SessionPriceUpdateReq,
+    SessionPriceCreateDB,
+    SessionPriceUpdateDB,
+)
 from services.base import ServiceBase
-from services.booking.types import SeatMap, PriceMap
+from services.booking.types import (
+    SeatMap,
+    PriceMap
+)
 from services.data_existence import DataExistenceServiceBase
 
 if TYPE_CHECKING:

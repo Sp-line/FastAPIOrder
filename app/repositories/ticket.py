@@ -5,9 +5,15 @@ from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from core.models import Ticket, Order
+from repositories import (
+    QueryRepositoryBase,
+    CommandRepositoryBase
+)
 from repositories.integrity_handlers import ticket_error_handler
-from repositories.base import QueryRepositoryBase, CommandRepositoryBase
-from schemas.ticket import TicketUpdateDB, TicketCreateDB
+from schemas.ticket import (
+    TicketUpdateDB,
+    TicketCreateDB
+)
 
 
 class TicketQueryRepository(

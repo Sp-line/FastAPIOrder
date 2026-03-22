@@ -1,9 +1,14 @@
+from dishka.integrations.taskiq import (
+    FromDishka,
+    inject
+)
+
 from constants import OrderStatus
 from core import broker
-from repositories.order import OrderRepository
-from repositories.unit_of_work import UnitOfWork
-from dishka.integrations.taskiq import FromDishka, inject
-
+from repositories import (
+    OrderRepository,
+    UnitOfWork
+)
 from schemas.order import OrderUpdateDB
 
 

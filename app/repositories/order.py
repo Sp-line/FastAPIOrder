@@ -1,4 +1,7 @@
-from datetime import datetime, timezone
+from datetime import (
+    datetime,
+    timezone
+)
 from typing import Sequence
 from uuid import UUID
 
@@ -8,9 +11,15 @@ from sqlalchemy.orm import selectinload
 
 from constants import OrderStatus
 from core.models import Order
+from repositories import (
+    QueryRepositoryBase,
+    CommandRepositoryBase
+)
 from repositories.integrity_handlers import order_error_handler
-from repositories.base import QueryRepositoryBase, CommandRepositoryBase
-from schemas.order import OrderCreateDB, OrderUpdateDB
+from schemas.order import (
+    OrderCreateDB,
+    OrderUpdateDB
+)
 
 
 class OrderQueryRepository(

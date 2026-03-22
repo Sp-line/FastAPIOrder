@@ -6,9 +6,11 @@ from typing import TYPE_CHECKING
 
 from constants import OrderStatus
 from domain import EnsureOrderCanBeModified
-from repositories.order import OrderRepository
-from repositories.ticket import TicketRepository
-from repositories.unit_of_work import UnitOfWork
+from repositories import (
+    OrderRepository,
+    TicketRepository,
+    UnitOfWork,
+)
 from schemas.order import OrderRead, OrderUpdateDB
 from services.booking import PricingStrategy
 from services.order import OrderDataExistenceService

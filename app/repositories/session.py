@@ -6,9 +6,12 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.orm import joinedload
 
 from core.models import Session
+from repositories import RepositoryBase
 from repositories.integrity_handlers import session_error_handler
-from repositories.base import RepositoryBase
-from schemas.session import SessionCreateDB, SessionUpdateDB
+from schemas.session import (
+    SessionCreateDB,
+    SessionUpdateDB
+)
 
 
 class SessionRepository(

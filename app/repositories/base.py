@@ -1,7 +1,11 @@
 from typing import Sequence
 
 from pydantic import BaseModel
-from sqlalchemy import select, update, delete
+from sqlalchemy import (
+    select,
+    update,
+    delete
+)
 from sqlalchemy.exc import IntegrityError
 from sqlalchemy.ext.asyncio import AsyncSession
 

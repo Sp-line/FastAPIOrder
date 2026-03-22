@@ -1,7 +1,11 @@
 from pydantic import BaseModel
 
 from exceptions.db import ObjectNotFoundException
-from repositories.base import RepositoryBase, QueryRepositoryBase, CommandRepositoryBase
+from repositories import (
+    RepositoryBase,
+    QueryRepositoryBase,
+    CommandRepositoryBase
+)
 from repositories.unit_of_work import UnitOfWork
 
 
@@ -55,7 +59,8 @@ class CommandServiceBase[
     async def bulk_create(self, data: list[TCreateSchema]) -> list[TReadSchema]:
         bulk_create_data = self._bulk_create_data_transfer(data)
         async with self._uof:
-            return [self._read_schema.model_validate(obj) for obj in await self._repository.bulk_create(bulk_create_data)]
+            return [self._read_schema.model_validate(obj) for obj in
+                    await self._repository.bulk_create(bulk_create_data)]
 
     async def create(self, data: TCreateSchema) -> TReadSchema:
         create_data = self._create_data_transfer(data)

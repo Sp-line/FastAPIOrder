@@ -1,6 +1,10 @@
 from typing import AsyncIterable
 
-from dishka import Provider, Scope, provide
+from dishka import (
+    Provider,
+    Scope,
+    provide
+)
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from core.models import db_helper

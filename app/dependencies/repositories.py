@@ -1,15 +1,25 @@
-from dishka import Provider, Scope, provide
+from dishka import (
+    Provider,
+    Scope,
+    provide
+)
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from repositories.hall import HallRepository
-from repositories.movie import MovieRepository
-from repositories.order import OrderRepository, OrderQueryRepository, OrderCommandRepository
-from repositories.seat import SeatRepository
-from repositories.session import SessionRepository
-from repositories.session_price import SessionPriceRepository
-from repositories.ticket import TicketQueryRepository, TicketCommandRepository, TicketRepository
-from repositories.unit_of_work import UnitOfWork
-from repositories.user import UserRepository
+from repositories import (
+    UnitOfWork,
+    HallRepository,
+    SessionRepository,
+    MovieRepository,
+    SeatRepository,
+    SessionPriceRepository,
+    OrderQueryRepository,
+    OrderCommandRepository,
+    OrderRepository,
+    UserRepository,
+    TicketQueryRepository,
+    TicketCommandRepository,
+    TicketRepository
+)
 
 
 class RepositoryProvider(Provider):

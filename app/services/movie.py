@@ -1,6 +1,14 @@
-from repositories.movie import MovieRepository
-from repositories.unit_of_work import UnitOfWork
-from schemas.movie import MovieRead, MovieCreateReq, MovieUpdateReq, MovieCreateDB, MovieUpdateDB
+from repositories import (
+    MovieRepository,
+    UnitOfWork
+)
+from schemas.movie import (
+    MovieRead,
+    MovieCreateReq,
+    MovieUpdateReq,
+    MovieCreateDB,
+    MovieUpdateDB
+)
 from services.base import ServiceBase
 
 

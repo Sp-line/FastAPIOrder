@@ -1,9 +1,12 @@
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from core.models import Movie
+from repositories import RepositoryBase
 from repositories.integrity_handlers import movie_error_handler
-from repositories.base import RepositoryBase
-from schemas.movie import MovieCreateDB, MovieUpdateDB
+from schemas.movie import (
+    MovieCreateDB,
+    MovieUpdateDB,
+)
 
 
 class MovieRepository(

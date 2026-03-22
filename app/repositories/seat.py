@@ -6,9 +6,12 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.orm import joinedload
 
 from core.models import Seat
+from repositories import RepositoryBase
 from repositories.integrity_handlers import seat_error_handler
-from repositories.base import RepositoryBase
-from schemas.seat import SeatCreateDB, SeatUpdateDB
+from schemas.seat import (
+    SeatCreateDB,
+    SeatUpdateDB
+)
 
 
 class SeatRepository(
@@ -46,4 +49,3 @@ class SeatRepository(
 
         result = await self._session.execute(stmt)
         return result.scalars().all()
-

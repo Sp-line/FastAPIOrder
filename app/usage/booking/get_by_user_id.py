@@ -1,6 +1,6 @@
 from pydantic import TypeAdapter
 
-from repositories.order import OrderQueryRepository
+from repositories import OrderQueryRepository
 from schemas.booking import BookingOrderRead
 
 

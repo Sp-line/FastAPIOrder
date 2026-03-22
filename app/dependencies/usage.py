@@ -1,4 +1,8 @@
-from dishka import provide, Provider, Scope
+from dishka import (
+    provide,
+    Provider,
+    Scope
+)
 
 from usage.booking import GetBookingByNumberUsage, GetBookingsByUserIDUsage, CreateBookingUsage
 from usage.ticket import AddTicketToOrderUsage, RemoveTicketFromOrderUsage

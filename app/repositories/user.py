@@ -1,9 +1,12 @@
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from core.models import User
+from repositories import RepositoryBase
 from repositories.integrity_handlers import user_error_handler
-from repositories.base import RepositoryBase
-from schemas.user import UserCreateDB, UserUpdateDB
+from schemas.user import (
+    UserCreateDB,
+    UserUpdateDB
+)
 
 
 class UserRepository(

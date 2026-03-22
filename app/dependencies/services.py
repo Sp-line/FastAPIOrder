@@ -1,4 +1,9 @@
-from dishka import provide, Scope, Provider, alias
+from dishka import (
+    provide,
+    Scope,
+    Provider,
+    alias
+)
 
 from services.booking import BookingDataAssembler, TicketBuilderService, DefaultPricing, PricingStrategy, \
     OrderSchedulerService

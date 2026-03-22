@@ -1,7 +1,7 @@
 from uuid import UUID
 
 from exceptions.db import ObjectNotFoundException
-from repositories.order import OrderQueryRepository
+from repositories import OrderQueryRepository
 from schemas.booking import BookingOrderRead
 
 
