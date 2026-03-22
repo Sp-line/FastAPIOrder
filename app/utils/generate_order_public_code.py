@@ -1,5 +1,3 @@
-import string
-
 from nanoid import generate  # type: ignore[import-untyped]
 
 from constants import OrderLimits
