@@ -6,7 +6,7 @@ from uuid import UUID, uuid4
 from pydantic import BaseModel, Field, PositiveInt, ConfigDict
 
 from constants import OrderStatus, OrderLimits
-from schemas.ticket import TicketNestedRead
+from schemas.base import Id
 from utils import generate_order_public_code
 
 
@@ -63,7 +63,5 @@ class OrderRead(OrderBaseWithRelations):
     model_config = ConfigDict(from_attributes=True)
 
 
-class OrderAggregateRead(OrderRead):
-    tickets: Annotated[list[TicketNestedRead], Field(min_length=1)]
-
+class OrderAdminRead(Id, OrderRead):
     model_config = ConfigDict(from_attributes=True)
