@@ -7,11 +7,13 @@ from fastapi import FastAPI
 
 from core import broker
 from core.models import db_helper
-from dependencies.domain import DomainProvider
-from dependencies.infrastructure import InfrastructureProvider
-from dependencies.repositories import RepositoryProvider
-from dependencies.services import ServiceProvider
-from dependencies.usage import UsageProvider
+from dependencies import (
+    InfrastructureProvider,
+    RepositoryProvider,
+    ServiceProvider,
+    DomainProvider,
+    UsageProvider,
+)
 
 
 @asynccontextmanager

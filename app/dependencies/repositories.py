@@ -38,4 +38,3 @@ class RepositoryProvider(Provider):
     get_ticket_query_repo = provide(TicketQueryRepository)
     get_ticket_command_repo = provide(TicketCommandRepository)
     get_ticket_repository = provide(TicketRepository)
-
