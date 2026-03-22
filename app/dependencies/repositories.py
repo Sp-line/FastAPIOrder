@@ -3,7 +3,7 @@ from sqlalchemy.ext.asyncio import AsyncSession
 
 from repositories.hall import HallRepository
 from repositories.movie import MovieRepository
-from repositories.order import OrderRepository
+from repositories.order import OrderRepository, OrderQueryRepository, OrderCommandRepository
 from repositories.seat import SeatRepository
 from repositories.session import SessionRepository
 from repositories.session_price import SessionPriceRepository
@@ -29,6 +29,8 @@ class RepositoryProvider(Provider):
 
     get_session_price_repo = provide(SessionPriceRepository)
 
+    get_order_query_repo = provide(OrderQueryRepository)
+    get_order_command_repo = provide(OrderCommandRepository)
     get_order_repo = provide(OrderRepository)
 
     get_user_repo = provide(UserRepository)
