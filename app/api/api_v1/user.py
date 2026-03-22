@@ -9,7 +9,7 @@ from schemas.user import (
     UserCreateReq,
     UserUpdateReq
 )
-from services.user import UserService
+from services import UserService
 
 router = APIRouter(route_class=DishkaRoute)
 

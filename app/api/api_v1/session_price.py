@@ -9,7 +9,7 @@ from schemas.session_price import (
     SessionPriceCreateReq,
     SessionPriceUpdateReq,
 )
-from services.session_price import SessionPriceService
+from services import SessionPriceService
 
 router = APIRouter(route_class=DishkaRoute)
 

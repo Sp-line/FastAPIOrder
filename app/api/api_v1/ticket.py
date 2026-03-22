@@ -7,9 +7,15 @@ from dishka.integrations.fastapi import (
 from fastapi import APIRouter
 
 from schemas.order import OrderRead
-from schemas.ticket import TicketRead, TicketCreateReq
-from services.ticket import TicketQueryService
-from usage.ticket import AddTicketToOrderUsage, RemoveTicketFromOrderUsage
+from schemas.ticket import (
+    TicketRead,
+    TicketCreateReq
+)
+from services import TicketQueryService
+from usage.ticket import (
+    AddTicketToOrderUsage,
+    RemoveTicketFromOrderUsage
+)
 
 router = APIRouter(route_class=DishkaRoute)
 

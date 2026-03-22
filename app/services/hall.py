@@ -9,7 +9,7 @@ from schemas.hall import (
     HallCreateDB,
     HallUpdateDB
 )
-from services.base import ServiceBase
+from services import ServiceBase
 
 
 class HallService(

@@ -4,8 +4,10 @@ from core.models import Ticket
 from exceptions.db import ObjectNotFoundException
 from repositories.ticket import TicketQueryRepository
 from schemas.ticket import TicketRead
-from services.base import QueryServiceBase
-from services.data_existence import DataExistenceServiceBase
+from services import (
+    QueryServiceBase,
+    DataExistenceServiceBase
+)
 
 
 class TicketQueryService(

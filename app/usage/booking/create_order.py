@@ -1,6 +1,10 @@
 import uuid
 from dataclasses import dataclass
-from datetime import datetime, timedelta, timezone
+from datetime import (
+    datetime,
+    timedelta,
+    timezone
+)
 
 from constants import OrderLimits
 from domain.rules import (
@@ -16,14 +20,28 @@ from repositories import (
     SessionPriceRepository,
     UnitOfWork
 )
-from schemas.booking import BookingOrderCreateReq, BookingOrderRead, BookingTicketNestedCreateReq
+from schemas.booking import (
+    BookingOrderCreateReq,
+    BookingOrderRead,
+    BookingTicketNestedCreateReq
+)
 from schemas.order import OrderCreateDB
-from services.booking import BookingDataAssembler, TicketBuilderService, OrderSchedulerService, PricingStrategy, \
+from services import (
+    SeatDataExistenceService,
+    SessionDataExistenceService,
+    SessionPriceDataExistenceService,
+)
+from services.booking import (
+    BookingDataAssembler,
+    TicketBuilderService,
+    OrderSchedulerService,
+    PricingStrategy,
     OrderTicketAdapter
-from services.booking.types import SeatMap, SessionMap
-from services.seat import SeatDataExistenceService
-from services.session import SessionDataExistenceService
-from services.session_price import SessionPriceDataExistenceService
+)
+from services.booking.types import (
+    SeatMap,
+    SessionMap
+)
 
 
 @dataclass(frozen=True, slots=True)

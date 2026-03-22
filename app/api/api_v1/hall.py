@@ -9,7 +9,7 @@ from schemas.hall import (
     HallCreateReq,
     HallUpdateReq
 )
-from services.hall import HallService
+from services import HallService
 
 router = APIRouter(route_class=DishkaRoute)
 

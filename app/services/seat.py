@@ -10,8 +10,10 @@ from schemas.seat import (
     SeatUpdateReq,
     SeatUpdateDB
 )
-from services.base import ServiceBase
-from services.data_existence import DataExistenceServiceBase
+from services import (
+    ServiceBase,
+    DataExistenceServiceBase
+)
 
 
 class SeatService(

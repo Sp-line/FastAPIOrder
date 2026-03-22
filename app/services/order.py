@@ -1,8 +1,10 @@
 from core.models import Order
 from repositories import OrderQueryRepository
 from schemas.order import OrderAdminRead
-from services.base import QueryServiceBase
-from services.data_existence import DataExistenceServiceBase
+from services import (
+    QueryServiceBase,
+    DataExistenceServiceBase
+)
 
 
 class OrderQueryService(

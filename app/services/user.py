@@ -9,7 +9,7 @@ from schemas.user import (
     UserCreateDB,
     UserUpdateDB
 )
-from services.base import ServiceBase
+from services import ServiceBase
 
 
 class UserService(

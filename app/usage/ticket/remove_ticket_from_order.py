@@ -11,10 +11,15 @@ from repositories import (
     TicketRepository,
     UnitOfWork,
 )
-from schemas.order import OrderRead, OrderUpdateDB
+from schemas.order import (
+    OrderRead,
+    OrderUpdateDB
+)
+from services import (
+    OrderDataExistenceService,
+    TicketDataExistenceService
+)
 from services.booking import PricingStrategy
-from services.order import OrderDataExistenceService
-from services.ticket import TicketDataExistenceService
 
 if TYPE_CHECKING:
     from core.models import Order

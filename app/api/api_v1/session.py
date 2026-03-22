@@ -9,7 +9,7 @@ from schemas.session import (
     SessionUpdateReq,
     SessionCreateReq,
 )
-from services.session import SessionService
+from services import SessionService
 
 router = APIRouter(route_class=DishkaRoute)
 

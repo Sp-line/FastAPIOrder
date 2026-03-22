@@ -9,7 +9,7 @@ from schemas.seat import (
     SeatCreateReq,
     SeatUpdateReq
 )
-from services.seat import SeatService
+from services import SeatService
 
 router = APIRouter(route_class=DishkaRoute)
 

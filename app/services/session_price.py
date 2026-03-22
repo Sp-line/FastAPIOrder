@@ -19,12 +19,14 @@ from schemas.session_price import (
     SessionPriceCreateDB,
     SessionPriceUpdateDB,
 )
-from services.base import ServiceBase
+from services import (
+    ServiceBase,
+    DataExistenceServiceBase
+)
 from services.booking.types import (
     SeatMap,
     PriceMap
 )
-from services.data_existence import DataExistenceServiceBase
 
 if TYPE_CHECKING:
     from constants import SeatType

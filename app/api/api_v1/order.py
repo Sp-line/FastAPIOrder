@@ -5,7 +5,7 @@ from dishka.integrations.fastapi import (
 from fastapi import APIRouter
 
 from schemas.order import OrderAdminRead
-from services.order import OrderQueryService
+from services import OrderQueryService
 
 router = APIRouter(route_class=DishkaRoute)
 

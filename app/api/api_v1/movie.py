@@ -9,7 +9,7 @@ from schemas.movie import (
     MovieCreateReq,
     MovieUpdateReq,
 )
-from services.movie import MovieService
+from services import MovieService
 
 router = APIRouter(route_class=DishkaRoute)
 

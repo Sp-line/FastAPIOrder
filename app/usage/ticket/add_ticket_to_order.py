@@ -17,12 +17,20 @@ from repositories import (
     UnitOfWork
 )
 from schemas.order import OrderUpdateDB
-from schemas.ticket import TicketCreateReq, TicketRead
-from services.booking import TicketBuilderService, PricingStrategy
-from services.order import OrderDataExistenceService
-from services.seat import SeatDataExistenceService
-from services.session import SessionDataExistenceService
-from services.session_price import SessionPriceDataExistenceService
+from schemas.ticket import (
+    TicketCreateReq,
+    TicketRead
+)
+from services import (
+    OrderDataExistenceService,
+    SeatDataExistenceService,
+    SessionDataExistenceService,
+    SessionPriceDataExistenceService
+)
+from services.booking import (
+    TicketBuilderService,
+    PricingStrategy
+)
 
 if TYPE_CHECKING:
     from core.models import Order, Seat, Session

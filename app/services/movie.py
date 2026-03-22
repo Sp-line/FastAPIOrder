@@ -9,7 +9,7 @@ from schemas.movie import (
     MovieCreateDB,
     MovieUpdateDB
 )
-from services.base import ServiceBase
+from services import ServiceBase
 
 
 class MovieService(
