@@ -1,38 +1,31 @@
 from __future__ import annotations
-from collections.abc import Iterable
+
 from typing import TYPE_CHECKING
 
-from core.models.mixins.int_id_pk import IntIdPkMixin
-from schemas.booking import BookingTicketNestedCreateReq
 from schemas.session_price import SessionPriceCombination
+from services.data_assembler import DataAssemblerServiceBase
 
 if TYPE_CHECKING:
     from core.models import SessionPrice
     from services.booking.types import SeatMap, PriceMap
+    from collections.abc import Iterable
+    from typing import Any
 
 
-class BookingDataAssembler:
-    @staticmethod
-    def build_map[TModel: IntIdPkMixin](data: Iterable[TModel]) -> dict[int, TModel]:
-        return {item.id: item for item in data}
-
+class BookingDataAssembler(DataAssemblerServiceBase):
     @staticmethod
     def build_prices_map(prices: Iterable[SessionPrice]) -> PriceMap:
         return {(p.session_id, p.seat_type): p for p in prices}
 
     @staticmethod
     def build_price_conditions(
-            tickets: list[BookingTicketNestedCreateReq],
+            data: Iterable[Any],
             seats_map: SeatMap
     ) -> set[SessionPriceCombination]:
         return {
             SessionPriceCombination(
-                session_id=t.session_id,
-                seat_type=seats_map[t.seat_id].type
+                session_id=getattr(item, "session_id"),
+                seat_type=seats_map[getattr(item, "seat_id")].type
             )
-            for t in tickets
+            for item in data
         }
-
-    @staticmethod
-    def get_ids(field: str, data: list[BookingTicketNestedCreateReq]) -> set[int]:
-        return {getattr(item, field) for item in data}
