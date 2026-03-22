@@ -9,22 +9,19 @@ from sqlalchemy.orm import selectinload
 from constants import OrderStatus
 from core.models import Order
 from repositories.integrity_handlers import order_error_handler
-from repositories.base import RepositoryBase
+from repositories.base import QueryRepositoryBase, CommandRepositoryBase
 from schemas.order import OrderCreateDB, OrderUpdateDB
 
 
-class OrderRepository(
-    RepositoryBase[
+class OrderQueryRepository(
+    QueryRepositoryBase[
         Order,
-        OrderCreateDB,
-        OrderUpdateDB,
     ]
 ):
     def __init__(self, session: AsyncSession) -> None:
         super().__init__(
             model=Order,
-            session=session,
-            table_error_handler=order_error_handler,
+            session=session
         )
 
     async def has_active_unpaid_order(self, user_id: int) -> bool:
@@ -65,3 +62,27 @@ class OrderRepository(
 
         result = await self._session.execute(stmt)
         return result.scalars().all()
+
+
+class OrderCommandRepository(
+    CommandRepositoryBase[
+        Order,
+        OrderCreateDB,
+        OrderUpdateDB,
+    ]
+):
+    def __init__(self, session: AsyncSession) -> None:
+        super().__init__(
+            model=Order,
+            session=session,
+            table_error_handler=order_error_handler
+        )
+
+
+class OrderRepository(
+    OrderQueryRepository,
+    OrderCommandRepository
+):
+    def __init__(self, session: AsyncSession) -> None:
+        OrderQueryRepository.__init__(self, session=session)
+        OrderCommandRepository.__init__(self, session=session)
