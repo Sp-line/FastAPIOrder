@@ -1,10 +1,20 @@
 from uuid import UUID
 
-from dishka.integrations.fastapi import DishkaRoute, FromDishka
+from dishka.integrations.fastapi import (
+    DishkaRoute,
+    FromDishka,
+)
 from fastapi import APIRouter
 
-from schemas.booking import BookingOrderRead, BookingOrderCreateReq
-from usage.booking import GetBookingByNumberUsage, GetBookingsByUserIDUsage, CreateBookingUsage
+from schemas.booking import (
+    BookingOrderRead,
+    BookingOrderCreateReq,
+)
+from usage.booking import (
+    GetBookingByNumberUsage,
+    GetBookingsByUserIDUsage,
+    CreateBookingUsage,
+)
 
 router = APIRouter(route_class=DishkaRoute)
 

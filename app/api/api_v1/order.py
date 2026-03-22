@@ -1,4 +1,7 @@
-from dishka.integrations.fastapi import DishkaRoute, FromDishka
+from dishka.integrations.fastapi import (
+    DishkaRoute,
+    FromDishka,
+)
 from fastapi import APIRouter
 
 from schemas.order import OrderAdminRead

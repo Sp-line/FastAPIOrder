@@ -1,7 +1,14 @@
-from dishka.integrations.fastapi import DishkaRoute, FromDishka
+from dishka.integrations.fastapi import (
+    DishkaRoute,
+    FromDishka
+)
 from fastapi import APIRouter
 
-from schemas.session import SessionRead, SessionUpdateReq, SessionCreateReq
+from schemas.session import (
+    SessionRead,
+    SessionUpdateReq,
+    SessionCreateReq,
+)
 from services.session import SessionService
 
 router = APIRouter(route_class=DishkaRoute)

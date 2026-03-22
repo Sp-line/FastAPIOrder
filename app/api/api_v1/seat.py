@@ -1,7 +1,14 @@
-from dishka.integrations.fastapi import DishkaRoute, FromDishka
+from dishka.integrations.fastapi import (
+    DishkaRoute,
+    FromDishka,
+)
 from fastapi import APIRouter
 
-from schemas.seat import SeatRead, SeatCreateReq, SeatUpdateReq
+from schemas.seat import (
+    SeatRead,
+    SeatCreateReq,
+    SeatUpdateReq
+)
 from services.seat import SeatService
 
 router = APIRouter(route_class=DishkaRoute)
