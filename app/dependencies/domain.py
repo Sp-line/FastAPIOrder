@@ -2,6 +2,9 @@ from dishka import Provider, Scope, provide
 
 from domain.rules import EnsureOrderCanBeModified, EnsureSessionIsOpen, EnsureSeatValidForSession, \
     EnsureUserCanCreateOrder
+from usage.booking.create_order import CreateBookingDomain
+from usage.ticket.add_ticket_to_order import AddTicketToOrderDomain
+from usage.ticket.remove_ticket_from_order import RemoveTicketFromOrderDomain
 
 
 class DomainProvider(Provider):
@@ -14,3 +17,7 @@ class DomainProvider(Provider):
     @provide
     def get_ensure_session_is_open(self) -> EnsureSessionIsOpen:
         return EnsureSessionIsOpen()
+
+    get_create_booking_domain = provide(CreateBookingDomain)
+    get_add_ticket_to_order_domain = provide(AddTicketToOrderDomain)
+    get_remove_ticket_from_order_domain = provide(RemoveTicketFromOrderDomain)
