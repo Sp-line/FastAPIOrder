@@ -1,7 +1,9 @@
+from core.models import Session
 from repositories.session import SessionRepository
 from repositories.unit_of_work import UnitOfWork
 from schemas.session import SessionRead, SessionCreateDB, SessionUpdateDB, SessionCreateReq, SessionUpdateReq
 from services.base import ServiceBase
+from services.data_existence import DataExistenceServiceBase
 
 
 class SessionService(
@@ -18,8 +20,19 @@ class SessionService(
         super().__init__(
             repository=repository,
             unit_of_work=unit_of_work,
-            table_name="seats",
+            table_name="sessions",
             read_schema=SessionRead,
             db_create_schema=SessionCreateDB,
             db_update_schema=SessionUpdateDB,
+        )
+
+
+class SessionDataExistenceService(
+    DataExistenceServiceBase[
+        Session,
+    ]
+):
+    def __init__(self) -> None:
+        super().__init__(
+            table_name="sessions"
         )
