@@ -96,7 +96,7 @@ class CreateBookingUsage:
             await self._order_repo.has_active_unpaid_order(data.user_id)
         )
 
-        session_ids = self._data_assembler.get_ids("session_id", data.tickets)
+        session_ids = self._data_assembler.get_ids(data.tickets, "session_id")
         sessions = await self._session_repo.get_many_with_movie(session_ids)
         sessions_map = self._data_assembler.build_map(sessions)
         self._data_existence.session.ensure_objs_exist(
@@ -106,7 +106,7 @@ class CreateBookingUsage:
         )
         self._ensure_session_is_open(sessions_map)
 
-        seat_ids = self._data_assembler.get_ids("seat_id", data.tickets)
+        seat_ids = self._data_assembler.get_ids(data.tickets, "seat_id")
         seats = await self._seat_repo.get_many_with_hall(seat_ids)
         seats_map = self._data_assembler.build_map(seats)
         self._data_existence.seat.ensure_objs_exist(
