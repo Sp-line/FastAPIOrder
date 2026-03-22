@@ -1,7 +1,11 @@
 from dishka import Provider, Scope, provide
 
-from domain.rules import EnsureOrderCanBeModified, EnsureSessionIsOpen, EnsureSeatValidForSession, \
-    EnsureUserCanCreateOrder
+from domain import (
+    EnsureOrderCanBeModified,
+    EnsureSessionIsOpen,
+    EnsureSeatValidForSession,
+    EnsureUserCanCreateOrder,
+)
 from usage.booking.create_order import CreateBookingDomain
 from usage.ticket.add_ticket_to_order import AddTicketToOrderDomain
 from usage.ticket.remove_ticket_from_order import RemoveTicketFromOrderDomain

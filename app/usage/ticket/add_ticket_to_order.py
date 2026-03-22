@@ -3,7 +3,11 @@ from __future__ import annotations
 from dataclasses import dataclass
 from typing import TYPE_CHECKING
 
-from domain.rules import EnsureSessionIsOpen, EnsureOrderCanBeModified, EnsureSeatValidForSession
+from domain.rules import (
+    EnsureSessionIsOpen,
+    EnsureOrderCanBeModified,
+    EnsureSeatValidForSession,
+)
 from repositories.order import OrderRepository
 from repositories.seat import SeatRepository
 from repositories.session import SessionRepository

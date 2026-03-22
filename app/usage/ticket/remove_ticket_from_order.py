@@ -5,7 +5,7 @@ from decimal import Decimal
 from typing import TYPE_CHECKING
 
 from constants import OrderStatus
-from domain.rules import EnsureOrderCanBeModified
+from domain import EnsureOrderCanBeModified
 from repositories.order import OrderRepository
 from repositories.ticket import TicketRepository
 from repositories.unit_of_work import UnitOfWork

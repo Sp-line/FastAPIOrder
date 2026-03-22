@@ -3,7 +3,11 @@ from dataclasses import dataclass
 from datetime import datetime, timedelta, timezone
 
 from constants import OrderLimits
-from domain.rules import EnsureUserCanCreateOrder, EnsureSessionIsOpen, EnsureSeatValidForSession
+from domain.rules import (
+    EnsureUserCanCreateOrder,
+    EnsureSessionIsOpen,
+    EnsureSeatValidForSession,
+)
 from repositories.order import OrderRepository
 from repositories.seat import SeatRepository
 from repositories.session import SessionRepository
