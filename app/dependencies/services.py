@@ -10,6 +10,9 @@ from services.session import SessionService, SessionDataExistenceService
 from services.session_price import SessionPriceService, SessionPriceDataExistenceService
 from services.ticket import TicketQueryService, TicketDataExistenceService
 from services.user import UserService
+from usage.booking.create_order import CreateBookingDataExistenceServices
+from usage.ticket.add_ticket_to_order import AddTicketToOrderDataExistenceServices
+from usage.ticket.remove_ticket_from_order import RemoveTicketFromOrderDataExistenceServices
 
 
 class ServiceProvider(Provider):
@@ -41,3 +44,7 @@ class ServiceProvider(Provider):
     get_default_pricing = provide(DefaultPricing)
     pricing_alias = alias(source=DefaultPricing, provides=PricingStrategy)
     get_order_scheduler_service = provide(OrderSchedulerService)
+
+    get_create_booking_data_existence_services = provide(CreateBookingDataExistenceServices)
+    get_add_ticket_to_order_data_existence_services = provide(AddTicketToOrderDataExistenceServices)
+    get_remove_ticket_from_order_data_existence_services = provide(RemoveTicketFromOrderDataExistenceServices)
