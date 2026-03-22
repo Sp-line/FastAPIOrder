@@ -70,16 +70,3 @@ class TicketRead(TicketBaseWithRelations):
     snapshot: TicketSnapshot
 
     model_config = ConfigDict(from_attributes=True)
-
-
-class TicketNestedRead(BaseModel):
-    session_id: PositiveInt
-    seat_id: PositiveInt
-
-    public_code: UUID
-
-    status: TicketStatus
-    price: Annotated[Decimal, Field(ge=TicketLimits.PRICE_MIN)]
-    snapshot: TicketSnapshot
-
-    model_config = ConfigDict(from_attributes=True)
