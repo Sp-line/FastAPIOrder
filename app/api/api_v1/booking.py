@@ -15,7 +15,7 @@ from usage.booking import (
     GetBookingByNumberUsage,
     GetBookingsByUserIDUsage,
     CreateBookingUsage,
-    GetTicketByPublicCodeUsage,
+    GetTicketByPublicCodeUsage, GetTicketsByUserIdUsage,
 )
 
 router = APIRouter(route_class=DishkaRoute)
@@ -53,3 +53,13 @@ async def get_ticket_by_public_code(
         get_ticket_by_public_code_usage: FromDishka[GetTicketByPublicCodeUsage]
 ) -> TicketRead:
     return await get_ticket_by_public_code_usage(public_code)
+
+
+@router.get("/orders/tickets/users/{user_id}")
+async def get_tickets_by_user_id(
+        get_ticket_by_user_id_usage: FromDishka[GetTicketsByUserIdUsage],
+        user_id: int,
+        skip: int = 0,
+        limit: int = 100,
+        ) -> list[TicketRead]:
+    return await get_ticket_by_user_id_usage(user_id, skip, limit)

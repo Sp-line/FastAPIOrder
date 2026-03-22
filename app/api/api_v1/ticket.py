@@ -28,11 +28,6 @@ async def get_ticket(ticket_id: int, service: FromDishka[TicketQueryService]) ->
     return await service.get_by_id(ticket_id)
 
 
-@router.get("/list/{user_id}")
-async def get_tickets_by_user_id(user_id: int, service: FromDishka[TicketQueryService]) -> list[TicketRead]:
-    return await service.get_by_user_id(user_id)
-
-
 @router.post("/", summary="[Admin] Create Ticket")
 async def create_ticket(
         data: TicketCreateReq,
