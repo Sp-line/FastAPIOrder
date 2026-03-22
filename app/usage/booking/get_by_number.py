@@ -1,19 +1,19 @@
 from uuid import UUID
 
 from exceptions.db import ObjectNotFoundException
-from repositories.order import OrderRepository
+from repositories.order import OrderQueryRepository
 from schemas.booking import BookingOrderRead
 
 
 class GetBookingByNumberUsage:
     def __init__(
             self,
-            order_repo: OrderRepository,
+            order_query_repo: OrderQueryRepository,
     ) -> None:
-        self._order_repo = order_repo
+        self._order_query_repo = order_query_repo
 
     async def __call__(self, order_number: UUID) -> BookingOrderRead:
-        if not (obj := await self._order_repo.get_aggregate_by_number(order_number)):
+        if not (obj := await self._order_query_repo.get_aggregate_by_number(order_number)):
             raise ObjectNotFoundException(
                 conditions={
                     "order_number": order_number,
