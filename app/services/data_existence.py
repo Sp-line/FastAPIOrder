@@ -31,9 +31,18 @@ class DataExistenceServiceBase[TModel: IntIdPkMixin]:
 
         return obj_id
 
-    def ensure_obj_exist(self, obj_id: int, obj: TModel | None) -> TModel:
+    def ensure_obj_exist(
+            self,
+            obj: TModel | None,
+            obj_id: int | None = None,
+            conditions: dict[str, Any] | None = None,
+    ) -> TModel:
         if not obj:
-            raise ObjectNotFoundException(obj_id=obj_id, table_name=self._table_name)
+            raise ObjectNotFoundException(
+                obj_id=obj_id,
+                conditions=conditions,
+                table_name=self._table_name
+            )
         return obj
 
     def ensure_objs_exist(

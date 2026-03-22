@@ -82,20 +82,20 @@ class AddTicketToOrderUsage:
 
     async def __call__(self, data: TicketCreateReq) -> TicketRead:
         order = self._data_existence_services.order.ensure_obj_exist(
-            data.order_id,
-            await self._order_repo.get_by_id(data.order_id)
+            obj=await self._order_repo.get_by_id(data.order_id),
+            obj_id=data.order_id,
         )
         self._ensure_order_can_be_modified(order)
 
         session = self._data_existence_services.session.ensure_obj_exist(
-            data.session_id,
-            await self._session_repo.get_with_movie(data.session_id)
+            obj=await self._session_repo.get_with_movie(data.session_id),
+            obj_id=data.session_id,
         )
         self._ensure_session_is_open(session)
 
         seat = self._data_existence_services.seat.ensure_obj_exist(
-            data.seat_id,
-            await self._seat_repo.get_with_hall(data.seat_id),
+            obj=await self._seat_repo.get_with_hall(data.seat_id),
+            obj_id=data.seat_id,
         )
 
         self._ensure_seat_valid_for_session(seat, session)

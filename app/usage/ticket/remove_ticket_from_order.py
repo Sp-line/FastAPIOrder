@@ -59,13 +59,13 @@ class RemoveTicketFromOrderUsage:
 
     async def __call__(self, ticket_id: int) -> OrderRead:
         ticket = self._data_existence_services.ticket.ensure_obj_exist(
-            ticket_id,
-            await self._ticket_repo.get_by_id(ticket_id),
+            obj=await self._ticket_repo.get_by_id(ticket_id),
+            obj_id=ticket_id,
         )
 
         order = self._data_existence_services.order.ensure_obj_exist(
-            ticket.order_id,
-            await self._order_repo.get_by_id(ticket.order_id)
+            await self._order_repo.get_by_id(ticket.order_id),
+            obj_id=ticket.order_id,
         )
         self._ensure_order_can_be_modified(order)
 
