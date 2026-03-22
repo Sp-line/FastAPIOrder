@@ -1,9 +1,11 @@
 __all__ = (
     "CreateBookingUsage",
     "GetBookingByNumberUsage",
-    "GetBookingsByUserIDUsage"
+    "GetBookingsByUserIDUsage",
+    "GetTicketByPublicCodeUsage"
 )
 
 from usage.booking.create_order import CreateBookingUsage
 from usage.booking.get_by_number import GetBookingByNumberUsage
 from usage.booking.get_by_user_id import GetBookingsByUserIDUsage
+from usage.booking.get_ticket_by_public_code import GetTicketByPublicCodeUsage
