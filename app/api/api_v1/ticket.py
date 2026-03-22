@@ -3,9 +3,10 @@ from uuid import UUID
 from dishka.integrations.fastapi import DishkaRoute, FromDishka
 from fastapi import APIRouter
 
+from schemas.order import OrderRead
 from schemas.ticket import TicketRead, TicketCreateReq
-from services.order import OrderService
 from services.ticket import TicketQueryService
+from usage.ticket import AddTicketToOrderUsage, RemoveTicketFromOrderUsage
 
 router = APIRouter(route_class=DishkaRoute)
 
@@ -31,5 +32,10 @@ async def get_tickets_by_user_id(user_id: int, service: FromDishka[TicketQuerySe
 
 
 @router.post("/", summary="[Admin] Create Ticket")
-async def create_ticket(data: TicketCreateReq, service: FromDishka[OrderService]) -> TicketRead:
-    return await service.add_ticket_to_order(data)
+async def create_ticket(data: TicketCreateReq, add_ticket_to_order_usage: FromDishka[AddTicketToOrderUsage]) -> TicketRead:
+    return await add_ticket_to_order_usage(data)
+
+
+@router.delete("/{ticket_id}", summary="[Admin] Delete Ticket")
+async def delete_ticket(ticket_id: int, remove_ticket_from_order_usage: FromDishka[RemoveTicketFromOrderUsage]) -> OrderRead:
+    return await remove_ticket_from_order_usage(ticket_id)
