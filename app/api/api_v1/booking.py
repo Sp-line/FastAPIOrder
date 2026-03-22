@@ -3,10 +3,18 @@ from uuid import UUID
 from dishka.integrations.fastapi import DishkaRoute, FromDishka
 from fastapi import APIRouter
 
-from schemas.booking import BookingOrderRead
-from usage.booking import GetBookingByNumberUsage, GetBookingsByUserIDUsage
+from schemas.booking import BookingOrderRead, BookingOrderCreateReq
+from usage.booking import GetBookingByNumberUsage, GetBookingsByUserIDUsage, CreateBookingUsage
 
 router = APIRouter(route_class=DishkaRoute)
+
+
+@router.post("/orders", summary="Create Booking")
+async def create_booking(
+        data: BookingOrderCreateReq,
+        create_booking_usage: FromDishka[CreateBookingUsage]
+) -> BookingOrderRead:
+    return await create_booking_usage(data)
 
 
 @router.get("/orders/{order_number}", summary="Get Booking")
