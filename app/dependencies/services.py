@@ -30,6 +30,7 @@ from services.booking import (
 from usage.booking.create_order import CreateBookingDataExistenceServices
 from usage.ticket.add_ticket_to_order import AddTicketToOrderDataExistenceServices
 from usage.ticket.remove_ticket_from_order import RemoveTicketFromOrderDataExistenceServices
+from usage.ticket.update_ticket_status_in_order import UpdateTicketStatusInOrderDataExistenceServices
 
 
 class ServiceProvider(Provider):
@@ -66,3 +67,4 @@ class ServiceProvider(Provider):
     get_add_ticket_to_order_data_existence_services = provide(AddTicketToOrderDataExistenceServices)
     get_add_tickets_to_orders_data_existence_services = provide(AddTicketToOrderDataExistenceServices)
     get_remove_ticket_from_order_data_existence_services = provide(RemoveTicketFromOrderDataExistenceServices)
+    get_update_ticket_status_in_order_data_existence_services = provide(UpdateTicketStatusInOrderDataExistenceServices)
