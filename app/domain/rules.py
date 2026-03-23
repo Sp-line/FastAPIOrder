@@ -70,3 +70,19 @@ class EnsureValidTicketStatusTransition:
             raise BusinessLogicException(
                 message=f"Invalid ticket status transition from '{current_status.value}' to '{target_status.value}'."
             )
+
+
+class EnsureOrderIsPendingForPriceChange:
+    def __call__(self, order_status: OrderStatus) -> None:
+        if order_status != OrderStatus.PENDING:
+            raise BusinessLogicException(
+                message="Cannot change ticket price. Order must be in PENDING status."
+            )
+
+
+class EnsureTicketIsReservedForPriceChange:
+    def __call__(self, ticket_status: TicketStatus) -> None:
+        if ticket_status != TicketStatus.RESERVED:
+            raise BusinessLogicException(
+                message=f"Cannot change ticket price. Ticket must be in RESERVED status."
+            )
