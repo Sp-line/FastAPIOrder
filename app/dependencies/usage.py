@@ -14,7 +14,8 @@ from usage.booking import (
 from usage.ticket import (
     AddTicketToOrderUsage,
     RemoveTicketFromOrderUsage,
-    UpdateTicketStatusInOrderUsage
+    UpdateTicketStatusInOrderUsage,
+    UpdateTicketPriceInOrderUsage
 )
 
 
@@ -30,3 +31,4 @@ class UsageProvider(Provider):
     get_add_ticket_to_order_usage = provide(AddTicketToOrderUsage)
     get_remove_ticket_from_order_usage = provide(RemoveTicketFromOrderUsage)
     get_update_ticket_status_in_order_usage = provide(UpdateTicketStatusInOrderUsage)
+    get_update_ticket_price_in_order_usage = provide(UpdateTicketPriceInOrderUsage)
