@@ -1,6 +1,14 @@
-from datetime import datetime, timezone, timedelta
+from datetime import (
+    datetime,
+    timezone,
+    timedelta
+)
 
-from constants import OrderStatus, OrderLimits
+from constants import (
+    OrderStatus,
+    OrderLimits,
+    TicketStatus
+)
 from exceptions.business import BusinessLogicException
 
 
@@ -38,4 +46,27 @@ class EnsureUserCanCreateOrder:
         if has_active_orders:
             raise BusinessLogicException(
                 message="You already have an active unpaid order."
+            )
+
+
+class EnsureValidTicketStatusTransition:
+    def __call__(self, current_status: TicketStatus, target_status: TicketStatus) -> None:
+        if current_status == target_status:
+            raise BusinessLogicException(
+                message=f"Ticket is already in '{target_status.value}' status."
+            )
+
+        allowed_transitions = {
+            TicketStatus.RESERVED: {TicketStatus.ACTIVE, TicketStatus.CANCELLED},
+            TicketStatus.ACTIVE: {TicketStatus.USED, TicketStatus.REFUND_PENDING, TicketStatus.CANCELLED},
+            TicketStatus.USED: {TicketStatus.ACTIVE, TicketStatus.REFUND_PENDING},
+            TicketStatus.EXPIRED: set(),
+            TicketStatus.REFUNDED: set(),
+            TicketStatus.REFUND_PENDING: set(),
+            TicketStatus.CANCELLED: set(),
+        }
+
+        if target_status not in allowed_transitions.get(current_status, set()):
+            raise BusinessLogicException(
+                message=f"Invalid ticket status transition from '{current_status.value}' to '{target_status.value}'."
             )
