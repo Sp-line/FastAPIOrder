@@ -74,3 +74,7 @@ class TicketRead(TicketBaseWithRelations):
 
 class TicketStatusUpdateReq(BaseModel):
     status: TicketStatus
+
+
+class TicketPriceUpdateReq(BaseModel):
+    price: Annotated[Decimal, Field(ge=TicketLimits.PRICE_MIN)]
