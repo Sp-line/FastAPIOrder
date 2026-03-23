@@ -15,5 +15,6 @@ class TicketStatus(StrEnum):
     ACTIVE = "active"
     USED = "used"
     EXPIRED = "expired"
-    RETURNED = "returned"
+    REFUND_PENDING = "refund_pending"
+    REFUNDED = "refunded"
     CANCELLED = "cancelled"
