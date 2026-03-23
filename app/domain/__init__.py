@@ -4,6 +4,8 @@ __all__ = (
     "EnsureSeatValidForSession",
     "EnsureUserCanCreateOrder",
     "EnsureValidTicketStatusTransition",
+    "EnsureOrderIsPendingForPriceChange",
+    "EnsureTicketIsReservedForPriceChange",
 )
 
 from domain.rules import (
@@ -12,4 +14,6 @@ from domain.rules import (
     EnsureSeatValidForSession,
     EnsureUserCanCreateOrder,
     EnsureValidTicketStatusTransition,
+    EnsureOrderIsPendingForPriceChange,
+    EnsureTicketIsReservedForPriceChange,
 )
