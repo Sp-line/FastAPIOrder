@@ -3,6 +3,7 @@ __all__ = (
     "EnsureSessionIsOpen",
     "EnsureSeatValidForSession",
     "EnsureUserCanCreateOrder",
+    "EnsureValidTicketStatusTransition",
 )
 
 from domain.rules import (
@@ -10,4 +11,5 @@ from domain.rules import (
     EnsureSessionIsOpen,
     EnsureSeatValidForSession,
     EnsureUserCanCreateOrder,
+    EnsureValidTicketStatusTransition,
 )
