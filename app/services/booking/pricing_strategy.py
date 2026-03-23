@@ -17,14 +17,18 @@ class PricingStrategy(ABC):
 
     @staticmethod
     @abstractmethod
-    def increment_by_one(order_total_price: Decimal, new_ticket_price: Decimal) -> Decimal:
+    def add_ticket(order_total_price: Decimal, new_ticket_price: Decimal) -> Decimal:
         ...
 
     @staticmethod
     @abstractmethod
-    def decrement_by_one(order_total_price: Decimal, removed_ticket_price: Decimal) -> Decimal:
+    def remove_ticket(order_total_price: Decimal, removed_ticket_price: Decimal) -> Decimal:
         ...
 
+    @staticmethod
+    @abstractmethod
+    def update_ticket_price(order_total: Decimal, old_price: Decimal, new_price: Decimal) -> Decimal:
+        ...
 
 class DefaultPricing(PricingStrategy):
     @staticmethod
@@ -44,9 +48,17 @@ class DefaultPricing(PricingStrategy):
         return total
 
     @staticmethod
-    def increment_by_one(order_total_price: Decimal, new_ticket_price: Decimal) -> Decimal:
+    def add_ticket(order_total_price: Decimal, new_ticket_price: Decimal) -> Decimal:
         return order_total_price + new_ticket_price
 
     @staticmethod
-    def decrement_by_one(order_total_price: Decimal, removed_ticket_price: Decimal) -> Decimal:
+    def remove_ticket(order_total_price: Decimal, removed_ticket_price: Decimal) -> Decimal:
         return order_total_price - removed_ticket_price
+
+    @staticmethod
+    def update_ticket_price(
+            order_total_price: Decimal,
+            old_ticket_price: Decimal,
+            new_ticket_price: Decimal
+    ) -> Decimal:
+        return order_total_price - old_ticket_price + new_ticket_price

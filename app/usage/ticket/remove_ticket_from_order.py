@@ -69,7 +69,7 @@ class RemoveTicketFromOrderUsage:
         )
         self._ensure_order_can_be_modified(order)
 
-        new_total_price = self._pricing.decrement_by_one(
+        new_total_price = self._pricing.remove_ticket(
             order_total_price=order.total_price,
             removed_ticket_price=ticket.price
         )

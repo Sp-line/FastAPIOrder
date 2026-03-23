@@ -129,7 +129,7 @@ class AddTicketsToOrdersUsage:
                 )
             tickets_create.append(ticket_create)
 
-            updated_order_prices[ticket.order_id] = self._pricing.increment_by_one(
+            updated_order_prices[ticket.order_id] = self._pricing.add_ticket(
                 order_total_price=updated_order_prices[ticket.order_id],
                 new_ticket_price=price.price
             )

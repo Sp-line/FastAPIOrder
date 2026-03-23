@@ -122,7 +122,7 @@ class AddTicketToOrderUsage:
             await self._order_repo.update(
                 obj_id=order.id,
                 data=OrderUpdateDB(
-                    total_price=self._pricing.increment_by_one(
+                    total_price=self._pricing.add_ticket(
                         order_total_price=order.total_price,
                         new_ticket_price=ticket.price
                     )
