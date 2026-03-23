@@ -8,14 +8,16 @@ from schemas.order import OrderRead
 from schemas.ticket import (
     TicketRead,
     TicketCreateReq,
-    TicketStatusUpdateReq
+    TicketStatusUpdateReq,
+    TicketPriceUpdateReq
 )
 from services import TicketQueryService
 from usage.ticket import (
     AddTicketToOrderUsage,
     RemoveTicketFromOrderUsage,
     AddTicketsToOrdersUsage,
-    UpdateTicketStatusInOrderUsage
+    UpdateTicketStatusInOrderUsage,
+    UpdateTicketPriceInOrderUsage
 )
 
 router = APIRouter(route_class=DishkaRoute)
@@ -55,10 +57,19 @@ async def delete_ticket(
     return await remove_ticket_from_order_usage(ticket_id)
 
 
-@router.patch("/status/{ticket_id}", summary="[Admin] Update Ticket Status")
+@router.put("/status/{ticket_id}", summary="[Admin] Update Ticket Status")
 async def update_ticket_status(
         ticket_id: int,
         data: TicketStatusUpdateReq,
         update_ticket_status_in_order_usage: FromDishka[UpdateTicketStatusInOrderUsage],
 ) -> TicketRead:
     return await update_ticket_status_in_order_usage(ticket_id, data)
+
+
+@router.put("/price/{ticket_id}", summary="[Admin] Update Ticket Price")
+async def update_ticket_price(
+        ticket_id: int,
+        data: TicketPriceUpdateReq,
+        update_ticket_price_in_order_usage: FromDishka[UpdateTicketPriceInOrderUsage],
+) -> TicketRead:
+    return await update_ticket_price_in_order_usage(ticket_id, data)
