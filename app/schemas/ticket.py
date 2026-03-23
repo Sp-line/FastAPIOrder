@@ -70,3 +70,7 @@ class TicketRead(TicketBaseWithRelations):
     snapshot: TicketSnapshot
 
     model_config = ConfigDict(from_attributes=True)
+
+
+class TicketStatusUpdateReq(BaseModel):
+    status: TicketStatus
