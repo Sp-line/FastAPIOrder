@@ -18,7 +18,8 @@ from services import (
     SessionPriceDataExistenceService,
     TicketQueryService,
     TicketDataExistenceService,
-    UserService
+    UserService,
+    UserDataExistenceService
 )
 from services.booking import (
     BookingDataAssembler,
@@ -28,6 +29,7 @@ from services.booking import (
     OrderSchedulerService
 )
 from usage.booking.create_order import CreateBookingDataExistenceServices
+from usage.order.create import CreateOrderDataExistenceServices
 from usage.ticket.add_ticket_to_order import AddTicketToOrderDataExistenceServices
 from usage.ticket.remove_ticket_from_order import RemoveTicketFromOrderDataExistenceServices
 from usage.ticket.update_ticket_price_in_order import UpdateTicketPriceInOrderDataExistenceServices
@@ -51,6 +53,7 @@ class ServiceProvider(Provider):
     get_session_price_data_existence = provide(SessionPriceDataExistenceService)
 
     get_user_service = provide(UserService)
+    get_user_data_existence = provide(UserDataExistenceService)
 
     get_order_service = provide(OrderQueryService)
     get_order_data_existence = provide(OrderDataExistenceService)
@@ -70,3 +73,5 @@ class ServiceProvider(Provider):
     get_remove_ticket_from_order_data_existence_services = provide(RemoveTicketFromOrderDataExistenceServices)
     get_update_ticket_status_in_order_data_existence_services = provide(UpdateTicketStatusInOrderDataExistenceServices)
     get_update_ticket_price_in_order_data_existence_services = provide(UpdateTicketPriceInOrderDataExistenceServices)
+
+    get_create_order_data_existence_services = provide(CreateOrderDataExistenceServices)
