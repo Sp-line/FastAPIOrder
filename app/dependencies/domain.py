@@ -11,9 +11,10 @@ from domain import (
     EnsureUserCanCreateOrder,
     EnsureValidTicketStatusTransition,
     EnsureOrderIsPendingForPriceChange,
-    EnsureTicketIsReservedForPriceChange,
+    EnsureTicketIsReservedForPriceChange, EnsureValidOrderStatusTransition,
 )
 from usage.booking.create_order import CreateBookingDomain
+from usage.order.update_status import UpdateOrderStatusDomain
 from usage.ticket.add_ticket_to_order import AddTicketToOrderDomain
 from usage.ticket.add_tickets_to_orders import AddTicketsToOrdersDomain
 from usage.ticket.remove_ticket_from_order import RemoveTicketFromOrderDomain
@@ -30,6 +31,7 @@ class DomainProvider(Provider):
     get_ensure_valid_ticket_status_transition = provide(EnsureValidTicketStatusTransition)
     get_ensure_order_is_pending_for_price_change = provide(EnsureOrderIsPendingForPriceChange)
     get_ensure_ticket_is_reserved_for_price_change = provide(EnsureTicketIsReservedForPriceChange)
+    get_ensure_valid_order_status_transition = provide(EnsureValidOrderStatusTransition)
 
     @provide
     def get_ensure_session_is_open(self) -> EnsureSessionIsOpen:
@@ -42,3 +44,5 @@ class DomainProvider(Provider):
     get_remove_ticket_from_order_domain = provide(RemoveTicketFromOrderDomain)
     get_update_ticket_status_in_order_domain = provide(UpdateTicketStatusInOrderDomain)
     get_update_ticket_price_in_order_domain = provide(UpdateTicketPriceInOrderDomain)
+
+    get_update_order_status_domain = provide(UpdateOrderStatusDomain)
