@@ -14,7 +14,8 @@ from services import OrderQueryService
 from usage.order import (
     OrderCreateUsage,
     BulkCreateOrderUsage,
-    UpdateOrderStatusUsage
+    UpdateOrderStatusUsage,
+    OrderDeleteUsage
 )
 
 router = APIRouter(route_class=DishkaRoute)
@@ -53,3 +54,11 @@ async def update_order_status(
         update_order_status_usage: FromDishka[UpdateOrderStatusUsage],
 ) -> OrderRead:
     return await update_order_status_usage(order_id, data)
+
+
+@router.delete("/{order_id}", summary="[Admin] Delete Order")
+async def delete_order(
+        order_id: int,
+        order_delete_usage: FromDishka[OrderDeleteUsage]
+) -> None:
+    return await order_delete_usage(order_id)
