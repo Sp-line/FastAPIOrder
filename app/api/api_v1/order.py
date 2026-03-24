@@ -6,7 +6,7 @@ from fastapi import APIRouter
 
 from schemas.order import OrderAdminRead, OrderCreateReq, OrderRead
 from services import OrderQueryService
-from usage.order import OrderCreateUsage
+from usage.order import OrderCreateUsage, BulkCreateOrderUsage
 
 router = APIRouter(route_class=DishkaRoute)
 
@@ -27,3 +27,11 @@ async def create_order(
         data: OrderCreateReq
 ) -> OrderRead:
     return await create_order_usage(data)
+
+
+@router.post("/bulk", summary="[Admin] Bulk Create Order")
+async def bulk_create_orders(
+        data: list[OrderCreateReq],
+        bulk_create_order_usage: FromDishka[BulkCreateOrderUsage]
+) -> list[OrderRead]:
+    return await bulk_create_order_usage(data)
