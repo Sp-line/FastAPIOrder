@@ -14,7 +14,8 @@ from usage.booking import (
 from usage.order import (
     OrderCreateUsage,
     BulkCreateOrderUsage,
-    UpdateOrderStatusUsage
+    UpdateOrderStatusUsage,
+    OrderDeleteUsage
 )
 from usage.ticket import (
     AddTicketToOrderUsage,
@@ -41,3 +42,4 @@ class UsageProvider(Provider):
     get_create_order_usage = provide(OrderCreateUsage)
     get_bulk_create_order_usage = provide(BulkCreateOrderUsage)
     get_update_order_status_usage = provide(UpdateOrderStatusUsage)
+    get_delete_order_usage = provide(OrderDeleteUsage)
