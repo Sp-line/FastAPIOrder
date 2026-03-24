@@ -60,6 +60,7 @@ class EnsureValidTicketStatusTransition:
             TicketStatus.RESERVED: {TicketStatus.ACTIVE, TicketStatus.CANCELLED},
             TicketStatus.ACTIVE: {TicketStatus.USED, TicketStatus.REFUND_PENDING, TicketStatus.CANCELLED},
             TicketStatus.USED: {TicketStatus.ACTIVE, TicketStatus.REFUND_PENDING},
+
             TicketStatus.EXPIRED: set(),
             TicketStatus.REFUNDED: set(),
             TicketStatus.REFUND_PENDING: set(),
@@ -69,6 +70,28 @@ class EnsureValidTicketStatusTransition:
         if target_status not in allowed_transitions.get(current_status, set()):
             raise BusinessLogicException(
                 message=f"Invalid ticket status transition from '{current_status.value}' to '{target_status.value}'."
+            )
+
+
+class EnsureValidOrderStatusTransition:
+    def __call__(self, current_status: OrderStatus, target_status: OrderStatus) -> None:
+        if current_status == target_status:
+            raise BusinessLogicException(f"Order is already in '{target_status.value}' status.")
+
+        allowed_transitions = {
+            OrderStatus.PENDING: {OrderStatus.PAID, OrderStatus.CANCELED, OrderStatus.EXPIRED},
+            OrderStatus.PAID: {OrderStatus.REFUND_PENDING, OrderStatus.REFUNDED},
+            OrderStatus.REFUND_PENDING: {OrderStatus.REFUNDED, OrderStatus.CANCELED},
+
+            OrderStatus.EXPIRED: set(),
+            OrderStatus.FAILED: set(),
+            OrderStatus.CANCELED: set(),
+            OrderStatus.REFUNDED: set(),
+        }
+
+        if target_status not in allowed_transitions.get(current_status, set()):
+            raise BusinessLogicException(
+                f"Invalid order status transition from '{current_status.value}' to '{target_status.value}'."
             )
 
 
