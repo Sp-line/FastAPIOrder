@@ -109,3 +109,14 @@ class EnsureTicketIsReservedForPriceChange:
             raise BusinessLogicException(
                 message=f"Cannot change ticket price. Ticket must be in RESERVED status."
             )
+
+
+class EnsureOrderIsSafeToDelete:
+    def __call__(self, order_status: OrderStatus) -> None:
+        unsafe_statuses = {OrderStatus.PAID, OrderStatus.REFUND_PENDING}
+
+        if order_status in unsafe_statuses:
+            raise BusinessLogicException(
+                message=f"Cannot hard-delete order in '{order_status.value}' status. "
+                        "Please process a refund and change status to CANCELLED or REFUNDED first."
+            )
