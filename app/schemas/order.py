@@ -19,7 +19,7 @@ class OrderBaseWithRelations(OrderBase):
 
 
 class OrderCreateReq(OrderBaseWithRelations):
-    pass
+    expires_at: Annotated[datetime, Field(default_factory=lambda: datetime.now(timezone.utc) + timedelta(minutes=OrderLimits.EXPIRE_MINUTES))]
 
 
 class OrderCreateDB(OrderCreateReq):
@@ -27,7 +27,6 @@ class OrderCreateDB(OrderCreateReq):
     public_code: Annotated[str, Field(max_length=OrderLimits.PUBLIC_CODE_MAX, default_factory=generate_order_public_code)]
 
     status: Annotated[OrderStatus, Field(default=OrderStatus.PENDING)]
-    expires_at: Annotated[datetime, Field(default_factory=lambda: datetime.now(timezone.utc) + timedelta(minutes=OrderLimits.EXPIRE_MINUTES))]
     expire_schedule_id: Annotated[str | None, Field(max_length=OrderLimits.EXPIRE_SCHEDULE_ID_MAX)]
     total_price: Annotated[Decimal, Field(ge=OrderLimits.TOTAL_PRICE_MIN)]
 
