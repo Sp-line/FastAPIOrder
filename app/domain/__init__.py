@@ -6,6 +6,7 @@ __all__ = (
     "EnsureValidTicketStatusTransition",
     "EnsureOrderIsPendingForPriceChange",
     "EnsureTicketIsReservedForPriceChange",
+    "EnsureValidOrderStatusTransition",
 )
 
 from domain.rules import (
@@ -16,4 +17,5 @@ from domain.rules import (
     EnsureValidTicketStatusTransition,
     EnsureOrderIsPendingForPriceChange,
     EnsureTicketIsReservedForPriceChange,
+    EnsureValidOrderStatusTransition,
 )
