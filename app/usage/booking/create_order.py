@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 import uuid
 from dataclasses import dataclass
 from datetime import (
@@ -5,6 +7,7 @@ from datetime import (
     timedelta,
     timezone
 )
+from typing import TYPE_CHECKING
 
 from constants import OrderLimits
 from domain.rules import (
@@ -38,10 +41,13 @@ from services.booking import (
     PricingStrategy,
     OrderTicketAdapter
 )
-from services.booking.types import (
-    SeatMap,
-    SessionMap
-)
+
+if TYPE_CHECKING:
+    from core.models import (
+        Session,
+        Seat
+    )
+    from app_types import IntMap
 
 
 @dataclass(frozen=True, slots=True)
@@ -165,7 +171,7 @@ class CreateBookingUsage:
 
         return result
 
-    def _ensure_session_is_open(self, sessions_map: SessionMap) -> None:
+    def _ensure_session_is_open(self, sessions_map: IntMap[Session]) -> None:
         for session in sessions_map.values():
             self._domain.session_is_open(
                 start_time=session.start_time,
@@ -174,8 +180,8 @@ class CreateBookingUsage:
     def _ensure_seat_valid_for_session(
             self,
             tickets: list[BookingTicketNestedCreateReq],
-            sessions_map: SessionMap,
-            seats_map: SeatMap,
+            sessions_map: IntMap[Session],
+            seats_map: IntMap[Seat],
     ) -> None:
         for ticket in tickets:
             session = sessions_map[ticket.session_id]

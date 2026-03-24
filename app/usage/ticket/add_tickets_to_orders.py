@@ -1,4 +1,7 @@
+from __future__ import annotations
+
 from dataclasses import dataclass
+from typing import TYPE_CHECKING
 
 from pydantic import TypeAdapter
 
@@ -31,11 +34,14 @@ from services.booking import (
     TicketBuilderService,
     PricingStrategy
 )
-from services.booking.types import (
-    SessionMap,
-    OrderMap,
-    SeatMap
-)
+
+if TYPE_CHECKING:
+    from app_types import IntMap
+    from core.models import (
+        Order,
+        Session,
+        Seat
+    )
 
 
 @dataclass(frozen=True, slots=True)
@@ -122,11 +128,11 @@ class AddTicketsToOrdersUsage:
             price = prices_map[price_key]
 
             ticket_create = self._ticket_builder.build_one(
-                    order_id=ticket.order_id,
-                    session=session,
-                    seat=seat,
-                    price=price.price
-                )
+                order_id=ticket.order_id,
+                session=session,
+                seat=seat,
+                price=price.price
+            )
             tickets_create.append(ticket_create)
 
             updated_order_prices[ticket.order_id] = self._pricing.add_ticket(
@@ -149,21 +155,19 @@ class AddTicketsToOrdersUsage:
 
             return adapter.validate_python(tickets)
 
-
-    def _ensure_orders_can_be_modified(self, orders_map: OrderMap) -> None:
+    def _ensure_orders_can_be_modified(self, orders_map: IntMap[Order]) -> None:
         for order in orders_map.values():
             self._domain.order_can_be_modified(order.status)
 
-
-    def _ensure_sessions_are_open(self, sessions_map: SessionMap) -> None:
+    def _ensure_sessions_are_open(self, sessions_map: IntMap[Session]) -> None:
         for session in sessions_map.values():
             self._domain.session_is_open(start_time=session.start_time)
 
     def _ensure_seats_valid_for_sessions(
             self,
             tickets: list[TicketCreateReq],
-            sessions_map: SessionMap,
-            seats_map: SeatMap,
+            sessions_map: IntMap[Session],
+            seats_map: IntMap[Seat],
     ) -> None:
         for t in tickets:
             session = sessions_map[t.session_id]

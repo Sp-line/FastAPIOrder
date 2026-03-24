@@ -6,8 +6,8 @@ from schemas.session_price import SessionPriceCombination
 from services.data_assembler import DataAssemblerServiceBase
 
 if TYPE_CHECKING:
-    from core.models import SessionPrice
-    from services.booking.types import SeatMap, PriceMap
+    from core.models import SessionPrice, Seat
+    from app_types import PriceMap, IntMap
     from collections.abc import Iterable
     from typing import Any
 
@@ -20,7 +20,7 @@ class BookingDataAssembler(DataAssemblerServiceBase):
     @staticmethod
     def build_price_conditions(
             data: Iterable[Any],
-            seats_map: SeatMap
+            seats_map: IntMap[Seat],
     ) -> set[SessionPriceCombination]:
         return {
             SessionPriceCombination(

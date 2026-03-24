@@ -33,7 +33,11 @@ from services.booking import (
 )
 
 if TYPE_CHECKING:
-    from core.models import Order, Seat, Session
+    from core.models import (
+        Order,
+        Seat,
+        Session
+    )
 
 
 @dataclass(frozen=True, slots=True)

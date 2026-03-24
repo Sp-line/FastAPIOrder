@@ -6,7 +6,10 @@ from typing import (
     TYPE_CHECKING
 )
 
-from core.models import SessionPrice
+from core.models import (
+    SessionPrice,
+    Seat
+)
 from exceptions.db import ObjectNotFoundException
 from repositories import (
     SessionPriceRepository,
@@ -23,14 +26,15 @@ from services import (
     ServiceBase,
     DataExistenceServiceBase
 )
-from services.booking.types import (
-    SeatMap,
-    PriceMap
-)
+
 
 if TYPE_CHECKING:
     from constants import SeatType
     from decimal import Decimal
+    from app_types import (
+        PriceMap,
+        IntMap
+    )
 
 
 class SessionPriceService(
@@ -67,7 +71,7 @@ class SessionPriceDataExistenceService(
     def ensure_prices_exist(
             self,
             data: Iterable[Any],
-            seats_map: SeatMap,
+            seats_map: IntMap[Seat],
             prices_map: PriceMap
     ) -> None:
         for item in data:

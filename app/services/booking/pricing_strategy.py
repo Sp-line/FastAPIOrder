@@ -1,8 +1,17 @@
+from __future__ import annotations
+
 from abc import ABC, abstractmethod
 from decimal import Decimal
+from typing import TYPE_CHECKING
 
 from schemas.booking import BookingTicketNestedCreateReq
-from services.booking.types import PriceMap, SeatMap
+
+if TYPE_CHECKING:
+    from app_types import (
+        PriceMap,
+        IntMap
+    )
+    from core.models import Seat
 
 
 class PricingStrategy(ABC):
@@ -10,7 +19,7 @@ class PricingStrategy(ABC):
     @abstractmethod
     def calculate(
             tickets: list[BookingTicketNestedCreateReq],
-            seats_map: SeatMap,
+            seats_map: IntMap[Seat],
             prices_map: PriceMap
     ) -> Decimal:
         ...
@@ -30,11 +39,12 @@ class PricingStrategy(ABC):
     def update_ticket_price(order_total: Decimal, old_price: Decimal, new_price: Decimal) -> Decimal:
         ...
 
+
 class DefaultPricing(PricingStrategy):
     @staticmethod
     def calculate(
             tickets: list[BookingTicketNestedCreateReq],
-            seats_map: SeatMap,
+            seats_map: IntMap[Seat],
             prices_map: PriceMap
     ) -> Decimal:
         total = Decimal("0.00")

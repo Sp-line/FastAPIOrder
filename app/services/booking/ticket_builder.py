@@ -3,11 +3,14 @@ from __future__ import annotations
 from typing import TYPE_CHECKING
 
 from schemas.booking import BookingTicketNestedCreateReq
-from schemas.ticket import TicketCreateDB, TicketSnapshot
+from schemas.ticket import (
+    TicketCreateDB,
+    TicketSnapshot
+)
 
 if TYPE_CHECKING:
     from core.models import Session, Seat
-    from services.booking.types import SessionMap, SeatMap, PriceMap
+    from app_types import PriceMap, IntMap
     from decimal import Decimal
 
 
@@ -16,8 +19,8 @@ class TicketBuilderService:
             self,
             order_id: int,
             tickets: list[BookingTicketNestedCreateReq],
-            sessions_map: SessionMap,
-            seats_map: SeatMap,
+            sessions_map: IntMap[Session],
+            seats_map: IntMap[Seat],
             prices_map: PriceMap
     ) -> list[TicketCreateDB]:
         result: list[TicketCreateDB] = []
