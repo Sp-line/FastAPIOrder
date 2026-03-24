@@ -4,9 +4,18 @@ from dishka.integrations.fastapi import (
 )
 from fastapi import APIRouter
 
-from schemas.order import OrderAdminRead, OrderCreateReq, OrderRead
+from schemas.order import (
+    OrderAdminRead,
+    OrderCreateReq,
+    OrderRead,
+    OrderStatusUpdateReq
+)
 from services import OrderQueryService
-from usage.order import OrderCreateUsage, BulkCreateOrderUsage
+from usage.order import (
+    OrderCreateUsage,
+    BulkCreateOrderUsage,
+    UpdateOrderStatusUsage
+)
 
 router = APIRouter(route_class=DishkaRoute)
 
@@ -35,3 +44,12 @@ async def bulk_create_orders(
         bulk_create_order_usage: FromDishka[BulkCreateOrderUsage]
 ) -> list[OrderRead]:
     return await bulk_create_order_usage(data)
+
+
+@router.put("/status/{order_id}", summary="[Admin] Update Order Status")
+async def update_order_status(
+        order_id: int,
+        data: OrderStatusUpdateReq,
+        update_order_status_usage: FromDishka[UpdateOrderStatusUsage],
+) -> OrderRead:
+    return await update_order_status_usage(order_id, data)
