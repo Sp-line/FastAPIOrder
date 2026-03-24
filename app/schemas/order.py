@@ -64,3 +64,7 @@ class OrderRead(OrderBaseWithRelations):
 
 class OrderAdminRead(Id, OrderRead):
     model_config = ConfigDict(from_attributes=True)
+
+
+class OrderStatusUpdateReq(BaseModel):
+    status: OrderStatus
