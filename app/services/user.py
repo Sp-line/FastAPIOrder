@@ -1,3 +1,4 @@
+from core.models import User
 from repositories import (
     UnitOfWork,
     UserRepository
@@ -9,7 +10,10 @@ from schemas.user import (
     UserCreateDB,
     UserUpdateDB
 )
-from services import ServiceBase
+from services import (
+    ServiceBase,
+    DataExistenceServiceBase
+)
 
 
 class UserService(
@@ -30,4 +34,15 @@ class UserService(
             read_schema=UserRead,
             db_create_schema=UserCreateDB,
             db_update_schema=UserUpdateDB,
+        )
+
+
+class UserDataExistenceService(
+    DataExistenceServiceBase[
+        User,
+    ]
+):
+    def __init__(self) -> None:
+        super().__init__(
+            table_name="users"
         )
