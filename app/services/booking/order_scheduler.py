@@ -22,3 +22,7 @@ class OrderSchedulerService:
                 order_id=order_id,
             )
         )
+
+    @staticmethod
+    async def cancel_task(schedule_id: str) -> None:
+        await redis_source.delete_schedule(schedule_id)
