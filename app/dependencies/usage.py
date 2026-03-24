@@ -11,7 +11,10 @@ from usage.booking import (
     GetTicketByPublicCodeUsage,
     GetTicketsByUserIdUsage
 )
-from usage.order import OrderCreateUsage
+from usage.order import (
+    OrderCreateUsage,
+    BulkCreateOrderUsage
+)
 from usage.ticket import (
     AddTicketToOrderUsage,
     RemoveTicketFromOrderUsage,
@@ -35,3 +38,4 @@ class UsageProvider(Provider):
     get_update_ticket_price_in_order_usage = provide(UpdateTicketPriceInOrderUsage)
 
     get_create_order_usage = provide(OrderCreateUsage)
+    get_bulk_create_order_usage = provide(BulkCreateOrderUsage)
