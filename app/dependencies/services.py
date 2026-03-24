@@ -29,6 +29,7 @@ from services.booking import (
     OrderSchedulerService
 )
 from usage.booking.create_order import CreateBookingDataExistenceServices
+from usage.order.bulk_create import BulkCreateOrderDataExistenceServices
 from usage.order.create import CreateOrderDataExistenceServices
 from usage.ticket.add_ticket_to_order import AddTicketToOrderDataExistenceServices
 from usage.ticket.remove_ticket_from_order import RemoveTicketFromOrderDataExistenceServices
@@ -75,3 +76,4 @@ class ServiceProvider(Provider):
     get_update_ticket_price_in_order_data_existence_services = provide(UpdateTicketPriceInOrderDataExistenceServices)
 
     get_create_order_data_existence_services = provide(CreateOrderDataExistenceServices)
+    get_bulk_create_order_data_existence_services = provide(BulkCreateOrderDataExistenceServices)
