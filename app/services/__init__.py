@@ -16,7 +16,8 @@ __all__ = (
     "SessionPriceDataExistenceService",
     "TicketQueryService",
     "TicketDataExistenceService",
-    "UserService"
+    "UserService",
+    "UserDataExistenceService"
 )
 
 from services.base import (
@@ -47,4 +48,7 @@ from services.ticket import (
     TicketQueryService,
     TicketDataExistenceService
 )
-from services.user import UserService
+from services.user import (
+    UserService,
+    UserDataExistenceService
+)
