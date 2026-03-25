@@ -4,69 +4,84 @@ from abc import ABC, abstractmethod
 from decimal import Decimal
 from typing import TYPE_CHECKING
 
-from schemas.booking import BookingTicketNestedCreateReq
-
 if TYPE_CHECKING:
     from app_types import (
         PriceMap,
-        IntMap
+        IntMap,
+        TicketPricingData
     )
     from core.models import Seat
+    from constants import SeatType
+    from collections.abc import Iterable
 
 
 class PricingStrategy(ABC):
-    @staticmethod
     @abstractmethod
-    def calculate(
-            tickets: list[BookingTicketNestedCreateReq],
+    def calculate_ticket_price(
+            self,
+            session_id: int,
+            seat_type: SeatType,
+            prices_map: PriceMap
+    ) -> Decimal:
+        ...
+
+    @abstractmethod
+    def calculate_order_price(
+            self,
+            tickets: Iterable[TicketPricingData],
             seats_map: IntMap[Seat],
             prices_map: PriceMap
     ) -> Decimal:
         ...
 
-    @staticmethod
     @abstractmethod
-    def add_ticket(order_total_price: Decimal, new_ticket_price: Decimal) -> Decimal:
+    def add_ticket(self, order_total_price: Decimal, new_ticket_price: Decimal) -> Decimal:
         ...
 
-    @staticmethod
     @abstractmethod
-    def remove_ticket(order_total_price: Decimal, removed_ticket_price: Decimal) -> Decimal:
+    def remove_ticket(self, order_total_price: Decimal, removed_ticket_price: Decimal) -> Decimal:
         ...
 
-    @staticmethod
     @abstractmethod
-    def update_ticket_price(order_total: Decimal, old_price: Decimal, new_price: Decimal) -> Decimal:
+    def update_ticket_price(self, order_total: Decimal, old_price: Decimal, new_price: Decimal) -> Decimal:
         ...
 
 
 class DefaultPricing(PricingStrategy):
-    @staticmethod
-    def calculate(
-            tickets: list[BookingTicketNestedCreateReq],
+    def calculate_ticket_price(
+            self,
+            session_id: int,
+            seat_type: SeatType,
+            prices_map: PriceMap
+    ) -> Decimal:
+        return prices_map[(session_id, seat_type)].price
+
+    def calculate_order_price(
+            self,
+            data: Iterable[TicketPricingData],
             seats_map: IntMap[Seat],
             prices_map: PriceMap
     ) -> Decimal:
         total = Decimal("0.00")
 
-        for ticket in tickets:
-            seat = seats_map[ticket.seat_id]
-            price_key = (ticket.session_id, seat.type)
-            price = prices_map[price_key]
-            total += price.price
+        for item in data:
+            ticket_price = self.calculate_ticket_price(
+                session_id=item.session_id,
+                seat_type=seats_map[item.seat_id].type,
+                prices_map=prices_map
+            )
+            total += ticket_price
 
         return total
 
-    @staticmethod
-    def add_ticket(order_total_price: Decimal, new_ticket_price: Decimal) -> Decimal:
+    def add_ticket(self, order_total_price: Decimal, new_ticket_price: Decimal) -> Decimal:
         return order_total_price + new_ticket_price
 
-    @staticmethod
-    def remove_ticket(order_total_price: Decimal, removed_ticket_price: Decimal) -> Decimal:
+    def remove_ticket(self, order_total_price: Decimal, removed_ticket_price: Decimal) -> Decimal:
         return order_total_price - removed_ticket_price
 
-    @staticmethod
     def update_ticket_price(
+            self,
             order_total_price: Decimal,
             old_ticket_price: Decimal,
             new_ticket_price: Decimal

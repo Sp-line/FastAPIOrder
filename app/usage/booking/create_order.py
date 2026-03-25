@@ -116,7 +116,7 @@ class CreateBookingUsage:
             prices_map
         )
 
-        total_price = self._pricing.calculate(
+        total_price = self._pricing.calculate_order_price(
             data.tickets,
             seats_map,
             prices_map,
