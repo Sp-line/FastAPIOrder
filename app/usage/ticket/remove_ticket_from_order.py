@@ -13,6 +13,7 @@ from schemas.order import (
     OrderRead,
     OrderUpdateDB
 )
+from services import TaskScheduler
 from services.booking import PricingStrategy
 from usage.ticket.facades import (
     RemoveTicketFromOrderDomain,
@@ -32,7 +33,7 @@ class RemoveTicketFromOrderUsage:
 
             domain: RemoveTicketFromOrderDomain,
             pricing: PricingStrategy,
-
+            scheduler: TaskScheduler,
             data_existence_services: RemoveTicketFromOrderDataExistenceServices,
     ) -> None:
         self._order_repo = order_repo
@@ -41,7 +42,7 @@ class RemoveTicketFromOrderUsage:
 
         self._domain = domain
         self._pricing = pricing
-
+        self._scheduler = scheduler
         self._data_existence_services = data_existence_services
 
     async def __call__(self, ticket_id: int) -> OrderRead:
@@ -62,6 +63,7 @@ class RemoveTicketFromOrderUsage:
         )
 
         zero_price = Decimal("0.00")
+        new_status = order.status
 
         if new_total_price <= zero_price:
             update_data = OrderUpdateDB(
@@ -78,6 +80,17 @@ class RemoveTicketFromOrderUsage:
                 obj_id=order.id,
                 data=update_data,
             )
+
+            conditions = (
+                order.status == OrderStatus.PENDING,
+                new_status == OrderStatus.CANCELED,
+                order.expire_schedule_id
+            )
+
+            if all(conditions):
+                await self._scheduler.cancel_schedule(
+                    schedule_id=order.expire_schedule_id  # type: ignore[arg-type]
+                )
 
             return OrderRead.model_validate(updated_order)
 
