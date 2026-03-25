@@ -72,6 +72,15 @@ class OrderQueryRepository(
         result = await self._session.execute(stmt)
         return result.scalars().all()
 
+    async def get_with_tickets(self, order_id: int) -> Order | None:
+        stmt = (
+            select(self._model)
+            .where(self._model.id == order_id)
+            .options(selectinload(self._model.tickets))
+        )
+        result = await self._session.execute(stmt)
+        return result.scalar_one_or_none()
+
 
 class OrderCommandRepository(
     CommandRepositoryBase[
