@@ -120,3 +120,23 @@ class EnsureOrderIsSafeToDelete:
                 message=f"Cannot hard-delete order in '{order_status.value}' status. "
                         "Please process a refund and change status to CANCELLED or REFUNDED first."
             )
+
+
+class SyncOrderStatusWithTickets:
+    def __call__(self, order_status: OrderStatus, ticket_statuses: set[TicketStatus]) -> OrderStatus | None:
+        if not ticket_statuses:
+            return None
+
+        new_status = None
+
+        if ticket_statuses == {TicketStatus.CANCELLED}:
+            new_status = OrderStatus.CANCELED
+        elif ticket_statuses == {TicketStatus.EXPIRED}:
+            new_status = OrderStatus.EXPIRED
+        elif ticket_statuses == {TicketStatus.REFUNDED}:
+            new_status = OrderStatus.REFUNDED
+
+        if new_status and new_status != order_status:
+            return new_status
+
+        return None
