@@ -15,9 +15,8 @@ from schemas.order import (
     OrderRead,
     OrderCreateDB
 )
-from services.booking import (
-    OrderSchedulerService,
-)
+from services import TaskScheduler
+from tasks.order import set_unpaid_order_with_tickets_as_expired
 from usage.order.facades import BulkCreateOrderDataExistenceServices
 from utils import (
     get_ids,
@@ -32,7 +31,7 @@ class BulkCreateOrderUsage:
             user_repo: UserRepository,
             unit_of_work: UnitOfWork,
 
-            scheduler: OrderSchedulerService,
+            scheduler: TaskScheduler,
             data_existence: BulkCreateOrderDataExistenceServices,
     ) -> None:
         self._order_repo = order_repo
@@ -76,7 +75,8 @@ class BulkCreateOrderUsage:
             created_orders = await self._order_repo.bulk_create(orders_create_data)
 
             scheduling_coroutines = [
-                self._scheduler.schedule_expiration(
+                self._scheduler.schedule_by_time(  # type: ignore[call-arg]
+                    task=set_unpaid_order_with_tickets_as_expired,
                     schedule_id=order.expire_schedule_id,
                     expires_at=order.expires_at,
                     order_id=order.id

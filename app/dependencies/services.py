@@ -21,12 +21,12 @@ from services import (
     UserService,
     UserDataExistenceService
 )
+from services import TaskScheduler
 from services.booking import (
     BookingDataAssembler,
     TicketBuilderService,
     DefaultPricing,
     PricingStrategy,
-    OrderSchedulerService
 )
 from usage.booking.facades import CreateBookingDataExistenceServices
 from usage.order.facades import (
@@ -46,6 +46,8 @@ from usage.ticket.facades import (
 
 class ServiceProvider(Provider):
     scope = Scope.REQUEST
+
+    get_task_scheduler = provide(TaskScheduler, scope=Scope.APP)
 
     get_hall_service = provide(HallService)
 
@@ -73,7 +75,6 @@ class ServiceProvider(Provider):
     get_ticket_builder_service = provide(TicketBuilderService)
     get_default_pricing = provide(DefaultPricing)
     pricing_alias = alias(source=DefaultPricing, provides=PricingStrategy)
-    get_order_scheduler_service = provide(OrderSchedulerService)
 
     get_create_booking_data_existence_services = provide(CreateBookingDataExistenceServices)
     get_add_ticket_to_order_data_existence_services = provide(AddTicketToOrderDataExistenceServices)

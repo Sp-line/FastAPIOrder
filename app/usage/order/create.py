@@ -12,7 +12,8 @@ from schemas.order import (
     OrderRead,
     OrderCreateDB
 )
-from services.booking import OrderSchedulerService
+from services import TaskScheduler
+from tasks.order import set_unpaid_order_with_tickets_as_expired
 from usage.order.facades import CreateOrderDataExistenceServices
 
 
@@ -23,7 +24,7 @@ class OrderCreateUsage:
             user_repo: UserRepository,
             unit_of_work: UnitOfWork,
 
-            scheduler: OrderSchedulerService,
+            scheduler: TaskScheduler,
             data_existence: CreateOrderDataExistenceServices,
     ) -> None:
         self._order_repo = order_repo
@@ -52,10 +53,11 @@ class OrderCreateUsage:
 
             order = await self._order_repo.create(order_create_data)
 
-            await self._scheduler.schedule_expiration(
+            await self._scheduler.schedule_by_time(  # type: ignore[call-arg]
+                task=set_unpaid_order_with_tickets_as_expired,
                 schedule_id=schedule_id,
                 expires_at=data.expires_at,
-                order_id=order.id
+                order_id=order.id,
             )
 
             return OrderRead.model_validate(order)

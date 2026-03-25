@@ -23,13 +23,14 @@ from schemas.booking import (
     BookingTicketNestedCreateReq
 )
 from schemas.order import OrderCreateDB
+from services import TaskScheduler
 from services.booking import (
     BookingDataAssembler,
     TicketBuilderService,
-    OrderSchedulerService,
     PricingStrategy,
     OrderTicketAdapter
 )
+from tasks.order import set_unpaid_order_with_tickets_as_expired
 from usage.booking.facades import (
     CreateBookingDomain,
     CreateBookingDataExistenceServices
@@ -60,7 +61,7 @@ class CreateBookingUsage:
             domain: CreateBookingDomain,
             data_assembler: BookingDataAssembler,
             ticket_builder: TicketBuilderService,
-            scheduler: OrderSchedulerService,
+            scheduler: TaskScheduler,
             pricing: PricingStrategy,
 
             data_existence: CreateBookingDataExistenceServices,
@@ -150,7 +151,12 @@ class CreateBookingUsage:
                 OrderTicketAdapter(order=order, tickets=tickets_db)
             )
 
-        await self._scheduler.schedule_expiration(schedule_id, expires_at, order.id)
+        await self._scheduler.schedule_by_time(  # type: ignore[call-arg]
+            task=set_unpaid_order_with_tickets_as_expired,
+            schedule_id=schedule_id,
+            expires_at=expires_at,
+            order_id=order.id
+        )
 
         return result
 

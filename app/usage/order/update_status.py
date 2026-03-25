@@ -7,7 +7,7 @@ from schemas.order import (
     OrderStatusUpdateReq,
     OrderRead, OrderUpdateDB
 )
-from services.booking import OrderSchedulerService
+from services import TaskScheduler
 from usage.order.facades import (
     UpdateOrderStatusDomain,
     UpdateOrderStatusDataExistenceServices
@@ -20,7 +20,7 @@ class UpdateOrderStatusUsage:
             order_repo: OrderRepository,
             unit_of_work: UnitOfWork,
 
-            scheduler: OrderSchedulerService,
+            scheduler: TaskScheduler,
             domain: UpdateOrderStatusDomain,
             data_existence: UpdateOrderStatusDataExistenceServices,
     ) -> None:
@@ -53,7 +53,7 @@ class UpdateOrderStatusUsage:
                 order.expire_schedule_id
             )
             if all(conditions):
-                await self._scheduler.cancel_task(
+                await self._scheduler.cancel_schedule(
                     schedule_id=order.expire_schedule_id  # type: ignore[arg-type]
                 )
 

@@ -1,6 +1,6 @@
 from constants import OrderStatus
 from repositories import OrderRepository, UnitOfWork
-from services.booking import OrderSchedulerService
+from services import TaskScheduler
 from usage.order.facades import (
     DeleteOrderDomain,
     DeleteOrderDataExistenceServices
@@ -13,7 +13,7 @@ class OrderDeleteUsage:
             order_repo: OrderRepository,
             unit_of_work: UnitOfWork,
 
-            scheduler: OrderSchedulerService,
+            scheduler: TaskScheduler,
             domain: DeleteOrderDomain,
             data_existence: DeleteOrderDataExistenceServices,
     ) -> None:
@@ -40,4 +40,4 @@ class OrderDeleteUsage:
             )
 
             if all(conditions):
-                await self._scheduler.cancel_task(schedule_id=order.expire_schedule_id)  # type: ignore[arg-type]
+                await self._scheduler.cancel_schedule(schedule_id=order.expire_schedule_id)  # type: ignore[arg-type]

@@ -3,6 +3,8 @@ __all__ = (
     "CommandServiceBase",
     "ServiceBase",
 
+    "TaskScheduler",
+
     "DataExistenceServiceBase",
     "HallService",
     "MovieService",
@@ -44,6 +46,7 @@ from services.session_price import (
     SessionPriceService,
     SessionPriceDataExistenceService
 )
+from services.task_sheduler import TaskScheduler
 from services.ticket import (
     TicketQueryService,
     TicketDataExistenceService
