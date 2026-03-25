@@ -1,5 +1,4 @@
 import uuid
-from dataclasses import dataclass
 from decimal import Decimal
 
 from constants import OrderStatus
@@ -13,13 +12,8 @@ from schemas.order import (
     OrderRead,
     OrderCreateDB
 )
-from services import UserDataExistenceService
 from services.booking import OrderSchedulerService
-
-
-@dataclass(frozen=True, slots=True)
-class CreateOrderDataExistenceServices:
-    user: UserDataExistenceService
+from usage.order.facades import CreateOrderDataExistenceServices
 
 
 class OrderCreateUsage:

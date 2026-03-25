@@ -1,15 +1,9 @@
 from __future__ import annotations
 
-from dataclasses import dataclass
 from typing import TYPE_CHECKING
 
 from pydantic import TypeAdapter
 
-from domain import (
-    EnsureOrderCanBeModified,
-    EnsureSessionIsOpen,
-    EnsureSeatValidForSession
-)
 from repositories import (
     OrderRepository,
     SessionRepository,
@@ -23,16 +17,14 @@ from schemas.ticket import (
     TicketCreateReq,
     TicketRead, TicketCreateDB
 )
-from services import (
-    OrderDataExistenceService,
-    SeatDataExistenceService,
-    SessionDataExistenceService,
-    SessionPriceDataExistenceService
-)
 from services.booking import (
     BookingDataAssembler,
     TicketBuilderService,
     PricingStrategy
+)
+from usage.ticket.facades import (
+    AddTicketsToOrdersDomain,
+    AddTicketsToOrdersDataExistenceServices
 )
 
 if TYPE_CHECKING:
@@ -42,21 +34,6 @@ if TYPE_CHECKING:
         Session,
         Seat
     )
-
-
-@dataclass(frozen=True, slots=True)
-class AddTicketsToOrdersDataExistenceServices:
-    order: OrderDataExistenceService
-    seat: SeatDataExistenceService
-    session: SessionDataExistenceService
-    session_price: SessionPriceDataExistenceService
-
-
-@dataclass(frozen=True, slots=True)
-class AddTicketsToOrdersDomain:
-    order_can_be_modified: EnsureOrderCanBeModified
-    session_is_open: EnsureSessionIsOpen
-    seat_valid_for_session: EnsureSeatValidForSession
 
 
 class AddTicketsToOrdersUsage:

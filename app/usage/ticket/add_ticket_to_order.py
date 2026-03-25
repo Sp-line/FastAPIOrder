@@ -1,13 +1,7 @@
 from __future__ import annotations
 
-from dataclasses import dataclass
 from typing import TYPE_CHECKING
 
-from domain.rules import (
-    EnsureSessionIsOpen,
-    EnsureOrderCanBeModified,
-    EnsureSeatValidForSession,
-)
 from repositories import (
     OrderRepository,
     SessionRepository,
@@ -21,15 +15,13 @@ from schemas.ticket import (
     TicketCreateReq,
     TicketRead
 )
-from services import (
-    OrderDataExistenceService,
-    SeatDataExistenceService,
-    SessionDataExistenceService,
-    SessionPriceDataExistenceService
-)
 from services.booking import (
     TicketBuilderService,
     PricingStrategy
+)
+from usage.ticket.facades import (
+    AddTicketToOrderDomain,
+    AddTicketToOrderDataExistenceServices
 )
 
 if TYPE_CHECKING:
@@ -38,21 +30,6 @@ if TYPE_CHECKING:
         Seat,
         Session
     )
-
-
-@dataclass(frozen=True, slots=True)
-class AddTicketToOrderDataExistenceServices:
-    seat: SeatDataExistenceService
-    session: SessionDataExistenceService
-    order: OrderDataExistenceService
-    session_price: SessionPriceDataExistenceService
-
-
-@dataclass(frozen=True, slots=True)
-class AddTicketToOrderDomain:
-    order_can_be_modified: EnsureOrderCanBeModified
-    session_is_open: EnsureSessionIsOpen
-    seat_valid_for_session: EnsureSeatValidForSession
 
 
 class AddTicketToOrderUsage:

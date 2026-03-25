@@ -28,15 +28,20 @@ from services.booking import (
     PricingStrategy,
     OrderSchedulerService
 )
-from usage.booking.create_order import CreateBookingDataExistenceServices
-from usage.order.bulk_create import BulkCreateOrderDataExistenceServices
-from usage.order.create import CreateOrderDataExistenceServices
-from usage.order.delete_order import DeleteOrderDataExistenceServices
-from usage.order.update_status import UpdateOrderStatusDataExistenceServices
-from usage.ticket.add_ticket_to_order import AddTicketToOrderDataExistenceServices
-from usage.ticket.remove_ticket_from_order import RemoveTicketFromOrderDataExistenceServices
-from usage.ticket.update_ticket_price_in_order import UpdateTicketPriceInOrderDataExistenceServices
-from usage.ticket.update_ticket_status_in_order import UpdateTicketStatusInOrderDataExistenceServices
+from usage.booking.facades import CreateBookingDataExistenceServices
+from usage.order.facades import (
+    BulkCreateOrderDataExistenceServices,
+    CreateOrderDataExistenceServices,
+    DeleteOrderDataExistenceServices,
+    UpdateOrderStatusDataExistenceServices
+)
+from usage.ticket.facades import (
+    AddTicketToOrderDataExistenceServices,
+    AddTicketsToOrdersDataExistenceServices,
+    RemoveTicketFromOrderDataExistenceServices,
+    UpdateTicketPriceInOrderDataExistenceServices,
+    UpdateTicketStatusInOrderDataExistenceServices
+)
 
 
 class ServiceProvider(Provider):
@@ -72,7 +77,7 @@ class ServiceProvider(Provider):
 
     get_create_booking_data_existence_services = provide(CreateBookingDataExistenceServices)
     get_add_ticket_to_order_data_existence_services = provide(AddTicketToOrderDataExistenceServices)
-    get_add_tickets_to_orders_data_existence_services = provide(AddTicketToOrderDataExistenceServices)
+    get_add_tickets_to_orders_data_existence_services = provide(AddTicketsToOrdersDataExistenceServices)
     get_remove_ticket_from_order_data_existence_services = provide(RemoveTicketFromOrderDataExistenceServices)
     get_update_ticket_status_in_order_data_existence_services = provide(UpdateTicketStatusInOrderDataExistenceServices)
     get_update_ticket_price_in_order_data_existence_services = provide(UpdateTicketPriceInOrderDataExistenceServices)

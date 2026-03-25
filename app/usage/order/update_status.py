@@ -1,7 +1,4 @@
-from dataclasses import dataclass
-
 from constants import OrderStatus
-from domain import EnsureValidOrderStatusTransition
 from repositories import (
     UnitOfWork,
     OrderRepository
@@ -10,18 +7,11 @@ from schemas.order import (
     OrderStatusUpdateReq,
     OrderRead, OrderUpdateDB
 )
-from services import OrderDataExistenceService
 from services.booking import OrderSchedulerService
-
-
-@dataclass(frozen=True, slots=True)
-class UpdateOrderStatusDataExistenceServices:
-    order: OrderDataExistenceService
-
-
-@dataclass(frozen=True, slots=True)
-class UpdateOrderStatusDomain:
-    valid_order_status_transition: EnsureValidOrderStatusTransition
+from usage.order.facades import (
+    UpdateOrderStatusDomain,
+    UpdateOrderStatusDataExistenceServices
+)
 
 
 class UpdateOrderStatusUsage:

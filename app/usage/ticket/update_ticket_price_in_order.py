@@ -1,9 +1,3 @@
-from dataclasses import dataclass
-
-from domain import (
-    EnsureOrderIsPendingForPriceChange,
-    EnsureTicketIsReservedForPriceChange
-)
 from repositories import (
     TicketRepository,
     OrderRepository,
@@ -15,23 +9,11 @@ from schemas.ticket import (
     TicketRead,
     TicketUpdateDB
 )
-from services import (
-    TicketDataExistenceService,
-    OrderDataExistenceService
-)
 from services.booking import PricingStrategy
-
-
-@dataclass(frozen=True, slots=True)
-class UpdateTicketPriceInOrderDataExistenceServices:
-    ticket: TicketDataExistenceService
-    order: OrderDataExistenceService
-
-
-@dataclass(frozen=True, slots=True)
-class UpdateTicketPriceInOrderDomain:
-    order_is_pending_for_price_change: EnsureOrderIsPendingForPriceChange
-    ticket_is_reserved_for_price_change: EnsureTicketIsReservedForPriceChange
+from usage.ticket.facades import (
+    UpdateTicketPriceInOrderDomain,
+    UpdateTicketPriceInOrderDataExistenceServices
+)
 
 
 class UpdateTicketPriceInOrderUsage:

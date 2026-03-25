@@ -1,6 +1,5 @@
 import asyncio
 import uuid
-from dataclasses import dataclass
 from decimal import Decimal
 
 from pydantic import TypeAdapter
@@ -16,16 +15,11 @@ from schemas.order import (
     OrderRead,
     OrderCreateDB
 )
-from services import UserDataExistenceService
 from services.booking import (
     OrderSchedulerService,
     BookingDataAssembler
 )
-
-
-@dataclass(frozen=True, slots=True)
-class BulkCreateOrderDataExistenceServices:
-    user: UserDataExistenceService
+from usage.order.facades import BulkCreateOrderDataExistenceServices
 
 
 class BulkCreateOrderUsage:

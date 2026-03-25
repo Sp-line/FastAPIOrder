@@ -1,20 +1,10 @@
-from dataclasses import dataclass
-
 from constants import OrderStatus
-from domain import EnsureOrderIsSafeToDelete
 from repositories import OrderRepository, UnitOfWork
-from services import OrderDataExistenceService
 from services.booking import OrderSchedulerService
-
-
-@dataclass(frozen=True, slots=True)
-class DeleteOrderDataExistenceServices:
-    order: OrderDataExistenceService
-
-
-@dataclass(frozen=True, slots=True)
-class DeleteOrderDomain:
-    order_is_safe_to_delete: EnsureOrderIsSafeToDelete
+from usage.order.facades import (
+    DeleteOrderDomain,
+    DeleteOrderDataExistenceServices
+)
 
 
 class OrderDeleteUsage:
@@ -45,8 +35,8 @@ class OrderDeleteUsage:
             await self._order_repo.delete(obj_id=order.id)
 
             conditions = (
-                    order.status == OrderStatus.PENDING,
-                    order.expire_schedule_id
+                order.status == OrderStatus.PENDING,
+                order.expire_schedule_id
             )
 
             if all(conditions):

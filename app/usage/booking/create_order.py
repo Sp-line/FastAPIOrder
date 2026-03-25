@@ -1,7 +1,6 @@
 from __future__ import annotations
 
 import uuid
-from dataclasses import dataclass
 from datetime import (
     datetime,
     timedelta,
@@ -10,11 +9,6 @@ from datetime import (
 from typing import TYPE_CHECKING
 
 from constants import OrderLimits
-from domain.rules import (
-    EnsureUserCanCreateOrder,
-    EnsureSessionIsOpen,
-    EnsureSeatValidForSession,
-)
 from repositories import (
     OrderRepository,
     TicketRepository,
@@ -29,17 +23,16 @@ from schemas.booking import (
     BookingTicketNestedCreateReq
 )
 from schemas.order import OrderCreateDB
-from services import (
-    SeatDataExistenceService,
-    SessionDataExistenceService,
-    SessionPriceDataExistenceService,
-)
 from services.booking import (
     BookingDataAssembler,
     TicketBuilderService,
     OrderSchedulerService,
     PricingStrategy,
     OrderTicketAdapter
+)
+from usage.booking.facades import (
+    CreateBookingDomain,
+    CreateBookingDataExistenceServices
 )
 
 if TYPE_CHECKING:
@@ -48,20 +41,6 @@ if TYPE_CHECKING:
         Seat
     )
     from app_types import IntMap
-
-
-@dataclass(frozen=True, slots=True)
-class CreateBookingDataExistenceServices:
-    seat: SeatDataExistenceService
-    session: SessionDataExistenceService
-    session_price: SessionPriceDataExistenceService
-
-
-@dataclass(frozen=True, slots=True)
-class CreateBookingDomain:
-    user_can_create_order: EnsureUserCanCreateOrder
-    session_is_open: EnsureSessionIsOpen
-    seat_valid_for_session: EnsureSeatValidForSession
 
 
 class CreateBookingUsage:

@@ -1,11 +1,9 @@
 from __future__ import annotations
 
-from dataclasses import dataclass
 from decimal import Decimal
 from typing import TYPE_CHECKING
 
 from constants import OrderStatus
-from domain import EnsureOrderCanBeModified
 from repositories import (
     OrderRepository,
     TicketRepository,
@@ -15,25 +13,14 @@ from schemas.order import (
     OrderRead,
     OrderUpdateDB
 )
-from services import (
-    OrderDataExistenceService,
-    TicketDataExistenceService
-)
 from services.booking import PricingStrategy
+from usage.ticket.facades import (
+    RemoveTicketFromOrderDomain,
+    RemoveTicketFromOrderDataExistenceServices
+)
 
 if TYPE_CHECKING:
     from core.models import Order
-
-
-@dataclass(frozen=True, slots=True)
-class RemoveTicketFromOrderDataExistenceServices:
-    ticket: TicketDataExistenceService
-    order: OrderDataExistenceService
-
-
-@dataclass(frozen=True, slots=True)
-class RemoveTicketFromOrderDomain:
-    order_can_be_modified: EnsureOrderCanBeModified
 
 
 class RemoveTicketFromOrderUsage:
