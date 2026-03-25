@@ -17,9 +17,12 @@ from schemas.order import (
 )
 from services.booking import (
     OrderSchedulerService,
-    BookingDataAssembler
 )
 from usage.order.facades import BulkCreateOrderDataExistenceServices
+from utils import (
+    get_ids,
+    build_map
+)
 
 
 class BulkCreateOrderUsage:
@@ -30,7 +33,6 @@ class BulkCreateOrderUsage:
             unit_of_work: UnitOfWork,
 
             scheduler: OrderSchedulerService,
-            data_assembler: BookingDataAssembler,
             data_existence: BulkCreateOrderDataExistenceServices,
     ) -> None:
         self._order_repo = order_repo
@@ -38,16 +40,15 @@ class BulkCreateOrderUsage:
         self._uow = unit_of_work
 
         self._scheduler = scheduler
-        self._data_assembler = data_assembler
         self._data_existence = data_existence
 
     async def __call__(self, data: list[OrderCreateReq]) -> list[OrderRead]:
         if not data:
             return []
 
-        user_ids = self._data_assembler.get_ids(data, "user_id")
+        user_ids = get_ids(data, "user_id")
         users = await self._user_repo.get_by_ids(user_ids)
-        users_map = self._data_assembler.build_map(users)
+        users_map = build_map(users)
         self._data_existence.user.ensure_objs_exist(
             data=data,
             obj_id_field="user_id",

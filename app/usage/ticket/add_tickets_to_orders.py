@@ -26,6 +26,10 @@ from usage.ticket.facades import (
     AddTicketsToOrdersDomain,
     AddTicketsToOrdersDataExistenceServices
 )
+from utils import (
+    get_ids,
+    build_map
+)
 
 if TYPE_CHECKING:
     from app_types import IntMap
@@ -71,21 +75,21 @@ class AddTicketsToOrdersUsage:
         if not data:
             return []
 
-        order_ids = self._data_assembler.get_ids(data, "order_id")
+        order_ids = get_ids(data, "order_id")
         orders = await self._order_repo.get_by_ids(order_ids)
-        orders_map = self._data_assembler.build_map(orders)
+        orders_map = build_map(orders)
         self._data_existence.order.ensure_objs_exist(data, "order_id", orders_map)
         self._ensure_orders_can_be_modified(orders_map)
 
-        session_ids = self._data_assembler.get_ids(data, "session_id")
+        session_ids = get_ids(data, "session_id")
         sessions = await self._session_repo.get_many_with_movie(session_ids)
-        sessions_map = self._data_assembler.build_map(sessions)
+        sessions_map = build_map(sessions)
         self._data_existence.session.ensure_objs_exist(data, "session_id", sessions_map)
         self._ensure_sessions_are_open(sessions_map)
 
-        seat_ids = self._data_assembler.get_ids(data, "seat_id")
+        seat_ids = get_ids(data, "seat_id")
         seats = await self._seat_repo.get_many_with_hall(seat_ids)
-        seats_map = self._data_assembler.build_map(seats)
+        seats_map = build_map(seats)
         self._data_existence.seat.ensure_objs_exist(data, "seat_id", seats_map)
 
         self._ensure_seats_valid_for_sessions(data, sessions_map, seats_map)
