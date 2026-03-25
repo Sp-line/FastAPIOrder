@@ -1,7 +1,7 @@
 from datetime import datetime
 
 from core import redis_source
-from tasks.order import set_unpaid_order_as_expired
+from tasks.order import set_unpaid_order_with_tickets_as_expired
 
 
 class OrderSchedulerService:
@@ -12,7 +12,7 @@ class OrderSchedulerService:
             order_id: int
     ) -> None:
         await (
-            set_unpaid_order_as_expired
+            set_unpaid_order_with_tickets_as_expired
             .kicker()
             .with_schedule_id(schedule_id)
             .schedule_by_time(
