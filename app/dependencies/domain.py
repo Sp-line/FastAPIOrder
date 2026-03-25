@@ -14,6 +14,7 @@ from domain import (
     EnsureTicketIsReservedForPriceChange,
     EnsureValidOrderStatusTransition,
     EnsureOrderIsSafeToDelete,
+    SyncOrderStatusWithTickets
 )
 from usage.booking.facades import CreateBookingDomain
 from usage.order.facades import (
@@ -40,6 +41,7 @@ class DomainProvider(Provider):
     get_ensure_ticket_is_reserved_for_price_change = provide(EnsureTicketIsReservedForPriceChange)
     get_ensure_valid_order_status_transition = provide(EnsureValidOrderStatusTransition)
     get_ensure_order_is_safe_to_delete = provide(EnsureOrderIsSafeToDelete)
+    get_sync_order_status_with_tickets = provide(SyncOrderStatusWithTickets)
 
     @provide
     def get_ensure_session_is_open(self) -> EnsureSessionIsOpen:
