@@ -5,7 +5,7 @@ from pydantic import BaseModel
 from sqlalchemy import (
     select,
     update,
-    delete
+    delete, insert
 )
 from sqlalchemy.exc import IntegrityError
 from sqlalchemy.ext.asyncio import AsyncSession
@@ -68,20 +68,25 @@ class CommandRepositoryBase[
         await self._session.refresh(obj)
         return obj
 
-    async def bulk_create(self, data: list[TCreateSchema]) -> list[TModel]:
+
+    async def bulk_create(self, data: list[TCreateSchema]) -> Sequence[TModel]:
         if not data:
             return []
 
-        objs = [self._model(**item.model_dump()) for item in data]
-        self._session.add_all(objs)
+        insert_data = [item.model_dump() for item in data]
+
+        stmt = (
+            insert(self._model)
+            .returning(self._model)
+        )
 
         try:
-            await self._session.flush()
+            result = await self._session.scalars(stmt, insert_data)
         except IntegrityError as e:
             self._table_error_handler.handle(e)
             raise
 
-        return objs
+        return result.all()
 
     async def bulk_update(self, data: dict[int, TUpdateSchema]) -> Sequence[TModel]:
         if not data:
