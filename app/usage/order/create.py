@@ -9,8 +9,8 @@ from repositories import (
 )
 from schemas.order import (
     OrderCreateReq,
-    OrderRead,
-    OrderCreateDB
+    OrderCreateDB,
+    OrderAdminRead
 )
 from services import TaskScheduler
 from tasks.order import set_unpaid_order_with_tickets_as_expired
@@ -34,7 +34,7 @@ class OrderCreateUsage:
         self._scheduler = scheduler
         self._data_existence = data_existence
 
-    async def __call__(self, data: OrderCreateReq) -> OrderRead:
+    async def __call__(self, data: OrderCreateReq) -> OrderAdminRead:
         user = self._data_existence.user.ensure_obj_exist(
             obj_id=data.user_id,
             obj=await self._user_repo.get_by_id(data.user_id)
@@ -60,4 +60,4 @@ class OrderCreateUsage:
                 order_id=order.id,
             )
 
-            return OrderRead.model_validate(order)
+            return OrderAdminRead.model_validate(order)

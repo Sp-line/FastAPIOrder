@@ -12,8 +12,8 @@ from repositories import (
 )
 from schemas.order import (
     OrderCreateReq,
-    OrderRead,
-    OrderCreateDB
+    OrderCreateDB,
+    OrderAdminRead
 )
 from services import TaskScheduler
 from tasks.order import set_unpaid_order_with_tickets_as_expired
@@ -41,7 +41,7 @@ class BulkCreateOrderUsage:
         self._scheduler = scheduler
         self._data_existence = data_existence
 
-    async def __call__(self, data: list[OrderCreateReq]) -> list[OrderRead]:
+    async def __call__(self, data: list[OrderCreateReq]) -> list[OrderAdminRead]:
         if not data:
             return []
 
@@ -69,7 +69,7 @@ class BulkCreateOrderUsage:
                 )
             )
 
-        adapter = TypeAdapter(list[OrderRead])
+        adapter = TypeAdapter(list[OrderAdminRead])
 
         async with self._uow:
             created_orders = await self._order_repo.bulk_create(orders_create_data)

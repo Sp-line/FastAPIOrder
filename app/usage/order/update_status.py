@@ -5,7 +5,8 @@ from repositories import (
 )
 from schemas.order import (
     OrderStatusUpdateReq,
-    OrderRead, OrderUpdateDB
+    OrderUpdateDB,
+    OrderAdminRead
 )
 from services import TaskScheduler
 from usage.order.facades import (
@@ -31,7 +32,7 @@ class UpdateOrderStatusUsage:
         self._domain = domain
         self._data_existence = data_existence
 
-    async def __call__(self, order_id: int, data: OrderStatusUpdateReq) -> OrderRead:
+    async def __call__(self, order_id: int, data: OrderStatusUpdateReq) -> OrderAdminRead:
         order = self._data_existence.order.ensure_obj_exist(
             obj_id=order_id,
             obj=await self._order_repo.get_by_id(order_id)
@@ -57,4 +58,4 @@ class UpdateOrderStatusUsage:
                     schedule_id=order.expire_schedule_id  # type: ignore[arg-type]
                 )
 
-            return OrderRead.model_validate(updated_order)
+            return OrderAdminRead.model_validate(updated_order)

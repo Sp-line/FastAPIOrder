@@ -1,6 +1,6 @@
 from core.models import Ticket
 from repositories.ticket import TicketQueryRepository
-from schemas.ticket import TicketRead
+from schemas.ticket import TicketAdminRead
 from services import (
     QueryServiceBase,
     DataExistenceServiceBase
@@ -10,19 +10,15 @@ from services import (
 class TicketQueryService(
     QueryServiceBase[
         TicketQueryRepository,
-        TicketRead
+        TicketAdminRead
     ]
 ):
     def __init__(self, repository: TicketQueryRepository) -> None:
         super().__init__(
             repository=repository,
             table_name="tickets",
-            read_schema=TicketRead,
+            read_schema=TicketAdminRead,
         )
-
-    async def get_by_user_id(self, user_id: int, skip: int = 0, limit: int = 100) -> list[TicketRead]:
-        objs = await self._repository.get_by_user_id(user_id=user_id, skip=skip, limit=limit)
-        return [self._read_schema.model_validate(ticket) for ticket in objs]
 
 
 class TicketDataExistenceService(

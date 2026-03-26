@@ -6,8 +6,8 @@ from repositories import (
 from schemas.order import OrderUpdateDB
 from schemas.ticket import (
     TicketPriceUpdateReq,
-    TicketRead,
-    TicketUpdateDB
+    TicketUpdateDB,
+    TicketAdminRead
 )
 from services.booking import PricingStrategy
 from usage.ticket.facades import (
@@ -35,14 +35,14 @@ class UpdateTicketPriceInOrderUsage:
         self._data_existence = data_existence
         self._pricing = pricing
 
-    async def __call__(self, ticket_id: int, data: TicketPriceUpdateReq) -> TicketRead:
+    async def __call__(self, ticket_id: int, data: TicketPriceUpdateReq) -> TicketAdminRead:
         ticket = self._data_existence.ticket.ensure_obj_exist(
             obj_id=ticket_id,
             obj=await self._ticket_repo.get_by_id(ticket_id)
         )
 
         if ticket.price == data.price:
-            return TicketRead.model_validate(ticket)
+            return TicketAdminRead.model_validate(ticket)
 
         order = self._data_existence.order.ensure_obj_exist(
             obj_id=ticket.order_id,
@@ -73,4 +73,4 @@ class UpdateTicketPriceInOrderUsage:
                 )
             )
 
-            return TicketRead.model_validate(updated_ticket)
+            return TicketAdminRead.model_validate(updated_ticket)

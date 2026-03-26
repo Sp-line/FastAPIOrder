@@ -7,7 +7,6 @@ from fastapi import APIRouter
 from schemas.order import (
     OrderAdminRead,
     OrderCreateReq,
-    OrderRead,
     OrderStatusUpdateReq
 )
 from services import OrderQueryService
@@ -35,7 +34,7 @@ async def get_order(order_id: int, service: FromDishka[OrderQueryService]) -> Or
 async def create_order(
         create_order_usage: FromDishka[OrderCreateUsage],
         data: OrderCreateReq
-) -> OrderRead:
+) -> OrderAdminRead:
     return await create_order_usage(data)
 
 
@@ -43,7 +42,7 @@ async def create_order(
 async def bulk_create_orders(
         data: list[OrderCreateReq],
         bulk_create_order_usage: FromDishka[BulkCreateOrderUsage]
-) -> list[OrderRead]:
+) -> list[OrderAdminRead]:
     return await bulk_create_order_usage(data)
 
 
@@ -52,7 +51,7 @@ async def update_order_status(
         order_id: int,
         data: OrderStatusUpdateReq,
         update_order_status_usage: FromDishka[UpdateOrderStatusUsage],
-) -> OrderRead:
+) -> OrderAdminRead:
     return await update_order_status_usage(order_id, data)
 
 

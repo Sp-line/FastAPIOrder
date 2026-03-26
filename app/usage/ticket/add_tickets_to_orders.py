@@ -15,7 +15,8 @@ from repositories import (
 from schemas.order import OrderUpdateDB
 from schemas.ticket import (
     TicketCreateReq,
-    TicketRead, TicketCreateDB
+    TicketCreateDB,
+    TicketAdminRead
 )
 from services.booking import (
     BookingDataAssembler,
@@ -71,7 +72,7 @@ class AddTicketsToOrdersUsage:
 
         self._data_existence = data_existence
 
-    async def __call__(self, data: list[TicketCreateReq]) -> list[TicketRead]:
+    async def __call__(self, data: list[TicketCreateReq]) -> list[TicketAdminRead]:
         if not data:
             return []
 
@@ -121,7 +122,7 @@ class AddTicketsToOrdersUsage:
                 new_ticket_price=price.price
             )
 
-        adapter = TypeAdapter(list[TicketRead])
+        adapter = TypeAdapter(list[TicketAdminRead])
 
         async with self._uow:
             tickets = await self._ticket_repo.bulk_create(tickets_create)

@@ -7,8 +7,8 @@ from repositories import (
 from schemas.order import OrderUpdateDB
 from schemas.ticket import (
     TicketStatusUpdateReq,
-    TicketRead,
-    TicketUpdateDB
+    TicketUpdateDB,
+    TicketAdminRead
 )
 from services import TaskScheduler
 from usage.ticket.facades import (
@@ -36,7 +36,7 @@ class UpdateTicketStatusInOrderUsage:
         self._scheduler = scheduler
         self._data_existence = data_existence
 
-    async def __call__(self, ticket_id: int, data: TicketStatusUpdateReq) -> TicketRead:
+    async def __call__(self, ticket_id: int, data: TicketStatusUpdateReq) -> TicketAdminRead:
         ticket = self._data_existence.ticket.ensure_obj_exist(
             obj_id=ticket_id,
             obj=await self._ticket_repo.get_by_id(ticket_id)
@@ -86,4 +86,4 @@ class UpdateTicketStatusInOrderUsage:
                             schedule_id=not_updated_order.expire_schedule_id  # type: ignore[arg-type]
                         )
 
-            return TicketRead.model_validate(updated_ticket)
+            return TicketAdminRead.model_validate(updated_ticket)

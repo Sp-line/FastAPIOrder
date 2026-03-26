@@ -13,7 +13,7 @@ from repositories import (
 from schemas.order import OrderUpdateDB
 from schemas.ticket import (
     TicketCreateReq,
-    TicketRead
+    TicketAdminRead
 )
 from services.booking import (
     TicketBuilderService,
@@ -61,7 +61,7 @@ class AddTicketToOrderUsage:
 
         self._data_existence_services = data_existence_services
 
-    async def __call__(self, data: TicketCreateReq) -> TicketRead:
+    async def __call__(self, data: TicketCreateReq) -> TicketAdminRead:
         order = self._data_existence_services.order.ensure_obj_exist(
             obj=await self._order_repo.get_by_id(data.order_id),
             obj_id=data.order_id,
@@ -110,7 +110,7 @@ class AddTicketToOrderUsage:
                 )
             )
 
-            return TicketRead.model_validate(ticket)
+            return TicketAdminRead.model_validate(ticket)
 
     def _ensure_order_can_be_modified(self, order: Order) -> None:
         self._domain.order_can_be_modified(

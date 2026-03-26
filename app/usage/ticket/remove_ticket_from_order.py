@@ -10,8 +10,8 @@ from repositories import (
     UnitOfWork,
 )
 from schemas.order import (
-    OrderRead,
-    OrderUpdateDB
+    OrderUpdateDB,
+    OrderAdminRead
 )
 from services import TaskScheduler
 from services.booking import PricingStrategy
@@ -45,7 +45,7 @@ class RemoveTicketFromOrderUsage:
         self._scheduler = scheduler
         self._data_existence_services = data_existence_services
 
-    async def __call__(self, ticket_id: int) -> OrderRead:
+    async def __call__(self, ticket_id: int) -> OrderAdminRead:
         ticket = self._data_existence_services.ticket.ensure_obj_exist(
             obj=await self._ticket_repo.get_by_id(ticket_id),
             obj_id=ticket_id,
@@ -92,7 +92,7 @@ class RemoveTicketFromOrderUsage:
                     schedule_id=order.expire_schedule_id  # type: ignore[arg-type]
                 )
 
-            return OrderRead.model_validate(updated_order)
+            return OrderAdminRead.model_validate(updated_order)
 
     def _ensure_order_can_be_modified(self, order: Order) -> None:
         self._domain.order_can_be_modified(

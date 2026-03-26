@@ -5,6 +5,7 @@ from uuid import UUID, uuid4
 from pydantic import BaseModel, PositiveInt, Field, ConfigDict
 
 from constants import TicketStatus, TicketLimits
+from schemas.base import Id
 from schemas.hall import HallSnapshot
 from schemas.movie import MovieSnapshot
 from schemas.seat import SeatSnapshot
@@ -69,6 +70,10 @@ class TicketRead(TicketBaseWithRelations):
     price: Annotated[Decimal, Field(ge=TicketLimits.PRICE_MIN)]
     snapshot: TicketSnapshot
 
+    model_config = ConfigDict(from_attributes=True)
+
+
+class TicketAdminRead(Id, TicketRead):
     model_config = ConfigDict(from_attributes=True)
 
 
