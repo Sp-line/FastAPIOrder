@@ -6,6 +6,7 @@ from dishka.integrations.faststream import setup_dishka as setup_faststream_dish
 from dishka.integrations.taskiq import setup_dishka as setup_taskiq_dishka
 from fastapi import FastAPI
 
+import handlers  # noqa: F401
 from core import (
     broker,
     fs_router,
