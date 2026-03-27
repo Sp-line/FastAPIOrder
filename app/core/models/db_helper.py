@@ -4,21 +4,21 @@ from sqlalchemy.ext.asyncio import (
     create_async_engine,
     AsyncEngine,
     async_sessionmaker,
-    AsyncSession,
 )
 
 from core.config import settings
+from events import EventSession
 from utils import orjson_serializer, orjson_deserializer
 
 
 class DatabaseHelper:
     def __init__(
-        self,
-        url: str,
-        echo: bool = False,
-        echo_pool: bool = False,
-        pool_size: int = 5,
-        max_overflow: int = 10,
+            self,
+            url: str,
+            echo: bool = False,
+            echo_pool: bool = False,
+            pool_size: int = 5,
+            max_overflow: int = 10,
     ) -> None:
         self.engine: AsyncEngine = create_async_engine(
             url=url,
@@ -29,8 +29,9 @@ class DatabaseHelper:
             json_serializer=orjson_serializer,
             json_deserializer=orjson_deserializer,
         )
-        self.session_factory: async_sessionmaker[AsyncSession] = async_sessionmaker(
+        self.session_factory: async_sessionmaker[EventSession] = async_sessionmaker(
             bind=self.engine,
+            class_=EventSession,
             autoflush=False,
             autocommit=False,
             expire_on_commit=False,
@@ -39,7 +40,7 @@ class DatabaseHelper:
     async def dispose(self) -> None:
         await self.engine.dispose()
 
-    async def session_getter(self) -> AsyncGenerator[AsyncSession, None]:
+    async def session_getter(self) -> AsyncGenerator[EventSession, None]:
         async with self.session_factory() as session:
             yield session
 
