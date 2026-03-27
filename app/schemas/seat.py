@@ -46,3 +46,11 @@ class SeatRead(Id, SeatBaseWithRelations):
 
 class SeatSnapshot(Id, SeatBase):
     model_config = ConfigDict(from_attributes=True)
+
+
+class SeatCreateEvent(SeatCreateDB):
+    model_config = ConfigDict(extra='ignore')
+
+
+class SeatUpdateEvent(Id, SeatUpdateDB):
+    model_config = ConfigDict(extra='ignore')

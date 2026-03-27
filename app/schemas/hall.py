@@ -38,3 +38,11 @@ class HallRead(Id, HallBase):
 
 class HallSnapshot(HallRead):
     model_config = ConfigDict(from_attributes=True)
+
+
+class HallCreateEvent(HallCreateDB):
+    model_config = ConfigDict(extra='ignore')
+
+
+class HallUpdateEvent(Id, HallUpdateDB):
+    model_config = ConfigDict(extra='ignore')

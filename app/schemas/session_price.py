@@ -46,3 +46,11 @@ class SessionPriceCombination(BaseModel):
     seat_type: SeatType
 
     model_config = ConfigDict(frozen=True)
+
+
+class SessionPriceCreateEvent(SessionPriceCreateDB):
+    model_config = ConfigDict(extra='ignore')
+
+
+class SessionPriceUpdateEvent(Id, SessionPriceUpdateDB):
+    model_config = ConfigDict(extra='ignore')

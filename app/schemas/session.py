@@ -48,3 +48,11 @@ class SessionRead(Id, SessionBaseWithRelations):
 
 class SessionSnapshot(Id, SessionBase):
     model_config = ConfigDict(from_attributes=True)
+
+
+class SessionCreateEvent(SessionCreateDB):
+    model_config = ConfigDict(extra='ignore')
+
+
+class SessionUpdateEvent(Id, SessionUpdateDB):
+    model_config = ConfigDict(extra='ignore')
