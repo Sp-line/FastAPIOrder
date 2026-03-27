@@ -2,10 +2,14 @@ from contextlib import asynccontextmanager
 
 from dishka import make_async_container
 from dishka.integrations.fastapi import setup_dishka as setup_fastapi_dishka
+from dishka.integrations.faststream import setup_dishka as setup_faststream_dishka
 from dishka.integrations.taskiq import setup_dishka as setup_taskiq_dishka
 from fastapi import FastAPI
 
-from core import broker
+from core import (
+    broker,
+    fs_router,
+)
 from core.models import db_helper
 from dependencies import (
     InfrastructureProvider,
@@ -40,6 +44,9 @@ def create() -> FastAPI:
     )
 
     setup_fastapi_dishka(container, app)
+    setup_faststream_dishka(container, broker=fs_router.broker, auto_inject=True)
     setup_taskiq_dishka(container, broker)
+
+    app.include_router(fs_router)
 
     return app
