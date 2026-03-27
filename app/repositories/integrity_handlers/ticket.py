@@ -1,5 +1,9 @@
 from constants import PostgresErrorCode
-from exceptions.db import UniqueFieldException, RelatedObjectNotFoundException, UniqueException
+from exceptions.db import (
+    UniqueFieldException,
+    RelatedObjectNotFoundException,
+    UniqueException,
+)
 from repositories.integrity_handlers.base import TableErrorHandler
 from schemas.db import ConstraintRule
 
@@ -48,10 +52,20 @@ ix_unique_active_ticket_per_seat = ConstraintRule(
     )
 )
 
+pk_tickets = ConstraintRule(
+    name="pk_tickets",
+    error_code=PostgresErrorCode.UNIQUE_VIOLATION,
+    exception=UniqueFieldException(
+        field_name="id",
+        table_name="tickets"
+    )
+)
+
 ticket_error_handler = TableErrorHandler(
     uq_tickets_public_code,
     fk_tickets_order_id_orders,
     fk_tickets_session_id_sessions,
     fk_tickets_seat_id_seats,
-    ix_unique_active_ticket_per_seat
+    ix_unique_active_ticket_per_seat,
+    pk_tickets
 )

@@ -1,12 +1,12 @@
 from dishka.integrations.faststream import FromDishka
 from faststream import AckPolicy
-from nats.js.api import DeliverPolicy
 from pydantic import TypeAdapter
 
 from core import (
     fs_router,
     showtimes_stream
 )
+from handlers.base import base_consumer_config
 from repositories import SeatRepository
 from repositories.unit_of_work import UnitOfWork
 from schemas.seat import (
@@ -20,8 +20,9 @@ from schemas.seat import (
 @fs_router.subscriber(
     "showtimes.seats.created",
     stream=showtimes_stream,
-    deliver_policy=DeliverPolicy.NEW,
-    ack_policy=AckPolicy.NACK_ON_ERROR
+    durable="session_svc_seats_created",
+    ack_policy=AckPolicy.NACK_ON_ERROR,
+    config=base_consumer_config
 )
 async def seats_created_on_session_microservice_sync_db(
         payload: SeatCreateEvent,
@@ -35,8 +36,9 @@ async def seats_created_on_session_microservice_sync_db(
 @fs_router.subscriber(
     "showtimes.seats.bulk.created",
     stream=showtimes_stream,
-    deliver_policy=DeliverPolicy.NEW,
-    ack_policy=AckPolicy.NACK_ON_ERROR
+    durable="session_svc_seats_bulk_created",
+    ack_policy=AckPolicy.NACK_ON_ERROR,
+    config=base_consumer_config
 )
 async def seats_bulk_created_on_session_microservice_sync_db(
         payload: list[SeatCreateEvent],
@@ -52,8 +54,9 @@ async def seats_bulk_created_on_session_microservice_sync_db(
 @fs_router.subscriber(
     "showtimes.seats.updated",
     stream=showtimes_stream,
-    deliver_policy=DeliverPolicy.NEW,
-    ack_policy=AckPolicy.NACK_ON_ERROR
+    durable="session_svc_seats_updated",
+    ack_policy=AckPolicy.NACK_ON_ERROR,
+    config=base_consumer_config
 )
 async def seats_updated_on_session_microservice_sync_db(
         payload: SeatUpdateEvent,
@@ -67,8 +70,9 @@ async def seats_updated_on_session_microservice_sync_db(
 @fs_router.subscriber(
     "showtimes.seats.bulk.updated",
     stream=showtimes_stream,
-    deliver_policy=DeliverPolicy.NEW,
-    ack_policy=AckPolicy.NACK_ON_ERROR
+    durable="session_svc_seats_bulk_updated",
+    ack_policy=AckPolicy.NACK_ON_ERROR,
+    config=base_consumer_config
 )
 async def seats_bulk_updated_on_session_microservice_sync_db(
         payload: list[SeatUpdateEvent],

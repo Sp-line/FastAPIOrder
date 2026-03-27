@@ -4,7 +4,7 @@ __all__ = (
     "orjson_serializer",
     "orjson_deserializer",
     "build_map",
-    "get_ids"
+    "get_ids",
 )
 
 from .case_converter import camel_case_to_snake_case

@@ -1,5 +1,8 @@
 from constants import PostgresErrorCode
-from exceptions.db import UniqueFieldException, RelatedObjectNotFoundException
+from exceptions.db import (
+    UniqueFieldException,
+    RelatedObjectNotFoundException,
+)
 from repositories.integrity_handlers.base import TableErrorHandler
 from schemas.db import ConstraintRule
 
@@ -39,9 +42,19 @@ fk_orders_user_id_users = ConstraintRule(
     )
 )
 
+pk_orders = ConstraintRule(
+    name="pk_orders",
+    error_code=PostgresErrorCode.UNIQUE_VIOLATION,
+    exception=UniqueFieldException(
+        field_name="id",
+        table_name="orders"
+    )
+)
+
 order_error_handler = TableErrorHandler(
     uq_orders_number,
     uq_orders_public_code,
     uq_orders_expire_schedule_id,
-    fk_orders_user_id_users
+    fk_orders_user_id_users,
+    pk_orders
 )

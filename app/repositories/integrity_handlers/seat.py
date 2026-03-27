@@ -1,6 +1,10 @@
 from constants import PostgresErrorCode
-from exceptions.db import UniqueException, RelatedObjectNotFoundException, UniqueFieldException, \
-    DeleteConstraintException
+from exceptions.db import (
+    UniqueException,
+    RelatedObjectNotFoundException,
+    DeleteConstraintException,
+    UniqueFieldException,
+)
 from repositories.integrity_handlers.base import TableErrorHandler
 from schemas.db import ConstraintRule
 

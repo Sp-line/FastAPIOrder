@@ -1,5 +1,8 @@
 from constants import PostgresErrorCode
-from exceptions.db import DeleteConstraintException, UniqueFieldException
+from exceptions.db import (
+    DeleteConstraintException,
+    UniqueFieldException,
+)
 from repositories.integrity_handlers.base import TableErrorHandler
 from schemas.db import ConstraintRule
 

@@ -1,12 +1,12 @@
 from dishka.integrations.faststream import FromDishka
 from faststream import AckPolicy
-from nats.js.api import DeliverPolicy
 from pydantic import TypeAdapter
 
 from core import (
     fs_router,
     showtimes_stream
 )
+from handlers.base import base_consumer_config
 from repositories import SessionRepository
 from repositories.unit_of_work import UnitOfWork
 from schemas.session import (
@@ -20,8 +20,9 @@ from schemas.session import (
 @fs_router.subscriber(
     "showtimes.sessions.created",
     stream=showtimes_stream,
-    deliver_policy=DeliverPolicy.NEW,
-    ack_policy=AckPolicy.NACK_ON_ERROR
+    durable="session_svc_sessions_created",
+    ack_policy=AckPolicy.NACK_ON_ERROR,
+    config=base_consumer_config
 )
 async def sessions_created_on_session_microservice_sync_db(
         payload: SessionCreateEvent,
@@ -35,8 +36,9 @@ async def sessions_created_on_session_microservice_sync_db(
 @fs_router.subscriber(
     "showtimes.sessions.bulk.created",
     stream=showtimes_stream,
-    deliver_policy=DeliverPolicy.NEW,
-    ack_policy=AckPolicy.NACK_ON_ERROR
+    durable="session_svc_sessions_bulk_created",
+    ack_policy=AckPolicy.NACK_ON_ERROR,
+    config=base_consumer_config
 )
 async def sessions_bulk_created_on_session_microservice_sync_db(
         payload: list[SessionCreateEvent],
@@ -52,8 +54,9 @@ async def sessions_bulk_created_on_session_microservice_sync_db(
 @fs_router.subscriber(
     "showtimes.sessions.updated",
     stream=showtimes_stream,
-    deliver_policy=DeliverPolicy.NEW,
-    ack_policy=AckPolicy.NACK_ON_ERROR
+    durable="session_svc_sessions_updated",
+    ack_policy=AckPolicy.NACK_ON_ERROR,
+    config=base_consumer_config
 )
 async def sessions_updated_on_session_microservice_sync_db(
         payload: SessionUpdateEvent,
@@ -67,8 +70,9 @@ async def sessions_updated_on_session_microservice_sync_db(
 @fs_router.subscriber(
     "showtimes.sessions.bulk.updated",
     stream=showtimes_stream,
-    deliver_policy=DeliverPolicy.NEW,
-    ack_policy=AckPolicy.NACK_ON_ERROR
+    durable="session_svc_sessions_bulk_updated",
+    ack_policy=AckPolicy.NACK_ON_ERROR,
+    config=base_consumer_config
 )
 async def sessions_bulk_updated_on_session_microservice_sync_db(
         payload: list[SessionUpdateEvent],

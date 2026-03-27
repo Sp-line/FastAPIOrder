@@ -1,23 +1,28 @@
 from dishka.integrations.faststream import FromDishka
 from faststream import AckPolicy
-from nats.js.api import DeliverPolicy
 from pydantic import TypeAdapter
 
 from core import (
     fs_router,
     showtimes_stream
 )
+from handlers.base import base_consumer_config
 from repositories import SessionPriceRepository
 from repositories.unit_of_work import UnitOfWork
-from schemas.session_price import SessionPriceCreateEvent, SessionPriceCreateDB, SessionPriceUpdateEvent, \
+from schemas.session_price import (
+    SessionPriceCreateEvent,
+    SessionPriceCreateDB,
+    SessionPriceUpdateEvent,
     SessionPriceUpdateDB
+)
 
 
 @fs_router.subscriber(
     "showtimes.session.prices.created",
     stream=showtimes_stream,
-    deliver_policy=DeliverPolicy.NEW,
-    ack_policy=AckPolicy.NACK_ON_ERROR
+    durable="session_svc_session_prices_created",
+    ack_policy=AckPolicy.NACK_ON_ERROR,
+    config=base_consumer_config
 )
 async def session_prices_created_on_session_microservice_sync_db(
         payload: SessionPriceCreateEvent,
@@ -31,8 +36,9 @@ async def session_prices_created_on_session_microservice_sync_db(
 @fs_router.subscriber(
     "showtimes.session.prices.bulk.created",
     stream=showtimes_stream,
-    deliver_policy=DeliverPolicy.NEW,
-    ack_policy=AckPolicy.NACK_ON_ERROR
+    durable="session_svc_session_prices_bulk_created",
+    ack_policy=AckPolicy.NACK_ON_ERROR,
+    config=base_consumer_config
 )
 async def session_prices_bulk_created_on_session_microservice_sync_db(
         payload: list[SessionPriceCreateEvent],
@@ -48,8 +54,9 @@ async def session_prices_bulk_created_on_session_microservice_sync_db(
 @fs_router.subscriber(
     "showtimes.session.prices.updated",
     stream=showtimes_stream,
-    deliver_policy=DeliverPolicy.NEW,
-    ack_policy=AckPolicy.NACK_ON_ERROR
+    durable="session_svc_session_prices_updated",
+    ack_policy=AckPolicy.NACK_ON_ERROR,
+    config=base_consumer_config
 )
 async def session_prices_updated_on_session_microservice_sync_db(
         payload: SessionPriceUpdateEvent,
@@ -63,8 +70,9 @@ async def session_prices_updated_on_session_microservice_sync_db(
 @fs_router.subscriber(
     "showtimes.session.prices.bulk.updated",
     stream=showtimes_stream,
-    deliver_policy=DeliverPolicy.NEW,
-    ack_policy=AckPolicy.NACK_ON_ERROR
+    durable="session_svc_session_prices_bulk_updated",
+    ack_policy=AckPolicy.NACK_ON_ERROR,
+    config=base_consumer_config
 )
 async def session_prices_bulk_updated_on_session_microservice_sync_db(
         payload: list[SessionPriceUpdateEvent],
