@@ -4,6 +4,9 @@ __all__ = (
     "RepositoryBase",
     "UnitOfWork",
 
+    "EventCommandRepositoryBase",
+    "EventUnitOfWork",
+
     "HallRepository",
     "MovieRepository",
     "OrderQueryRepository",
@@ -23,8 +26,10 @@ from repositories.base import (
     RepositoryBase,
     CommandRepositoryBase,
 )
-from repositories.unit_of_work import UnitOfWork
-
+from repositories.events import (
+    EventCommandRepositoryBase,
+    EventUnitOfWork
+)
 from repositories.hall import HallRepository
 from repositories.movie import MovieRepository
 from repositories.order import (
@@ -40,4 +45,5 @@ from repositories.ticket import (
     TicketRepository,
     TicketQueryRepository,
 )
+from repositories.unit_of_work import UnitOfWork
 from repositories.user import UserRepository
