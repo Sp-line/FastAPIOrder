@@ -5,11 +5,13 @@ from pydantic import BaseModel
 from sqlalchemy import (
     select,
     update,
-    delete, insert
+    delete,
+    insert
 )
 from sqlalchemy.exc import IntegrityError
 from sqlalchemy.ext.asyncio import AsyncSession
 
+from app_types import IntMap
 from core.models.mixins.int_id_pk import IntIdPkMixin
 from repositories.integrity_handlers import TableErrorHandler
 
@@ -88,7 +90,7 @@ class CommandRepositoryBase[
 
         return result.all()
 
-    async def bulk_update(self, data: dict[int, TUpdateSchema]) -> Sequence[TModel]:
+    async def bulk_update(self, data: IntMap[TUpdateSchema]) -> Sequence[TModel]:
         if not data:
             return []
 
