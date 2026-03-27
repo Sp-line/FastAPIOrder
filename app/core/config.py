@@ -1,6 +1,10 @@
 import logging
 
-from pydantic import BaseModel, RedisDsn
+from pydantic import (
+    BaseModel,
+    RedisDsn,
+    NatsDsn
+)
 from pydantic import PostgresDsn
 from pydantic_settings import (
     BaseSettings,
@@ -55,6 +59,10 @@ class DatabaseConfig(BaseModel):
     }
 
 
+class FastStreamConfig(BaseModel):
+    nats_url: NatsDsn
+
+
 class Settings(BaseSettings):
     model_config = SettingsConfigDict(
         env_file=(".env.template", ".env"),
@@ -66,6 +74,7 @@ class Settings(BaseSettings):
     run: RunConfig = RunConfig()
     api: ApiPrefix = ApiPrefix()
     logging: LoggingConfig = LoggingConfig()
+    faststream: FastStreamConfig
     taskiq: TaskiqConfig
     db: DatabaseConfig
 
