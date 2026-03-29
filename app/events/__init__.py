@@ -3,5 +3,8 @@ __all__ = (
     "Eventer"
 )
 
+import events.order
+import events.ticket
+
 from events.event_session import EventSession
 from events.eventer import Eventer
