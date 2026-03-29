@@ -66,8 +66,8 @@ class EventCommandRepositoryBase[
         )
         return models
 
-    async def update(self, obj_id: int, obj: TUpdateSchema) -> TModel | None:
-        model = await super().update(obj_id, obj)
+    async def update(self, obj_id: int, data: TUpdateSchema) -> TModel | None:
+        model = await super().update(obj_id, data)
         if model:
             self._session.events.append(
                 self._eventer.update(
