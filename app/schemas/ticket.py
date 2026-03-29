@@ -94,12 +94,16 @@ class TicketUpdateEvent(Id, TicketUpdateDB):
     model_config = ConfigDict(extra='ignore')
 
 
+class TicketDeleteEvent(Id, TicketBaseWithRelations):
+    model_config = ConfigDict(extra='ignore')
+
+
 ticket_event_schemas = CRUDEventSchemas[
     TicketCreateEvent,
     TicketUpdateEvent,
-    Id
+    TicketDeleteEvent
 ](
     create=TicketCreateEvent,
     update=TicketUpdateEvent,
-    delete=Id
+    delete=TicketDeleteEvent
 )

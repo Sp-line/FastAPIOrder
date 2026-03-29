@@ -12,13 +12,12 @@ from repositories import (
     EventCommandRepositoryBase
 )
 from repositories.integrity_handlers import ticket_error_handler
-from schemas.base import Id
 from schemas.ticket import (
     TicketUpdateDB,
     TicketCreateDB,
     TicketCreateEvent,
     TicketUpdateEvent,
-    ticket_event_schemas
+    ticket_event_schemas, TicketDeleteEvent
 )
 
 
@@ -61,7 +60,7 @@ class TicketCommandRepository(
         TicketUpdateDB,
         TicketCreateEvent,
         TicketUpdateEvent,
-        Id,
+        TicketDeleteEvent,
     ]
 ):
     def __init__(self, session: EventSession) -> None:
