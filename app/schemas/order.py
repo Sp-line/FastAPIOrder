@@ -7,6 +7,7 @@ from pydantic import BaseModel, Field, PositiveInt, ConfigDict
 
 from constants import OrderStatus, OrderLimits
 from schemas.base import Id
+from schemas.events import CRUDEventSchemas
 from utils import generate_order_public_code
 
 
@@ -68,3 +69,22 @@ class OrderAdminRead(Id, OrderRead):
 
 class OrderStatusUpdateReq(BaseModel):
     status: OrderStatus
+
+
+class OrderCreateEvent(OrderAdminRead):
+    model_config = ConfigDict(extra='ignore')
+
+
+class OrderUpdateEvent(Id, OrderUpdateDB):
+    model_config = ConfigDict(extra='ignore')
+
+
+order_event_schemas = CRUDEventSchemas[
+    OrderCreateEvent,
+    OrderUpdateEvent,
+    Id
+](
+    create=OrderCreateEvent,
+    update=OrderUpdateEvent,
+    delete=Id
+)
