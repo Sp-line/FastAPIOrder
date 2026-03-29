@@ -12,7 +12,7 @@ class TicketLimits:
 
 class TicketStatus(StrEnum):
     RESERVED = "reserved"
-    ACTIVE = "active"
+    PAID = "paid"
     USED = "used"
     EXPIRED = "expired"
     REFUND_PENDING = "refund_pending"

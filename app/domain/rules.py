@@ -57,13 +57,13 @@ class EnsureValidTicketStatusTransition:
             )
 
         allowed_transitions = {
-            TicketStatus.RESERVED: {TicketStatus.ACTIVE, TicketStatus.CANCELLED},
-            TicketStatus.ACTIVE: {TicketStatus.USED, TicketStatus.REFUND_PENDING, TicketStatus.CANCELLED},
-            TicketStatus.USED: {TicketStatus.ACTIVE, TicketStatus.REFUND_PENDING},
+            TicketStatus.RESERVED: {TicketStatus.PAID, TicketStatus.CANCELLED, TicketStatus.EXPIRED},
+            TicketStatus.PAID: {TicketStatus.USED, TicketStatus.REFUND_PENDING},
+            TicketStatus.USED: {TicketStatus.REFUND_PENDING},
+            TicketStatus.REFUND_PENDING: {TicketStatus.REFUNDED, TicketStatus.PAID},
 
             TicketStatus.EXPIRED: set(),
             TicketStatus.REFUNDED: set(),
-            TicketStatus.REFUND_PENDING: set(),
             TicketStatus.CANCELLED: set(),
         }
 

@@ -37,7 +37,7 @@ class Ticket(IntIdPkMixin, Base):
             postgresql_where=status.in_(
                 {
                     TicketStatus.RESERVED.value,
-                    TicketStatus.ACTIVE.value,
+                    TicketStatus.PAID.value,
                     TicketStatus.USED.value
                 }
             )
