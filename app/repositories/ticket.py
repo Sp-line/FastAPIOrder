@@ -5,14 +5,20 @@ from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from core.models import Ticket, Order
+from events import Eventer, EventSession
+from events.ticket import ticket_crud_publishers
 from repositories import (
     QueryRepositoryBase,
-    CommandRepositoryBase
+    EventCommandRepositoryBase
 )
 from repositories.integrity_handlers import ticket_error_handler
+from schemas.base import Id
 from schemas.ticket import (
     TicketUpdateDB,
-    TicketCreateDB
+    TicketCreateDB,
+    TicketCreateEvent,
+    TicketUpdateEvent,
+    ticket_event_schemas
 )
 
 
@@ -49,24 +55,29 @@ class TicketQueryRepository(
 
 
 class TicketCommandRepository(
-    CommandRepositoryBase[
+    EventCommandRepositoryBase[
         Ticket,
         TicketCreateDB,
         TicketUpdateDB,
+        TicketCreateEvent,
+        TicketUpdateEvent,
+        Id,
     ]
 ):
-    def __init__(self, session: AsyncSession) -> None:
+    def __init__(self, session: EventSession) -> None:
         super().__init__(
             model=Ticket,
             session=session,
-            table_error_handler=ticket_error_handler
+            table_error_handler=ticket_error_handler,
+            eventer=Eventer(ticket_crud_publishers),
+            event_schemas=ticket_event_schemas
         )
 
 
-class TicketRepository(
+class TicketRepository(  # type: ignore[misc]
     TicketQueryRepository,
     TicketCommandRepository
 ):
-    def __init__(self, session: AsyncSession) -> None:
+    def __init__(self, session: EventSession) -> None:
         TicketQueryRepository.__init__(self, session=session)
         TicketCommandRepository.__init__(self, session=session)
