@@ -11,14 +11,23 @@ from sqlalchemy.orm import selectinload
 
 from constants import OrderStatus
 from core.models import Order
+from events import (
+    EventSession,
+    Eventer
+)
+from events.order import order_crud_publishers
 from repositories import (
     QueryRepositoryBase,
-    CommandRepositoryBase
+    EventCommandRepositoryBase
 )
 from repositories.integrity_handlers import order_error_handler
+from schemas.base import Id
 from schemas.order import (
     OrderCreateDB,
-    OrderUpdateDB
+    OrderUpdateDB,
+    OrderCreateEvent,
+    OrderUpdateEvent,
+    order_event_schemas
 )
 
 
@@ -83,24 +92,29 @@ class OrderQueryRepository(
 
 
 class OrderCommandRepository(
-    CommandRepositoryBase[
+    EventCommandRepositoryBase[
         Order,
         OrderCreateDB,
         OrderUpdateDB,
+        OrderCreateEvent,
+        OrderUpdateEvent,
+        Id
     ]
 ):
-    def __init__(self, session: AsyncSession) -> None:
+    def __init__(self, session: EventSession) -> None:
         super().__init__(
             model=Order,
             session=session,
-            table_error_handler=order_error_handler
+            table_error_handler=order_error_handler,
+            eventer=Eventer(order_crud_publishers),
+            event_schemas=order_event_schemas
         )
 
 
-class OrderRepository(
+class OrderRepository(  # type: ignore[misc]
     OrderQueryRepository,
     OrderCommandRepository
 ):
-    def __init__(self, session: AsyncSession) -> None:
+    def __init__(self, session: EventSession) -> None:
         OrderQueryRepository.__init__(self, session=session)
         OrderCommandRepository.__init__(self, session=session)
