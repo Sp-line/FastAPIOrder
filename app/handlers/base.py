@@ -7,6 +7,6 @@ from nats.js.api import (
 base_consumer_config = ConsumerConfig(
     deliver_policy=DeliverPolicy.ALL,
     ack_policy=AckPolicy.EXPLICIT,
-    max_deliver=3,
-    ack_wait=10.0,
+    max_deliver=4,
+    backoff=[10.0, 20.0, 30.0],
 )
