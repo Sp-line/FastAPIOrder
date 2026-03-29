@@ -6,6 +6,7 @@ from pydantic import BaseModel, PositiveInt, Field, ConfigDict
 
 from constants import TicketStatus, TicketLimits
 from schemas.base import Id
+from schemas.events import CRUDEventSchemas
 from schemas.hall import HallSnapshot
 from schemas.movie import MovieSnapshot
 from schemas.seat import SeatSnapshot
@@ -83,3 +84,22 @@ class TicketStatusUpdateReq(BaseModel):
 
 class TicketPriceUpdateReq(BaseModel):
     price: Annotated[Decimal, Field(ge=TicketLimits.PRICE_MIN)]
+
+
+class TicketCreateEvent(TicketAdminRead):
+    model_config = ConfigDict(extra='ignore')
+
+
+class TicketUpdateEvent(Id, TicketUpdateDB):
+    model_config = ConfigDict(extra='ignore')
+
+
+ticket_event_schemas = CRUDEventSchemas[
+    TicketCreateEvent,
+    TicketUpdateEvent,
+    Id
+](
+    create=TicketCreateEvent,
+    update=TicketUpdateEvent,
+    delete=Id
+)
