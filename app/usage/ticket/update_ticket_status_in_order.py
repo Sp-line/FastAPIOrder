@@ -1,8 +1,8 @@
 from constants import OrderStatus
 from repositories import (
     TicketRepository,
-    UnitOfWork,
-    OrderRepository
+    OrderRepository,
+    EventUnitOfWork,
 )
 from schemas.order import OrderUpdateDB
 from schemas.ticket import (
@@ -22,7 +22,7 @@ class UpdateTicketStatusInOrderUsage:
             self,
             ticket_repo: TicketRepository,
             order_repo: OrderRepository,
-            unit_of_work: UnitOfWork,
+            unit_of_work: EventUnitOfWork,
 
             scheduler: TaskScheduler,
             domain: UpdateTicketStatusInOrderDomain,

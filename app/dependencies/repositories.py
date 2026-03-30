@@ -3,7 +3,6 @@ from dishka import (
     Scope,
     provide
 )
-from sqlalchemy.ext.asyncio import AsyncSession
 
 from repositories import (
     UnitOfWork,
@@ -18,16 +17,16 @@ from repositories import (
     UserRepository,
     TicketQueryRepository,
     TicketCommandRepository,
-    TicketRepository
+    TicketRepository,
+    EventUnitOfWork
 )
 
 
 class RepositoryProvider(Provider):
     scope = Scope.REQUEST
 
-    @provide
-    def get_uow(self, session: AsyncSession) -> UnitOfWork:
-        return UnitOfWork(session)
+    get_uow = provide(UnitOfWork)
+    get_signal_uow = provide(EventUnitOfWork)
 
     get_hall_repo = provide(HallRepository)
 

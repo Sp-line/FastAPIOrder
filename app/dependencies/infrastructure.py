@@ -1,4 +1,4 @@
-from typing import AsyncIterable
+from collections.abc import AsyncGenerator
 
 from dishka import (
     Provider,
@@ -18,7 +18,7 @@ class InfrastructureProvider(Provider):
     session_alias = alias(source=EventSession, provides=AsyncSession)
 
     @provide(scope=Scope.REQUEST)
-    async def get_db_session(self) -> AsyncIterable[EventSession]:
+    async def get_db_session(self) -> AsyncGenerator[EventSession, None]:
         async with db_helper.session_factory() as session:
             yield session
 

@@ -7,7 +7,7 @@ from constants import OrderStatus
 from repositories import (
     OrderRepository,
     TicketRepository,
-    UnitOfWork,
+    EventUnitOfWork,
 )
 from schemas.order import (
     OrderUpdateDB,
@@ -29,7 +29,7 @@ class RemoveTicketFromOrderUsage:
             self,
             order_repo: OrderRepository,
             ticket_repo: TicketRepository,
-            unit_of_work: UnitOfWork,
+            unit_of_work: EventUnitOfWork,
 
             domain: RemoveTicketFromOrderDomain,
             pricing: PricingStrategy,

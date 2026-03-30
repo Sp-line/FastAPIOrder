@@ -1,7 +1,7 @@
 from repositories import (
     TicketRepository,
     OrderRepository,
-    UnitOfWork
+    EventUnitOfWork
 )
 from schemas.order import OrderUpdateDB
 from schemas.ticket import (
@@ -21,7 +21,7 @@ class UpdateTicketPriceInOrderUsage:
             self,
             ticket_repo: TicketRepository,
             order_repo: OrderRepository,
-            unit_of_work: UnitOfWork,
+            unit_of_work: EventUnitOfWork,
 
             domain: UpdateTicketPriceInOrderDomain,
             data_existence: UpdateTicketPriceInOrderDataExistenceServices,

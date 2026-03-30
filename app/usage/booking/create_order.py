@@ -15,7 +15,7 @@ from repositories import (
     SessionRepository,
     SeatRepository,
     SessionPriceRepository,
-    UnitOfWork
+    EventUnitOfWork
 )
 from schemas.booking import (
     BookingOrderCreateReq,
@@ -56,7 +56,7 @@ class CreateBookingUsage:
             session_repo: SessionRepository,
             seat_repo: SeatRepository,
             session_price_repo: SessionPriceRepository,
-            uow: UnitOfWork,
+            uow: EventUnitOfWork,
 
             domain: CreateBookingDomain,
             data_assembler: BookingDataAssembler,
