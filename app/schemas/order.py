@@ -75,7 +75,7 @@ class OrderCreateEvent(OrderAdminRead):
     model_config = ConfigDict(extra='ignore')
 
 
-class OrderUpdateEvent(Id, OrderUpdateDB):
+class OrderUpdateEvent(OrderAdminRead):
     model_config = ConfigDict(extra='ignore')
 
 

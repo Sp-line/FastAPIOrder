@@ -90,7 +90,7 @@ class TicketCreateEvent(TicketAdminRead):
     model_config = ConfigDict(extra='ignore')
 
 
-class TicketUpdateEvent(Id, TicketUpdateDB):
+class TicketUpdateEvent(TicketAdminRead):
     model_config = ConfigDict(extra='ignore')
 
 
