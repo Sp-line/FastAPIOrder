@@ -1,9 +1,12 @@
+from typing import Annotated
+
 from dishka.integrations.fastapi import (
     DishkaRoute,
     FromDishka,
 )
-from fastapi import APIRouter
+from fastapi import APIRouter, Query
 
+from schemas.base import Pagination
 from schemas.session_price import (
     SessionPriceRead,
     SessionPriceCreateReq,
@@ -15,9 +18,11 @@ router = APIRouter(route_class=DishkaRoute)
 
 
 @router.get("/")
-async def get_session_prices(service: FromDishka[SessionPriceService], skip: int = 0, limit: int = 100) -> list[
-    SessionPriceRead]:
-    return await service.get_all(skip, limit)
+async def get_session_prices(
+        service: FromDishka[SessionPriceService],
+        query: Annotated[Pagination, Query()]
+) -> list[SessionPriceRead]:
+    return await service.get_all(query.skip, query.limit)
 
 
 @router.get("/{session_price_id}")

@@ -1,9 +1,12 @@
+from typing import Annotated
+
 from dishka.integrations.fastapi import (
     DishkaRoute,
     FromDishka,
 )
-from fastapi import APIRouter
+from fastapi import APIRouter, Query
 
+from schemas.base import Pagination
 from schemas.user import (
     UserRead,
     UserCreateReq,
@@ -15,8 +18,11 @@ router = APIRouter(route_class=DishkaRoute)
 
 
 @router.get("/")
-async def get_users(service: FromDishka[UserService], skip: int = 0, limit: int = 100) -> list[UserRead]:
-    return await service.get_all(skip, limit)
+async def get_users(
+        service: FromDishka[UserService],
+        query: Annotated[Pagination, Query()]
+) -> list[UserRead]:
+    return await service.get_all(query.skip, query.limit)
 
 
 @router.get("/{user_id}")

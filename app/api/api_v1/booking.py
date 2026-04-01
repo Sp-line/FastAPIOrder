@@ -1,11 +1,13 @@
+from typing import Annotated
 from uuid import UUID
 
 from dishka.integrations.fastapi import (
     DishkaRoute,
     FromDishka,
 )
-from fastapi import APIRouter
+from fastapi import APIRouter, Query
 
+from schemas.base import Pagination
 from schemas.booking import (
     BookingOrderRead,
     BookingOrderCreateReq,
@@ -15,7 +17,8 @@ from usage.booking import (
     GetBookingByNumberUsage,
     GetBookingsByUserIDUsage,
     CreateBookingUsage,
-    GetTicketByPublicCodeUsage, GetTicketsByUserIdUsage,
+    GetTicketByPublicCodeUsage,
+    GetTicketsByUserIdUsage,
 )
 
 router = APIRouter(route_class=DishkaRoute)
@@ -41,10 +44,9 @@ async def get_booking(
 async def get_bookings_by_user_id(
         get_bookings_by_user_id_usage: FromDishka[GetBookingsByUserIDUsage],
         user_id: int,
-        skip: int = 0,
-        limit: int = 100,
+        query: Annotated[Pagination, Query()]
 ) -> list[BookingOrderRead]:
-    return await get_bookings_by_user_id_usage(user_id, skip, limit)
+    return await get_bookings_by_user_id_usage(user_id, query.skip, query.limit)
 
 
 @router.get("/orders/tickets/{public_code}", summary="Get Ticket")
@@ -59,7 +61,6 @@ async def get_ticket_by_public_code(
 async def get_tickets_by_user_id(
         get_ticket_by_user_id_usage: FromDishka[GetTicketsByUserIdUsage],
         user_id: int,
-        skip: int = 0,
-        limit: int = 100,
-        ) -> list[TicketRead]:
-    return await get_ticket_by_user_id_usage(user_id, skip, limit)
+        query: Annotated[Pagination, Query()]
+) -> list[TicketRead]:
+    return await get_ticket_by_user_id_usage(user_id, query.skip, query.limit)

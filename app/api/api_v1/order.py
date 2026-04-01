@@ -1,9 +1,12 @@
+from typing import Annotated
+
 from dishka.integrations.fastapi import (
     DishkaRoute,
     FromDishka,
 )
-from fastapi import APIRouter
+from fastapi import APIRouter, Query
 
+from schemas.base import Pagination
 from schemas.order import (
     OrderAdminRead,
     OrderCreateReq,
@@ -21,8 +24,11 @@ router = APIRouter(route_class=DishkaRoute)
 
 
 @router.get("/", summary="[Admin] Get Orders")
-async def get_orders(service: FromDishka[OrderQueryService], skip: int = 0, limit: int = 100) -> list[OrderAdminRead]:
-    return await service.get_all(skip, limit)
+async def get_orders(
+        service: FromDishka[OrderQueryService],
+        query: Annotated[Pagination, Query()]
+) -> list[OrderAdminRead]:
+    return await service.get_all(query.skip, query.limit)
 
 
 @router.get("/{order_id}", summary="[Admin] Get Order")

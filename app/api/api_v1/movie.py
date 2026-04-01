@@ -1,9 +1,12 @@
+from typing import Annotated
+
 from dishka.integrations.fastapi import (
     DishkaRoute,
     FromDishka
 )
-from fastapi import APIRouter
+from fastapi import APIRouter, Query
 
+from schemas.base import Pagination
 from schemas.movie import (
     MovieRead,
     MovieCreateReq,
@@ -15,8 +18,11 @@ router = APIRouter(route_class=DishkaRoute)
 
 
 @router.get("/")
-async def get_movies(service: FromDishka[MovieService], skip: int = 0, limit: int = 100) -> list[MovieRead]:
-    return await service.get_all(skip, limit)
+async def get_movies(
+        service: FromDishka[MovieService],
+        query: Annotated[Pagination, Query()]
+) -> list[MovieRead]:
+    return await service.get_all(query.skip, query.limit)
 
 
 @router.get("/{movie_id}")

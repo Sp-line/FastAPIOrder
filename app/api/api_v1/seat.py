@@ -1,9 +1,12 @@
+from typing import Annotated
+
 from dishka.integrations.fastapi import (
     DishkaRoute,
     FromDishka,
 )
-from fastapi import APIRouter
+from fastapi import APIRouter, Query
 
+from schemas.base import Pagination
 from schemas.seat import (
     SeatRead,
     SeatCreateReq,
@@ -15,8 +18,11 @@ router = APIRouter(route_class=DishkaRoute)
 
 
 @router.get("/")
-async def get_seats(service: FromDishka[SeatService], skip: int = 0, limit: int = 100) -> list[SeatRead]:
-    return await service.get_all(skip, limit)
+async def get_seats(
+        service: FromDishka[SeatService],
+        query: Annotated[Pagination, Query()]
+) -> list[SeatRead]:
+    return await service.get_all(query.skip, query.limit)
 
 
 @router.get("/{seat_id}")
