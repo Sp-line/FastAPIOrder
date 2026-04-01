@@ -17,18 +17,20 @@ from repositories.integrity_handlers import TableErrorHandler
 
 
 class QueryRepositoryBase[
-    TModel: IntIdPkMixin,
-    TSession: AsyncSession = AsyncSession,
+TModel: IntIdPkMixin,
+TSession: AsyncSession = AsyncSession,
 ]:
     def __init__(self, model: type[TModel], session: TSession) -> None:
         self._model = model
         self._session = session
 
     async def get_by_ids(self, obj_ids: Iterable[int]) -> Sequence[TModel]:
-        if not obj_ids:
+        unique_ids = set(obj_ids)
+
+        if not unique_ids:
             return []
 
-        stmt = select(self._model).where(self._model.id.in_(obj_ids))
+        stmt = select(self._model).where(self._model.id.in_(unique_ids))
         result = await self._session.execute(stmt)
         return result.scalars().all()
 
@@ -42,10 +44,10 @@ class QueryRepositoryBase[
 
 
 class CommandRepositoryBase[
-    TModel: IntIdPkMixin,
-    TCreateSchema: BaseModel,
-    TUpdateSchema: BaseModel,
-    TSession: AsyncSession = AsyncSession,
+TModel: IntIdPkMixin,
+TCreateSchema: BaseModel,
+TUpdateSchema: BaseModel,
+TSession: AsyncSession = AsyncSession,
 ]:
     def __init__(
             self,
@@ -70,12 +72,10 @@ class CommandRepositoryBase[
         await self._session.refresh(obj)
         return obj
 
-
-    async def bulk_create(self, data: list[TCreateSchema]) -> Sequence[TModel]:
-        if not data:
-            return []
-
+    async def bulk_create(self, data: Iterable[TCreateSchema]) -> Sequence[TModel]:
         insert_data = [item.model_dump() for item in data]
+        if not insert_data:
+            return []
 
         stmt = (
             insert(self._model)
@@ -148,10 +148,10 @@ class CommandRepositoryBase[
 
 
 class RepositoryBase[
-    TModel: IntIdPkMixin,
-    TCreateSchema: BaseModel,
-    TUpdateSchema: BaseModel,
-    TSession: AsyncSession = AsyncSession,
+TModel: IntIdPkMixin,
+TCreateSchema: BaseModel,
+TUpdateSchema: BaseModel,
+TSession: AsyncSession = AsyncSession,
 ](
     QueryRepositoryBase[TModel, TSession],
     CommandRepositoryBase[TModel, TCreateSchema, TUpdateSchema, TSession]
