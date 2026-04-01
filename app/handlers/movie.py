@@ -1,11 +1,11 @@
 from dishka.integrations.faststream import FromDishka
-from faststream import AckPolicy
 from pydantic import TypeAdapter
 
 from core import (
     fs_router,
     catalog_stream
 )
+from core.config import settings
 from handlers.base import base_consumer_config
 from repositories.movie import MovieRepository
 from repositories.unit_of_work import UnitOfWork
@@ -22,7 +22,7 @@ from schemas.movie import (
     stream=catalog_stream,
     pull_sub=True,
     durable="movie_svc_movies_created_sync_db",
-    ack_policy=AckPolicy.NACK_ON_ERROR,
+    ack_policy=settings.faststream.consumer.faststream_ack_policy,
     config=base_consumer_config
 )
 async def movies_created_on_movie_microservice_sync_db(
@@ -39,7 +39,7 @@ async def movies_created_on_movie_microservice_sync_db(
     stream=catalog_stream,
     pull_sub=True,
     durable="movie_svc_movies_bulk_created_sync_db",
-    ack_policy=AckPolicy.NACK_ON_ERROR,
+    ack_policy=settings.faststream.consumer.faststream_ack_policy,
     config=base_consumer_config
 )
 async def movies_bulk_created_on_movie_microservice_sync_db(
@@ -58,7 +58,7 @@ async def movies_bulk_created_on_movie_microservice_sync_db(
     stream=catalog_stream,
     pull_sub=True,
     durable="movie_svc_movies_updated_sync_db",
-    ack_policy=AckPolicy.NACK_ON_ERROR,
+    ack_policy=settings.faststream.consumer.faststream_ack_policy,
     config=base_consumer_config
 )
 async def movies_updated_on_movie_microservice_sync_db(

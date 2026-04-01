@@ -1,5 +1,7 @@
 import logging
 
+from faststream import AckPolicy
+from nats.js.api import DeliverPolicy, AckPolicy as NatsAckPolicy
 from pydantic import (
     BaseModel,
     RedisDsn,
@@ -59,8 +61,17 @@ class DatabaseConfig(BaseModel):
     }
 
 
+class ConsumerConfig(BaseModel):
+    deliver_policy: DeliverPolicy = DeliverPolicy.ALL
+    ack_policy: NatsAckPolicy = NatsAckPolicy.EXPLICIT
+    max_deliver: int = 4
+    backoff: list[float] = [10.0, 20.0, 30.0]
+    faststream_ack_policy: AckPolicy = AckPolicy.NACK_ON_ERROR
+
+
 class FastStreamConfig(BaseModel):
     nats_url: NatsDsn
+    consumer: ConsumerConfig = ConsumerConfig()
 
 
 class Settings(BaseSettings):

@@ -1,11 +1,11 @@
 from dishka.integrations.faststream import FromDishka
-from faststream import AckPolicy
 from pydantic import TypeAdapter
 
 from core import (
     fs_router,
     showtimes_stream
 )
+from core.config import settings
 from handlers.base import base_consumer_config
 from repositories import SeatRepository
 from repositories.unit_of_work import UnitOfWork
@@ -22,7 +22,7 @@ from schemas.seat import (
     stream=showtimes_stream,
     pull_sub=True,
     durable="session_svc_seats_created_sync_db",
-    ack_policy=AckPolicy.NACK_ON_ERROR,
+    ack_policy=settings.faststream.consumer.faststream_ack_policy,
     config=base_consumer_config
 )
 async def seats_created_on_session_microservice_sync_db(
@@ -39,7 +39,7 @@ async def seats_created_on_session_microservice_sync_db(
     stream=showtimes_stream,
     pull_sub=True,
     durable="session_svc_seats_bulk_created_sync_db",
-    ack_policy=AckPolicy.NACK_ON_ERROR,
+    ack_policy=settings.faststream.consumer.faststream_ack_policy,
     config=base_consumer_config
 )
 async def seats_bulk_created_on_session_microservice_sync_db(
@@ -58,7 +58,7 @@ async def seats_bulk_created_on_session_microservice_sync_db(
     stream=showtimes_stream,
     pull_sub=True,
     durable="session_svc_seats_updated_sync_db",
-    ack_policy=AckPolicy.NACK_ON_ERROR,
+    ack_policy=settings.faststream.consumer.faststream_ack_policy,
     config=base_consumer_config
 )
 async def seats_updated_on_session_microservice_sync_db(
@@ -75,7 +75,7 @@ async def seats_updated_on_session_microservice_sync_db(
     stream=showtimes_stream,
     pull_sub=True,
     durable="session_svc_seats_bulk_updated_sync_db",
-    ack_policy=AckPolicy.NACK_ON_ERROR,
+    ack_policy=settings.faststream.consumer.faststream_ack_policy,
     config=base_consumer_config
 )
 async def seats_bulk_updated_on_session_microservice_sync_db(
