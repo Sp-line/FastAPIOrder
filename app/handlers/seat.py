@@ -20,7 +20,7 @@ from schemas.seat import (
 @fs_router.subscriber(
     "showtimes.seats.created",
     stream=showtimes_stream,
-    durable="session_svc_seats_created",
+    durable="session_svc_seats_created_sync_db",
     ack_policy=AckPolicy.NACK_ON_ERROR,
     config=base_consumer_config
 )
@@ -36,7 +36,7 @@ async def seats_created_on_session_microservice_sync_db(
 @fs_router.subscriber(
     "showtimes.seats.bulk.created",
     stream=showtimes_stream,
-    durable="session_svc_seats_bulk_created",
+    durable="session_svc_seats_bulk_created_sync_db",
     ack_policy=AckPolicy.NACK_ON_ERROR,
     config=base_consumer_config
 )
@@ -54,7 +54,7 @@ async def seats_bulk_created_on_session_microservice_sync_db(
 @fs_router.subscriber(
     "showtimes.seats.updated",
     stream=showtimes_stream,
-    durable="session_svc_seats_updated",
+    durable="session_svc_seats_updated_sync_db",
     ack_policy=AckPolicy.NACK_ON_ERROR,
     config=base_consumer_config
 )
@@ -70,7 +70,7 @@ async def seats_updated_on_session_microservice_sync_db(
 @fs_router.subscriber(
     "showtimes.seats.bulk.updated",
     stream=showtimes_stream,
-    durable="session_svc_seats_bulk_updated",
+    durable="session_svc_seats_bulk_updated_sync_db",
     ack_policy=AckPolicy.NACK_ON_ERROR,
     config=base_consumer_config
 )

@@ -20,7 +20,7 @@ from schemas.session import (
 @fs_router.subscriber(
     "showtimes.sessions.created",
     stream=showtimes_stream,
-    durable="session_svc_sessions_created",
+    durable="session_svc_sessions_created_sync_db",
     ack_policy=AckPolicy.NACK_ON_ERROR,
     config=base_consumer_config
 )
@@ -36,7 +36,7 @@ async def sessions_created_on_session_microservice_sync_db(
 @fs_router.subscriber(
     "showtimes.sessions.bulk.created",
     stream=showtimes_stream,
-    durable="session_svc_sessions_bulk_created",
+    durable="session_svc_sessions_bulk_created_sync_db",
     ack_policy=AckPolicy.NACK_ON_ERROR,
     config=base_consumer_config
 )
@@ -54,7 +54,7 @@ async def sessions_bulk_created_on_session_microservice_sync_db(
 @fs_router.subscriber(
     "showtimes.sessions.updated",
     stream=showtimes_stream,
-    durable="session_svc_sessions_updated",
+    durable="session_svc_sessions_updated_sync_db",
     ack_policy=AckPolicy.NACK_ON_ERROR,
     config=base_consumer_config
 )
@@ -70,7 +70,7 @@ async def sessions_updated_on_session_microservice_sync_db(
 @fs_router.subscriber(
     "showtimes.sessions.bulk.updated",
     stream=showtimes_stream,
-    durable="session_svc_sessions_bulk_updated",
+    durable="session_svc_sessions_bulk_updated_sync_db",
     ack_policy=AckPolicy.NACK_ON_ERROR,
     config=base_consumer_config
 )

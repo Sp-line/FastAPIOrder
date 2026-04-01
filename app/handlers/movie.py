@@ -20,7 +20,7 @@ from schemas.movie import (
 @fs_router.subscriber(
     "catalog.movies.created",
     stream=catalog_stream,
-    durable="movie_svc_movie_created",
+    durable="movie_svc_movies_created_sync_db",
     ack_policy=AckPolicy.NACK_ON_ERROR,
     config=base_consumer_config
 )
@@ -36,7 +36,7 @@ async def movies_created_on_movie_microservice_sync_db(
 @fs_router.subscriber(
     "catalog.movies.bulk.created",
     stream=catalog_stream,
-    durable="movie_svc_movie_bulk_created",
+    durable="movie_svc_movies_bulk_created_sync_db",
     ack_policy=AckPolicy.NACK_ON_ERROR,
     config=base_consumer_config
 )
@@ -54,7 +54,7 @@ async def movies_bulk_created_on_movie_microservice_sync_db(
 @fs_router.subscriber(
     "catalog.movies.updated",
     stream=catalog_stream,
-    durable="movie_svc_movie_updated",
+    durable="movie_svc_movies_updated_sync_db",
     ack_policy=AckPolicy.NACK_ON_ERROR,
     config=base_consumer_config
 )
