@@ -1,3 +1,5 @@
+from collections.abc import Iterable
+
 from pydantic import BaseModel
 
 from exceptions.db import ObjectNotFoundException
@@ -56,7 +58,7 @@ class CommandServiceBase[
         self._db_create_schema = db_create_schema
         self._db_update_schema = db_update_schema
 
-    async def bulk_create(self, data: list[TCreateSchema]) -> list[TReadSchema]:
+    async def bulk_create(self, data: Iterable[TCreateSchema]) -> list[TReadSchema]:
         bulk_create_data = self._bulk_create_data_transfer(data)
         async with self._uof:
             return [self._read_schema.model_validate(obj) for obj in
@@ -83,7 +85,7 @@ class CommandServiceBase[
     def _create_data_transfer(self, data: TCreateSchema) -> TDBCreateSchema:
         return self._db_create_schema.model_validate(data)
 
-    def _bulk_create_data_transfer(self, data: list[TCreateSchema]) -> list[TDBCreateSchema]:
+    def _bulk_create_data_transfer(self, data: Iterable[TCreateSchema]) -> list[TDBCreateSchema]:
         return [self._db_create_schema.model_validate(obj) for obj in data]
 
     def _update_data_transfer(self, data: TUpdateSchema) -> TDBUpdateSchema:
