@@ -1,3 +1,4 @@
+from collections.abc import Iterable
 from types import TracebackType
 from typing import Sequence
 
@@ -57,7 +58,7 @@ class EventCommandRepositoryBase[
         )
         return model
 
-    async def bulk_create(self, data: list[TCreateSchema]) -> Sequence[TModel]:
+    async def bulk_create(self, data: Iterable[TCreateSchema]) -> Sequence[TModel]:
         models = await super().bulk_create(data)
         self._session.events.append(
             self._eventer.bulk_create(
