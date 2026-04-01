@@ -20,6 +20,7 @@ from schemas.hall import (
 @fs_router.subscriber(
     "showtimes.halls.created",
     stream=showtimes_stream,
+    pull_sub=True,
     durable="session_svc_halls_created_sync_db",
     ack_policy=AckPolicy.NACK_ON_ERROR,
     config=base_consumer_config
@@ -36,6 +37,7 @@ async def halls_created_on_session_microservice_sync_db(
 @fs_router.subscriber(
     "showtimes.halls.bulk.created",
     stream=showtimes_stream,
+    pull_sub=True,
     durable="session_svc_halls_bulk_created_sync_db",
     ack_policy=AckPolicy.NACK_ON_ERROR,
     config=base_consumer_config
@@ -54,6 +56,7 @@ async def halls_bulk_created_on_session_microservice_sync_db(
 @fs_router.subscriber(
     "showtimes.halls.updated",
     stream=showtimes_stream,
+    pull_sub=True,
     durable="session_svc_halls_updated_sync_db",
     ack_policy=AckPolicy.NACK_ON_ERROR,
     config=base_consumer_config
@@ -70,6 +73,7 @@ async def halls_updated_on_session_microservice_sync_db(
 @fs_router.subscriber(
     "showtimes.halls.bulk.updated",
     stream=showtimes_stream,
+    pull_sub=True,
     durable="session_svc_halls_bulk_updated_sync_db",
     ack_policy=AckPolicy.NACK_ON_ERROR,
     config=base_consumer_config
