@@ -11,7 +11,9 @@ __all__ = (
     "TicketStatus",
     "TicketLimits",
     "BookingLimits",
-    "PostgresErrorCode"
+    "OutboxEventLimits",
+    "PostgresErrorCode",
+
 )
 
 from constants.booking import BookingLimits
@@ -19,6 +21,7 @@ from constants.db import PostgresErrorCode
 from constants.hall import HallLimits
 from constants.movie import MovieLimits
 from constants.order import OrderLimits, OrderStatus
+from constants.outbox_event import OutboxEventLimits
 from constants.seat import SeatLimits
 from constants.seat_type import SeatType
 from constants.session import SessionLimits
