@@ -70,6 +70,7 @@ class ConsumerConfig(BaseModel):
 
 
 class FastStreamConfig(BaseModel):
+    microservice: str
     nats_url: NatsDsn
     consumer: ConsumerConfig = ConsumerConfig()
 
