@@ -4,8 +4,11 @@ services:
     image: postgres
     env_file:
       - app/.env
+    command: ["postgres", "-c", "wal_level=logical", "-c", "max_wal_senders=5", "-c", "max_replication_slots=5"]
     ports:
       - "5434:5432"
+    volumes:
+      - pg_data_storage:/var/lib/postgresql
 
   redis:
     image: redis:8-alpine
@@ -17,3 +20,31 @@ services:
       interval: 5s
       timeout: 3s
       retries: 5
+
+  debezium:
+    image: quay.io/debezium/server:3.4.2.Final
+    container_name: debezium_server
+    depends_on:
+      - pg
+    env_file:
+      - app/.env
+    volumes:
+      - ./debezium/conf:/debezium/config
+      - debezium_data_storage:/debezium/data
+    networks:
+      - default
+      - shared_infra
+
+
+volumes:
+  debezium_data_storage:
+
+  pg_data_storage:
+
+
+networks:
+  default:
+
+  shared_infra:
+    name: shared_infra_network
+    external: true
