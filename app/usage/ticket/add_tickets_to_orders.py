@@ -10,7 +10,7 @@ from repositories import (
     SeatRepository,
     SessionPriceRepository,
     TicketRepository,
-    EventUnitOfWork
+    UnitOfWork
 )
 from schemas.order import OrderUpdateDB
 from schemas.ticket import (
@@ -49,7 +49,7 @@ class AddTicketsToOrdersUsage:
             seat_repo: SeatRepository,
             session_price_repo: SessionPriceRepository,
             ticket_repo: TicketRepository,
-            unit_of_work: EventUnitOfWork,
+            unit_of_work: UnitOfWork,
 
             domain: AddTicketsToOrdersDomain,
             data_assembler: BookingDataAssembler,

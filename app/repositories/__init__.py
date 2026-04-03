@@ -5,7 +5,6 @@ __all__ = (
     "UnitOfWork",
 
     "EventCommandRepositoryBase",
-    "EventUnitOfWork",
 
     "HallRepository",
     "MovieRepository",
@@ -26,10 +25,7 @@ from repositories.base import (
     RepositoryBase,
     CommandRepositoryBase,
 )
-from repositories.events import (
-    EventCommandRepositoryBase,
-    EventUnitOfWork
-)
+from repositories.events import EventCommandRepositoryBase
 from repositories.hall import HallRepository
 from repositories.movie import MovieRepository
 from repositories.order import (

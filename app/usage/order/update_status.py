@@ -1,7 +1,7 @@
 from constants import OrderStatus
 from repositories import (
     OrderRepository,
-    EventUnitOfWork
+    UnitOfWork
 )
 from schemas.order import (
     OrderStatusUpdateReq,
@@ -19,7 +19,7 @@ class UpdateOrderStatusUsage:
     def __init__(
             self,
             order_repo: OrderRepository,
-            unit_of_work: EventUnitOfWork,
+            unit_of_work: UnitOfWork,
 
             scheduler: TaskScheduler,
             domain: UpdateOrderStatusDomain,

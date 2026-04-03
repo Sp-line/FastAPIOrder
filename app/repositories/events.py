@@ -1,19 +1,20 @@
 from collections.abc import Iterable
-from types import TracebackType
 from typing import Sequence
 
 from pydantic import BaseModel
 from sqlalchemy import delete
 from sqlalchemy.exc import IntegrityError
+from sqlalchemy.ext.asyncio import AsyncSession
 
 from app_types import IntMap
-from core.models.mixins.int_id_pk import IntIdPkMixin
-from events import EventSession, Eventer
-from .base import CommandRepositoryBase
-from .unit_of_work import UnitOfWork
+from core.config import settings
+from core.models import OutboxEvent
+from core.models.mixins import IntIdPkMixin
+from events.topics import CRUDTopics
 from repositories.integrity_handlers import TableErrorHandler
 from schemas.base import Id
 from schemas.events import CRUDEventSchemas
+from .base import CommandRepositoryBase
 
 
 class EventCommandRepositoryBase[
@@ -28,15 +29,14 @@ class EventCommandRepositoryBase[
         TModel,
         TCreateSchema,
         TUpdateSchema,
-        EventSession,
+        AsyncSession,
     ]
 ):
     def __init__(
             self,
             model: type[TModel],
-            session: EventSession,
+            session: AsyncSession,
             table_error_handler: TableErrorHandler,
-            eventer: Eventer,
             event_schemas: CRUDEventSchemas[
                 TCreateEventSchema,
                 TUpdateEventSchema,
@@ -48,45 +48,80 @@ class EventCommandRepositoryBase[
             session=session,
             table_error_handler=table_error_handler
         )
-        self._eventer = eventer
         self._event_schemas = event_schemas
+        self._topics = CRUDTopics.generate(
+            microservice=settings.faststream.microservice,
+            table_name=self._model.__tablename__  # type: ignore[attr-defined]
+        )
 
     async def create(self, data: TCreateSchema) -> TModel:
         model = await super().create(data)
-        self._session.events.append(
-            self._eventer.create(self._event_schemas.create.model_validate(model))
+        payload = self._event_schemas.create.model_validate(model).model_dump(mode="json")
+
+        outbox_event = OutboxEvent(
+            subject=self._topics.create,
+            payload=payload,
         )
+        self._session.add(outbox_event)
+
         return model
 
     async def bulk_create(self, data: Iterable[TCreateSchema]) -> Sequence[TModel]:
         models = await super().bulk_create(data)
-        self._session.events.append(
-            self._eventer.bulk_create(
-                [self._event_schemas.create.model_validate(model) for model in models],
+        if models:
+            payloads = [
+                self._event_schemas.create.model_validate(model).model_dump(mode="json")
+                for model in models
+            ]
+
+            outbox_event = OutboxEvent(
+                subject=self._topics.bulk_create,
+                payload=payloads,
             )
-        )
+            self._session.add(outbox_event)
+
         return models
 
     async def update(self, obj_id: int, data: TUpdateSchema) -> TModel | None:
         model = await super().update(obj_id, data)
         if model:
-            self._session.events.append(
-                self._eventer.update(
-                    self._event_schemas.update.model_validate(model)
-                )
+            payload = self._event_schemas.update.model_validate(model).model_dump(mode="json")
+            outbox_event = OutboxEvent(
+                subject=self._topics.update,
+                payload=payload,
             )
+            self._session.add(outbox_event)
+
         return model
 
     async def bulk_update(self, data: IntMap[TUpdateSchema]) -> Sequence[TModel]:
         models = await super().bulk_update(data)
-        self._session.events.append(
-            self._eventer.bulk_update(
-                [self._event_schemas.update.model_validate(model) for model in models],
+        if models:
+            payloads = [
+                self._event_schemas.update.model_validate(model).model_dump(mode="json")
+                for model in models
+            ]
+            outbox_event = OutboxEvent(
+                subject=self._topics.bulk_update,
+                payload=payloads,
             )
-        )
+            self._session.add(outbox_event)
+
         return models
 
     async def delete(self, obj_id: int) -> bool:
+        model = await self._returning_delete(obj_id)
+        if model:
+            payload = self._event_schemas.delete.model_validate(model).model_dump(mode="json")
+            outbox_event = OutboxEvent(
+                subject=self._topics.delete,
+                payload=payload,
+            )
+            self._session.add(outbox_event)
+            return True
+        return False
+
+    async def _returning_delete(self, obj_id: int) -> TModel | None:
         stmt = (
             delete(self._model)
             .where(self._model.id == obj_id)
@@ -95,38 +130,8 @@ class EventCommandRepositoryBase[
 
         try:
             result = await self._session.execute(stmt)
-            deleted_row = result.scalar_one_or_none()
         except IntegrityError as e:
             self._table_error_handler.handle(e)
             raise
 
-        if deleted_row:
-            self._session.events.append(
-                self._eventer.delete(
-                    self._event_schemas.delete.model_validate(deleted_row)
-                )
-            )
-            return True
-        return False
-
-
-class EventUnitOfWork[
-    TSession: EventSession = EventSession
-](
-    UnitOfWork[
-        TSession
-    ]
-):
-    async def __aexit__(
-            self,
-            exc_type: type[BaseException] | None,
-            exc_val: BaseException | None,
-            exc_tb: TracebackType | None,
-    ) -> None:
-        await super().__aexit__(
-            exc_type,
-            exc_val,
-            exc_tb
-        )
-        if exc_type is None:
-            await self._session.events.send_all()
+        return result.scalar_one_or_none()

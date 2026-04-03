@@ -11,11 +11,6 @@ from sqlalchemy.orm import selectinload
 
 from constants import OrderStatus
 from core.models import Order
-from events import (
-    EventSession,
-    Eventer
-)
-from events.order import order_crud_publishers
 from repositories import (
     QueryRepositoryBase,
     EventCommandRepositoryBase
@@ -101,20 +96,19 @@ class OrderCommandRepository(
         Id
     ]
 ):
-    def __init__(self, session: EventSession) -> None:
+    def __init__(self, session: AsyncSession) -> None:
         super().__init__(
             model=Order,
             session=session,
             table_error_handler=order_error_handler,
-            eventer=Eventer(order_crud_publishers),
-            event_schemas=order_event_schemas
+            event_schemas=order_event_schemas,
         )
 
 
-class OrderRepository(  # type: ignore[misc]
+class OrderRepository(
     OrderQueryRepository,
     OrderCommandRepository
 ):
-    def __init__(self, session: EventSession) -> None:
+    def __init__(self, session: AsyncSession) -> None:
         OrderQueryRepository.__init__(self, session=session)
         OrderCommandRepository.__init__(self, session=session)

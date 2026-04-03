@@ -8,7 +8,7 @@ from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from constants import OrderLimits, OrderStatus
 from core.models import Base
-from core.models.mixins.int_id_pk import IntIdPkMixin
+from core.models.mixins import IntIdPkMixin
 from utils import generate_order_public_code
 
 if TYPE_CHECKING:

@@ -1,5 +1,8 @@
 from constants import OrderStatus
-from repositories import OrderRepository, EventUnitOfWork
+from repositories import (
+    OrderRepository,
+    UnitOfWork
+)
 from services import TaskScheduler
 from usage.order.facades import (
     DeleteOrderDomain,
@@ -11,7 +14,7 @@ class OrderDeleteUsage:
     def __init__(
             self,
             order_repo: OrderRepository,
-            unit_of_work: EventUnitOfWork,
+            unit_of_work: UnitOfWork,
 
             scheduler: TaskScheduler,
             domain: DeleteOrderDomain,

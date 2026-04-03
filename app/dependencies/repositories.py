@@ -18,7 +18,6 @@ from repositories import (
     TicketQueryRepository,
     TicketCommandRepository,
     TicketRepository,
-    EventUnitOfWork
 )
 
 
@@ -26,7 +25,6 @@ class RepositoryProvider(Provider):
     scope = Scope.REQUEST
 
     get_uow = provide(UnitOfWork)
-    get_signal_uow = provide(EventUnitOfWork)
 
     get_hall_repo = provide(HallRepository)
 

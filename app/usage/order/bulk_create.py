@@ -8,7 +8,7 @@ from constants import OrderStatus
 from repositories import (
     OrderRepository,
     UserRepository,
-    EventUnitOfWork
+    UnitOfWork
 )
 from schemas.order import (
     OrderCreateReq,
@@ -29,7 +29,7 @@ class BulkCreateOrderUsage:
             self,
             order_repo: OrderRepository,
             user_repo: UserRepository,
-            unit_of_work: EventUnitOfWork,
+            unit_of_work: UnitOfWork,
 
             scheduler: TaskScheduler,
             data_existence: BulkCreateOrderDataExistenceServices,

@@ -12,13 +12,13 @@ from sqlalchemy.exc import IntegrityError
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from app_types import IntMap
-from core.models.mixins.int_id_pk import IntIdPkMixin
+from core.models.mixins import IntIdPkMixin
 from repositories.integrity_handlers import TableErrorHandler
 
 
 class QueryRepositoryBase[
-TModel: IntIdPkMixin,
-TSession: AsyncSession = AsyncSession,
+    TModel: IntIdPkMixin,
+    TSession: AsyncSession = AsyncSession,
 ]:
     def __init__(self, model: type[TModel], session: TSession) -> None:
         self._model = model
@@ -44,10 +44,10 @@ TSession: AsyncSession = AsyncSession,
 
 
 class CommandRepositoryBase[
-TModel: IntIdPkMixin,
-TCreateSchema: BaseModel,
-TUpdateSchema: BaseModel,
-TSession: AsyncSession = AsyncSession,
+    TModel: IntIdPkMixin,
+    TCreateSchema: BaseModel,
+    TUpdateSchema: BaseModel,
+    TSession: AsyncSession = AsyncSession,
 ]:
     def __init__(
             self,
@@ -148,10 +148,10 @@ TSession: AsyncSession = AsyncSession,
 
 
 class RepositoryBase[
-TModel: IntIdPkMixin,
-TCreateSchema: BaseModel,
-TUpdateSchema: BaseModel,
-TSession: AsyncSession = AsyncSession,
+    TModel: IntIdPkMixin,
+    TCreateSchema: BaseModel,
+    TUpdateSchema: BaseModel,
+    TSession: AsyncSession = AsyncSession,
 ](
     QueryRepositoryBase[TModel, TSession],
     CommandRepositoryBase[TModel, TCreateSchema, TUpdateSchema, TSession]

@@ -6,7 +6,7 @@ from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from constants import SeatType, SeatLimits
 from core.models import Base
-from core.models.mixins.int_id_pk import IntIdPkMixin
+from core.models.mixins import IntIdPkMixin
 
 if TYPE_CHECKING:
     from core.models import Session
