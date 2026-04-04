@@ -9,11 +9,13 @@ __all__ = (
     "session_price_error_handler",
     "ticket_error_handler",
     "user_error_handler",
+    "inbox_events_error_handler",
 )
 
 from repositories.integrity_handlers.base import TableErrorHandler
 
 from repositories.integrity_handlers.hall import hall_error_handler
+from repositories.integrity_handlers.inbox_event import inbox_events_error_handler
 from repositories.integrity_handlers.movie import movie_error_handler
 from repositories.integrity_handlers.order import order_error_handler
 from repositories.integrity_handlers.seat import seat_error_handler
