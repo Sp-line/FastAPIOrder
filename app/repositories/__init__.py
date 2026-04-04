@@ -17,7 +17,10 @@ __all__ = (
     "TicketQueryRepository",
     "TicketCommandRepository",
     "TicketRepository",
-    "UserRepository"
+    "UserRepository",
+    "InboxEventQueryRepository",
+    "InboxEventCommandRepository",
+    "InboxEventRepository",
 )
 
 from repositories.base import (
@@ -27,6 +30,11 @@ from repositories.base import (
 )
 from repositories.events import EventCommandRepositoryBase
 from repositories.hall import HallRepository
+from repositories.inbox_events import (
+    InboxEventRepository,
+    InboxEventQueryRepository,
+    InboxEventCommandRepository,
+)
 from repositories.movie import MovieRepository
 from repositories.order import (
     OrderRepository,
