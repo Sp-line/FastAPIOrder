@@ -10,11 +10,13 @@ __all__ = (
     "Order",
     "Ticket",
     "OutboxEvent",
+    "InboxEvent",
 )
 
-from .db_helper import db_helper
 from .base import Base
+from .db_helper import db_helper
 from .hall import Hall
+from .inbox_event import InboxEvent
 from .movie import Movie
 from .order import Order
 from .outbox_event import OutboxEvent
