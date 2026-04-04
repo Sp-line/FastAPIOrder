@@ -19,7 +19,8 @@ from services import (
     TicketQueryService,
     TicketDataExistenceService,
     UserService,
-    UserDataExistenceService
+    UserDataExistenceService,
+    InboxUnitOfWork
 )
 from services import TaskScheduler
 from services.booking import (
@@ -46,6 +47,8 @@ from usage.ticket.facades import (
 
 class ServiceProvider(Provider):
     scope = Scope.REQUEST
+
+    get_inbox_unit_of_work = provide(InboxUnitOfWork)
 
     get_task_scheduler = provide(TaskScheduler, scope=Scope.APP)
 
