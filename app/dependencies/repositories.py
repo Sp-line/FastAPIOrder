@@ -18,6 +18,9 @@ from repositories import (
     TicketQueryRepository,
     TicketCommandRepository,
     TicketRepository,
+    InboxEventQueryRepository,
+    InboxEventCommandRepository,
+    InboxEventRepository,
 )
 
 
@@ -44,4 +47,8 @@ class RepositoryProvider(Provider):
 
     get_ticket_query_repo = provide(TicketQueryRepository)
     get_ticket_command_repo = provide(TicketCommandRepository)
-    get_ticket_repository = provide(TicketRepository)
+    get_ticket_repo = provide(TicketRepository)
+
+    get_inbox_event_query_repo = provide(InboxEventQueryRepository)
+    get_inbox_event_command_repo = provide(InboxEventCommandRepository)
+    get_inbox_event_repo = provide(InboxEventRepository)
