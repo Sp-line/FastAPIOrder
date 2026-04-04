@@ -19,7 +19,8 @@ __all__ = (
     "TicketQueryService",
     "TicketDataExistenceService",
     "UserService",
-    "UserDataExistenceService"
+    "UserDataExistenceService",
+    "InboxUnitOfWork"
 )
 
 from services.base import (
@@ -29,6 +30,7 @@ from services.base import (
 )
 from services.data_existence import DataExistenceServiceBase
 from services.hall import HallService
+from services.inbox_unit_of_work import InboxUnitOfWork
 from services.movie import MovieService
 from services.order import (
     OrderQueryService,
