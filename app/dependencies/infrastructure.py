@@ -4,7 +4,6 @@ from dishka import (
     Provider,
     Scope,
     provide,
-    alias
 )
 from sqlalchemy.ext.asyncio import AsyncSession
 from taskiq import ScheduleSource
