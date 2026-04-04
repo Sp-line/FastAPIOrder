@@ -1,3 +1,7 @@
-from typing import TypeAlias, Callable, Awaitable
+from typing import TypeAlias, Annotated
+from uuid import UUID
 
-AsyncEventFactory: TypeAlias = Callable[[], Awaitable[None]]
+from faststream.nats.fastapi import Context
+
+# noinspection PyUnresolvedReferences
+NatsMsgIdDep: TypeAlias = Annotated[UUID | None, Context("message.headers.Nats-Msg-Id", default=None)]

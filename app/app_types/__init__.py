@@ -2,11 +2,11 @@ __all__ = (
     "IntMap",
     "PriceMap",
     "TicketPricingData",
-    "AsyncEventFactory"
+    "NatsMsgIdDep"
 )
 
 from .base import IntMap
-from .events import AsyncEventFactory
+from .events import NatsMsgIdDep
 from .session_price import (
     PriceMap,
     TicketPricingData
