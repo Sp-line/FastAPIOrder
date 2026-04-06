@@ -1,7 +1,5 @@
 from nats.js.api import (
-    ConsumerConfig,
-    DeliverPolicy,
-    AckPolicy
+    ConsumerConfig
 )
 
 from core.config import settings
