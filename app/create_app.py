@@ -19,6 +19,7 @@ from dependencies import (
     DomainProvider,
     UsageProvider,
 )
+from exceptions.handlers import register_exception_handlers
 
 
 @asynccontextmanager
@@ -49,5 +50,6 @@ def create() -> FastAPI:
     setup_taskiq_dishka(container, broker)
 
     app.include_router(fs_router)
+    register_exception_handlers(app)
 
     return app
