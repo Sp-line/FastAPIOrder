@@ -1,14 +1,14 @@
 from constants import PostgresErrorCode
-from exceptions.db import UniqueFieldException
+from exceptions.db import UniqueFieldException, UniqueException
 from repositories.integrity_handlers import TableErrorHandler
 from schemas.db import ConstraintRule
 
-uq_inbox_events_code = ConstraintRule(
-    name="uq_inbox_events_code",
+uq_inbox_events_code_handler = ConstraintRule(
+    name="uq_inbox_events_code_handler",
     error_code=PostgresErrorCode.UNIQUE_VIOLATION,
-    exception=UniqueFieldException(
-        field_name="code",
-        table_name="inbox_events"
+    exception=UniqueException(
+        "inbox_events",
+        "code", "handler"
     )
 )
 
@@ -22,6 +22,6 @@ pk_inbox_events = ConstraintRule(
 )
 
 inbox_events_error_handler = TableErrorHandler(
-    uq_inbox_events_code,
+    uq_inbox_events_code_handler,
     pk_inbox_events,
 )
