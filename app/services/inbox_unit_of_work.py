@@ -18,13 +18,13 @@ class InboxUnitOfWork:
         self.repo = repo
 
     @asynccontextmanager
-    async def transactional(self, msg_id: UUID | None) -> AsyncIterator[ShouldProceed]:
+    async def transactional(self, msg_id: UUID | None, handler: str) -> AsyncIterator[ShouldProceed]:
         if msg_id is None:
             raise ValueError("Nats-Msg-Id is required for deduplication")
 
         async with self.uow:
             is_new = await self.repo.add_if_not_exists(
-                InboxEventCreateDB(code=msg_id)
+                InboxEventCreateDB(code=msg_id, handler=handler)
             )
 
             if not is_new:
