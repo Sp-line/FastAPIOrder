@@ -50,9 +50,9 @@ class SessionSnapshot(Id, SessionBase):
     model_config = ConfigDict(from_attributes=True)
 
 
-class SessionCreateEvent(SessionCreateDB):
+class SessionCreateEvent(SessionRead):
     model_config = ConfigDict(extra='ignore')
 
 
-class SessionUpdateEvent(Id, SessionUpdateDB):
+class SessionUpdateEvent(SessionRead):
     model_config = ConfigDict(extra='ignore')

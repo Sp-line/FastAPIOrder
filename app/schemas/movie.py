@@ -40,9 +40,9 @@ class MovieSnapshot(MovieRead):
     model_config = ConfigDict(from_attributes=True)
 
 
-class MovieCreateEvent(MovieCreateDB):
+class MovieCreateEvent(MovieRead):
     model_config = ConfigDict(extra='ignore')
 
 
-class MovieUpdateEvent(Id, MovieUpdateDB):
+class MovieUpdateEvent(MovieRead):
     model_config = ConfigDict(extra='ignore')

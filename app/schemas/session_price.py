@@ -48,9 +48,9 @@ class SessionPriceCombination(BaseModel):
     model_config = ConfigDict(frozen=True)
 
 
-class SessionPriceCreateEvent(SessionPriceCreateDB):
+class SessionPriceCreateEvent(SessionPriceRead):
     model_config = ConfigDict(extra='ignore')
 
 
-class SessionPriceUpdateEvent(Id, SessionPriceUpdateDB):
+class SessionPriceUpdateEvent(SessionPriceRead):
     model_config = ConfigDict(extra='ignore')

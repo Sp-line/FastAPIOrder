@@ -48,9 +48,9 @@ class SeatSnapshot(Id, SeatBase):
     model_config = ConfigDict(from_attributes=True)
 
 
-class SeatCreateEvent(SeatCreateDB):
+class SeatCreateEvent(SeatRead):
     model_config = ConfigDict(extra='ignore')
 
 
-class SeatUpdateEvent(Id, SeatUpdateDB):
+class SeatUpdateEvent(SeatRead):
     model_config = ConfigDict(extra='ignore')
