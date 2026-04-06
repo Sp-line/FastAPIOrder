@@ -1,0 +1,8 @@
+from enum import StrEnum, auto
+
+
+class SessionPriceDurables(StrEnum):
+    SESSION_SVC_SESSION_PRICES_CREATED_SYNC_DB = auto()
+    SESSION_SVC_SESSION_PRICES_BULK_CREATED_SYNC_DB = auto()
+    SESSION_SVC_SESSION_PRICES_UPDATED_SYNC_DB = auto()
+    SESSION_SVC_SESSION_PRICES_BULK_UPDATED_SYNC_DB = auto()

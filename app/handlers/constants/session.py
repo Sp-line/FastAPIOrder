@@ -1,0 +1,8 @@
+from enum import StrEnum, auto
+
+
+class SessionDurables(StrEnum):
+    SESSION_SVC_SESSIONS_CREATED_SYNC_DB = auto()
+    SESSION_SVC_SESSIONS_BULK_CREATED_SYNC_DB = auto()
+    SESSION_SVC_SESSIONS_UPDATED_SYNC_DB = auto()
+    SESSION_SVC_SESSIONS_BULK_UPDATED_SYNC_DB = auto()
