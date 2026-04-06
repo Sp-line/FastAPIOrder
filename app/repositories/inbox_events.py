@@ -37,7 +37,7 @@ class InboxEventCommandRepository(
     async def add_if_not_exists(self, data: InboxEventCreateDB) -> bool:
         stmt = insert(self._model).values(data.model_dump())
         on_conflict_do_nothing_stmt = stmt.on_conflict_do_nothing(
-            constraint="uq_inbox_events_code"
+            constraint="uq_inbox_events_code_handler"
         )
 
         try:
