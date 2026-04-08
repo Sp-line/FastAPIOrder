@@ -23,7 +23,7 @@ from services import InboxUnitOfWork
     "showtimes.sessions.created",
     stream=showtimes_stream,
     pull_sub=True,
-    durable=SessionDurables.SESSION_SVC_SESSIONS_CREATED_SYNC_DB,
+    durable=SessionDurables.ORDER_SVC_SESSIONS_CREATED_SYNC_DB,
     ack_policy=settings.faststream.consumer.faststream_ack_policy,
     config=base_consumer_config
 )
@@ -35,7 +35,7 @@ async def sessions_created_on_session_microservice_sync_db(
 ) -> None:
     async with inbox_unit_of_work.transactional(
             msg_id=msg_id,
-            handler=SessionDurables.SESSION_SVC_SESSIONS_CREATED_SYNC_DB,
+            handler=SessionDurables.ORDER_SVC_SESSIONS_CREATED_SYNC_DB,
     ) as should_proceed:
         if should_proceed:
             await repository.create(SessionCreateDB(**payload.model_dump()))
@@ -45,7 +45,7 @@ async def sessions_created_on_session_microservice_sync_db(
     "showtimes.sessions.bulk.created",
     stream=showtimes_stream,
     pull_sub=True,
-    durable=SessionDurables.SESSION_SVC_SESSIONS_BULK_CREATED_SYNC_DB,
+    durable=SessionDurables.ORDER_SVC_SESSIONS_BULK_CREATED_SYNC_DB,
     ack_policy=settings.faststream.consumer.faststream_ack_policy,
     config=base_consumer_config
 )
@@ -57,7 +57,7 @@ async def sessions_bulk_created_on_session_microservice_sync_db(
 ) -> None:
     async with inbox_unit_of_work.transactional(
             msg_id=msg_id,
-            handler=SessionDurables.SESSION_SVC_SESSIONS_BULK_CREATED_SYNC_DB,
+            handler=SessionDurables.ORDER_SVC_SESSIONS_BULK_CREATED_SYNC_DB,
     ) as should_proceed:
         if should_proceed:
             await repository.bulk_create(
@@ -69,7 +69,7 @@ async def sessions_bulk_created_on_session_microservice_sync_db(
     "showtimes.sessions.updated",
     stream=showtimes_stream,
     pull_sub=True,
-    durable=SessionDurables.SESSION_SVC_SESSIONS_UPDATED_SYNC_DB,
+    durable=SessionDurables.ORDER_SVC_SESSIONS_UPDATED_SYNC_DB,
     ack_policy=settings.faststream.consumer.faststream_ack_policy,
     config=base_consumer_config
 )
@@ -81,7 +81,7 @@ async def sessions_updated_on_session_microservice_sync_db(
 ) -> None:
     async with inbox_unit_of_work.transactional(
             msg_id=msg_id,
-            handler=SessionDurables.SESSION_SVC_SESSIONS_UPDATED_SYNC_DB,
+            handler=SessionDurables.ORDER_SVC_SESSIONS_UPDATED_SYNC_DB,
     ) as should_proceed:
         if should_proceed:
             await repository.update(payload.id, SessionUpdateDB(**payload.model_dump()))
@@ -91,7 +91,7 @@ async def sessions_updated_on_session_microservice_sync_db(
     "showtimes.sessions.bulk.updated",
     stream=showtimes_stream,
     pull_sub=True,
-    durable=SessionDurables.SESSION_SVC_SESSIONS_BULK_UPDATED_SYNC_DB,
+    durable=SessionDurables.ORDER_SVC_SESSIONS_BULK_UPDATED_SYNC_DB,
     ack_policy=settings.faststream.consumer.faststream_ack_policy,
     config=base_consumer_config
 )
@@ -103,7 +103,7 @@ async def sessions_bulk_updated_on_session_microservice_sync_db(
 ) -> None:
     async with inbox_unit_of_work.transactional(
             msg_id=msg_id,
-            handler=SessionDurables.SESSION_SVC_SESSIONS_BULK_UPDATED_SYNC_DB,
+            handler=SessionDurables.ORDER_SVC_SESSIONS_BULK_UPDATED_SYNC_DB,
     ) as should_proceed:
         if should_proceed:
             await repository.bulk_update(

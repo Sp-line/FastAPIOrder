@@ -23,7 +23,7 @@ from services import InboxUnitOfWork
     "showtimes.seats.created",
     stream=showtimes_stream,
     pull_sub=True,
-    durable=SeatDurables.SESSION_SVC_SEATS_CREATED_SYNC_DB,
+    durable=SeatDurables.ORDER_SVC_SEATS_CREATED_SYNC_DB,
     ack_policy=settings.faststream.consumer.faststream_ack_policy,
     config=base_consumer_config
 )
@@ -35,7 +35,7 @@ async def seats_created_on_session_microservice_sync_db(
 ) -> None:
     async with inbox_unit_of_work.transactional(
             msg_id=msg_id,
-            handler=SeatDurables.SESSION_SVC_SEATS_CREATED_SYNC_DB,
+            handler=SeatDurables.ORDER_SVC_SEATS_CREATED_SYNC_DB,
     ) as should_proceed:
         if should_proceed:
             await repository.create(SeatCreateDB(**payload.model_dump()))
@@ -45,7 +45,7 @@ async def seats_created_on_session_microservice_sync_db(
     "showtimes.seats.bulk.created",
     stream=showtimes_stream,
     pull_sub=True,
-    durable=SeatDurables.SESSION_SVC_SEATS_BULK_CREATED_SYNC_DB,
+    durable=SeatDurables.ORDER_SVC_SEATS_BULK_CREATED_SYNC_DB,
     ack_policy=settings.faststream.consumer.faststream_ack_policy,
     config=base_consumer_config
 )
@@ -57,7 +57,7 @@ async def seats_bulk_created_on_session_microservice_sync_db(
 ) -> None:
     async with inbox_unit_of_work.transactional(
             msg_id=msg_id,
-            handler=SeatDurables.SESSION_SVC_SEATS_BULK_CREATED_SYNC_DB,
+            handler=SeatDurables.ORDER_SVC_SEATS_BULK_CREATED_SYNC_DB,
     ) as should_proceed:
         if should_proceed:
             await repository.bulk_create(
@@ -69,7 +69,7 @@ async def seats_bulk_created_on_session_microservice_sync_db(
     "showtimes.seats.updated",
     stream=showtimes_stream,
     pull_sub=True,
-    durable=SeatDurables.SESSION_SVC_SEATS_UPDATED_SYNC_DB,
+    durable=SeatDurables.ORDER_SVC_SEATS_UPDATED_SYNC_DB,
     ack_policy=settings.faststream.consumer.faststream_ack_policy,
     config=base_consumer_config
 )
@@ -81,7 +81,7 @@ async def seats_updated_on_session_microservice_sync_db(
 ) -> None:
     async with inbox_unit_of_work.transactional(
             msg_id=msg_id,
-            handler=SeatDurables.SESSION_SVC_SEATS_UPDATED_SYNC_DB,
+            handler=SeatDurables.ORDER_SVC_SEATS_UPDATED_SYNC_DB,
     ) as should_proceed:
         if should_proceed:
             await repository.update(payload.id, SeatUpdateDB(**payload.model_dump()))
@@ -91,7 +91,7 @@ async def seats_updated_on_session_microservice_sync_db(
     "showtimes.seats.bulk.updated",
     stream=showtimes_stream,
     pull_sub=True,
-    durable=SeatDurables.SESSION_SVC_SEATS_BULK_UPDATED_SYNC_DB,
+    durable=SeatDurables.ORDER_SVC_SEATS_BULK_UPDATED_SYNC_DB,
     ack_policy=settings.faststream.consumer.faststream_ack_policy,
     config=base_consumer_config
 )
@@ -103,7 +103,7 @@ async def seats_bulk_updated_on_session_microservice_sync_db(
 ) -> None:
     async with inbox_unit_of_work.transactional(
             msg_id=msg_id,
-            handler=SeatDurables.SESSION_SVC_SEATS_BULK_UPDATED_SYNC_DB,
+            handler=SeatDurables.ORDER_SVC_SEATS_BULK_UPDATED_SYNC_DB,
     ) as should_proceed:
         if should_proceed:
             await repository.bulk_update(

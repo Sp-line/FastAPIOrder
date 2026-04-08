@@ -23,7 +23,7 @@ from services import InboxUnitOfWork
     "showtimes.session.prices.created",
     stream=showtimes_stream,
     pull_sub=True,
-    durable=SessionPriceDurables.SESSION_SVC_SESSION_PRICES_CREATED_SYNC_DB,
+    durable=SessionPriceDurables.ORDER_SVC_SESSION_PRICES_CREATED_SYNC_DB,
     ack_policy=settings.faststream.consumer.faststream_ack_policy,
     config=base_consumer_config
 )
@@ -35,7 +35,7 @@ async def session_prices_created_on_session_microservice_sync_db(
 ) -> None:
     async with inbox_unit_of_work.transactional(
             msg_id=msg_id,
-            handler=SessionPriceDurables.SESSION_SVC_SESSION_PRICES_CREATED_SYNC_DB,
+            handler=SessionPriceDurables.ORDER_SVC_SESSION_PRICES_CREATED_SYNC_DB,
     ) as should_proceed:
         if should_proceed:
             await repository.create(SessionPriceCreateDB(**payload.model_dump()))
@@ -45,7 +45,7 @@ async def session_prices_created_on_session_microservice_sync_db(
     "showtimes.session.prices.bulk.created",
     stream=showtimes_stream,
     pull_sub=True,
-    durable=SessionPriceDurables.SESSION_SVC_SESSION_PRICES_BULK_CREATED_SYNC_DB,
+    durable=SessionPriceDurables.ORDER_SVC_SESSION_PRICES_BULK_CREATED_SYNC_DB,
     ack_policy=settings.faststream.consumer.faststream_ack_policy,
     config=base_consumer_config
 )
@@ -57,7 +57,7 @@ async def session_prices_bulk_created_on_session_microservice_sync_db(
 ) -> None:
     async with inbox_unit_of_work.transactional(
             msg_id=msg_id,
-            handler=SessionPriceDurables.SESSION_SVC_SESSION_PRICES_BULK_CREATED_SYNC_DB,
+            handler=SessionPriceDurables.ORDER_SVC_SESSION_PRICES_BULK_CREATED_SYNC_DB,
     ) as should_proceed:
         if should_proceed:
             await repository.bulk_create(
@@ -69,7 +69,7 @@ async def session_prices_bulk_created_on_session_microservice_sync_db(
     "showtimes.session.prices.updated",
     stream=showtimes_stream,
     pull_sub=True,
-    durable=SessionPriceDurables.SESSION_SVC_SESSION_PRICES_UPDATED_SYNC_DB,
+    durable=SessionPriceDurables.ORDER_SVC_SESSION_PRICES_UPDATED_SYNC_DB,
     ack_policy=settings.faststream.consumer.faststream_ack_policy,
     config=base_consumer_config
 )
@@ -81,7 +81,7 @@ async def session_prices_updated_on_session_microservice_sync_db(
 ) -> None:
     async with inbox_unit_of_work.transactional(
             msg_id=msg_id,
-            handler=SessionPriceDurables.SESSION_SVC_SESSION_PRICES_UPDATED_SYNC_DB,
+            handler=SessionPriceDurables.ORDER_SVC_SESSION_PRICES_UPDATED_SYNC_DB,
     ) as should_proceed:
         if should_proceed:
             await repository.update(payload.id, SessionPriceUpdateDB(**payload.model_dump()))
@@ -91,7 +91,7 @@ async def session_prices_updated_on_session_microservice_sync_db(
     "showtimes.session.prices.bulk.updated",
     stream=showtimes_stream,
     pull_sub=True,
-    durable=SessionPriceDurables.SESSION_SVC_SESSION_PRICES_BULK_UPDATED_SYNC_DB,
+    durable=SessionPriceDurables.ORDER_SVC_SESSION_PRICES_BULK_UPDATED_SYNC_DB,
     ack_policy=settings.faststream.consumer.faststream_ack_policy,
     config=base_consumer_config
 )
@@ -103,7 +103,7 @@ async def session_prices_bulk_updated_on_session_microservice_sync_db(
 ) -> None:
     async with inbox_unit_of_work.transactional(
             msg_id=msg_id,
-            handler=SessionPriceDurables.SESSION_SVC_SESSION_PRICES_BULK_UPDATED_SYNC_DB,
+            handler=SessionPriceDurables.ORDER_SVC_SESSION_PRICES_BULK_UPDATED_SYNC_DB,
     ) as should_proceed:
         if should_proceed:
             await repository.bulk_update(
